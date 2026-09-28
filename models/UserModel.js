@@ -1,10 +1,10 @@
 const db = require("../config/db");
 
-function getUserByUserName(name)
+async function getUserByUserName(name)
 {
     try {
-        const user = db.query(`SELECT * FROM users WHERE username = '${name}' LIMIT 1`);
-        return user;
+        const user = await db.query(`SELECT * FROM users WHERE username = '${name}'`);
+        return user[0];
     } catch (error) {
         console.log(error);
     }

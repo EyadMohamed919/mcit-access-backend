@@ -1,8 +1,14 @@
 const {getUserByUserName} = require("../models/UserModel");
 
-const login = (req, res) =>{
+const login = async (req, res) =>{
     const name = req.body.name;
-    res.send(name);
+    const password = req.body.password;
+    const user = await getUserByUserName(name);
+    if(user.password == password)
+    {
+        res.redirect("/Dashboard")
+    }
+    res.send(user.username);
 }
 
 module.exports = {login}

@@ -42,6 +42,17 @@ router.get("/", (req, res)=>{
     
 });
 
+router.get("/Dashboard", (req, res)=>{
+    hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    res.render("Dashboard", {
+        title: "Login Page",
+        username: "Eyad",
+        host:hostData
+    });
+
+    
+});
+
 module.exports = router;
 
 

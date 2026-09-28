@@ -21,11 +21,11 @@
     </div>
 
     <div class="form-section">
-        <form class="login-form">
+        <form class="login-form" method="post" action="<%= hostData %>/api/users/login">
             <h2 class="form-title">تسجيل الدخول</h2>
             <div class="field-group">
-                <label class="field-label" for="email">اسم المستخدم</label>
-                <input class="form-input" type="email" id="email" required>
+                <label class="field-label" for="name">اسم المستخدم</label>
+                <input class="form-input" type="text" id="name" name="name" required>
             </div>
 
             <div class="field-group">

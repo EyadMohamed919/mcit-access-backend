@@ -6,12 +6,17 @@ const port = 8080;
 const globalRouter = require("./routers/globalRouter");
 const db = require("./config/db");
 
+// routers
+const userRouter = require("./routers/userRouter");
+
 app.use(express.static(path.join(__dirname, 'static/public')));
 app.use(globalRouter) 
 app.use(cors());
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "static/public/views"));
+app.use("/api/users", userRouter);
 
 async function testConnection() {
 try {

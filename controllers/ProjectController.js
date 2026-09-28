@@ -1,7 +1,8 @@
 const {getProjectsByUserID} = require("../models/ProjectModel");
 
-const getAllProjects = async (req, res) =>{
-    const projects = await getAllProjects()
+const getAllProjects = async (id) =>{
+    const projects = await getProjectsByUserID(id);
+    return projects;
 }
 
 module.exports = {getAllProjects}

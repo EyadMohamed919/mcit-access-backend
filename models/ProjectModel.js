@@ -4,8 +4,8 @@ async function getProjectsByUserID(id)
 {
     try {
         const projects = await db.query(`SELECT * FROM Projects 
-        JOIN user_proj ON Projects.pr_id = user_proj.pr_id
-         WHERE user_proj = ${id}`);
+        INNER JOIN user_proj ON Projects.pr_id = user_proj.pr_id
+         WHERE user_proj.user_id = ${id}`);
         return projects;
     } catch (error) {
         console.log(error);

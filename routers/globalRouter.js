@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const os = require("os");
+const {getAllProjects} = require("../controllers/ProjectController");
 
 function getPrimaryLocalIpAddress() {
     const interfaces = os.networkInterfaces();
@@ -30,7 +31,13 @@ function getPrimaryLocalIpAddress() {
     return fallbackIp || '127.0.0.1';
 }
 
-
+const requireAuth = (req, res, next) => {
+    if (req.session.username) {
+        next();
+    } else {
+        res.redirect("/");
+    }
+};
 router.get("/", (req, res)=>{
     hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     res.render("Login", {
@@ -42,15 +49,21 @@ router.get("/", (req, res)=>{
     
 });
 
-router.get("/Dashboard", (req, res)=>{
-    hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+router.get("/Dashboard", requireAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const projects = await getAllProjects(req.session.user_id);
+    console.log("This is projects: " + projects);
     res.render("Dashboard", {
-        title: "Login Page",
-        username: "Eyad",
-        host:hostData
+        title: "Dashboard Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projects:projects,
+        stats: {
+            totalEvents: 20,
+            totalTrainees: 3400
+        }
     });
-
-    
 });
 
 module.exports = router;

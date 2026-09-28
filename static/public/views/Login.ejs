@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../styles/LoginStyle.css">
+    <link rel="stylesheet" href="../styles/GlobalStyles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وزارة الاتصالات وتكنولوجيا المعلومات - تسجيل الدخول</title>
 </head>
@@ -16,13 +17,14 @@
             <path d="M50 25L30 35V50C30 60 50 72 50 72C50 72 70 60 70 50V35L50 25Z" fill="#ffffff"/>
         </svg>
         <h1 class="logo-title">وزارة الاتصالات وتكنولوجيا المعلومات</h1>
+        <%= hostData %>
     </div>
 
     <div class="form-section">
         <form class="login-form">
             <h2 class="form-title">تسجيل الدخول</h2>
             <div class="field-group">
-                <label class="field-label" for="email">البريد الإلكتروني</label>
+                <label class="field-label" for="email">اسم المستخدم</label>
                 <input class="form-input" type="email" id="email" required>
             </div>
 
@@ -34,7 +36,13 @@
             <button class="submit-btn" type="submit">تسجيل الدخول</button>
         </form>
     </div>
+
+    
 </div>
 
+<footer>
+    <h4>ادخل على الموقع من خلال الرابط التالي</h4>
+    <a href="<%= hostData %>"><%= hostData %></a>
+</footer>
 </body>
 </html>

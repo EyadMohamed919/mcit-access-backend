@@ -6,12 +6,13 @@
 }
 
 body {
-    background-color: #f7f7f7;
+    background-color: var(--secondary-color);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    flex-direction: column;
 }
 
 .login-container {
@@ -81,7 +82,7 @@ body {
 
 .form-input {
     background-color: #ffffff;
-    border: 1px solid #d32f2f;
+    border: 1px solid var(--primary-color);
     border-radius: 4px;
     padding: 12px 14px;
     font-size: 0.95rem;

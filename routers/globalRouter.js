@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const os = require("os");
+const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsController");
 const {getAllProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
 
@@ -53,6 +54,7 @@ router.get("/", (req, res)=>{
 router.get("/Dashboard", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
+    console.log(projects);
     res.render("Dashboard", {
         title: "Dashboard Page",
         username: req.session.username,
@@ -106,6 +108,47 @@ router.get("/Events", requireAuth,async (req, res)=>{
         stats:{
             totalAttendees:totalAttendees,
             totalGovs: totalGovs
+        }
+    });
+});
+
+router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const projects = await getAllProjects(req.session.user_id);
+
+  
+    const programs = await getAllTrainingPrograms(projects[0]['Projects.pr_id']);
+    
+    let totalHours = 0;
+    let uniqueProjects = new Set();
+
+    if (programs && programs.length > 0) 
+    {
+        totalHours = programs.reduce((sum, prog) => sum + (Number(prog.tp_hours) || 0), 0);
+
+        uniqueProjects = new Set(
+            programs
+                .map(prog => prog.pr_id)
+                .filter(id => id !== null && id !== undefined)
+        );
+    } 
+    else 
+    {
+        console.log("Training programs list is empty");
+    }
+    
+
+
+    res.render("TrainingProgram", {
+        title: "Training Program Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projectTitle: projects[0].Pr_title,
+        programs:programs,
+        stats:{
+            totalHours: totalHours,
+            totalProjects: uniqueProjects.size
         }
     });
 });

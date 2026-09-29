@@ -16,6 +16,7 @@
             <a class="nav-item active" href="/Dashboard">المشاريع Projects</a>
             <a class="nav-item" href="/Events">الفعاليات Events</a>
             <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
         </nav>
         <div class="sidebar-footer">
@@ -41,7 +42,7 @@
                 <span class="stat-value"><%= stats ? stats.totalEvents : 0 %></span>
             </div>
             <div class="stat-card">
-                <span class="stat-label">إجمالي المتدربين Total Events</span>
+                <span class="stat-label">إجمالي المتدربين Total Trainees</span>
                 <span class="stat-value"><%= stats ? stats.totalTrainees : 0 %></span>
             </div>
         </section>
@@ -68,10 +69,10 @@
                         <% if (projects && projects.length > 0) { %>
                             <% projects.forEach(function(project) { %>
                                 <tr>
-                                    <td>#<%= project.pr_ID %></td>
+                                    <td>#<%= project["Projects.pr_id"] %></td>
                                     <td class="font-bold"><%= project.Pr_title || project.pr_title_en %></td>
-                                    <td><%= project.pr_StartDatedate ? new Date(project.pr_StartDatedate).toLocaleDateString('ar-EG') : '-' %></td>
-                                    <td><%= project.pr_EndDate ? new Date(project.pr_EndDate).toLocaleDateString('ar-EG') : '-' %></td>
+                                    <td><%= project.pr_StartDatedate ? project.pr_StartDate : '-' %></td>
+                                    <td><%= project.pr_EndDate ? project.pr_EndDate : '-' %></td>
                                     <td><span class="badge">المرحلة <%= project.pr_PhaseNo || 1 %></span></td>
                                     <td class="actions-cell">
                                         <a class="table-link" href="/projects/<%= project.pr_ID %>">عرض</a>

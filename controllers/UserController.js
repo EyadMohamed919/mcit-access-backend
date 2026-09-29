@@ -17,6 +17,9 @@ const login = async (req, res) => {
                     console.error("Session save error:", err);
                     return res.status(500).send("Session save failed");
                 }
+
+                
+
                 return res.redirect("/Dashboard");
             });
         } else {

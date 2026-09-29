@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const os = require("os");
 const {getAllProjects} = require("../controllers/ProjectController");
+const {getAllEvents} = require("../controllers/EventController");
 
 function getPrimaryLocalIpAddress() {
     const interfaces = os.networkInterfaces();
@@ -52,7 +53,6 @@ router.get("/", (req, res)=>{
 router.get("/Dashboard", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
-    console.log("This is projects: " + projects);
     res.render("Dashboard", {
         title: "Dashboard Page",
         username: req.session.username,
@@ -62,6 +62,50 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
         stats: {
             totalEvents: 20,
             totalTrainees: 3400
+        }
+    });
+});
+
+router.get("/Events", requireAuth,async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const projects = await getAllProjects(req.session.user_id);
+
+    // projects.forEach(async project => {
+    //     let eventsPerProject = await getAllEvents(project.pr_id);
+    //     events.push(eventsPerProject)
+    // });
+    const events = await getAllEvents(projects[0]['Projects.pr_id']);
+    
+    let totalAttendees = 0;
+    let governorates = 0;
+    if (events && events.length > 0) {
+        totalAttendees = events.reduce((sum, ev) => sum + (Number(ev.ben_no) || 0), 0);
+        governorates = events.reduce((acc, event)=>{
+            if(!acc[event.gov_id])
+            {
+                acc[event.gov_id] = event.gov_id;
+            }
+
+            return acc;
+        }, {});
+    }
+    else
+    {
+        console.log("Events is empty");
+    }
+
+    const totalGovs = Object.keys(governorates).length;
+
+    res.render("Events", {
+        title: "Events Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projectTitle: projects[0].Pr_title,
+        events:events,
+        stats:{
+            totalAttendees:totalAttendees,
+            totalGovs: totalGovs
         }
     });
 });

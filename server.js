@@ -7,6 +7,7 @@ const session = require('express-session');
 
 const globalRouter = require("./routers/globalRouter");
 const userRouter = require("./routers/userRouter");
+const projectRouter = require("./routers/projectRouter");
 
 app.use(express.static(path.join(__dirname, 'static/public')));
 
@@ -20,8 +21,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: false, // set to true only if using HTTPS
-        maxAge: 24 * 60 * 60 * 1000 // 1 day session duration
+        secure: false, 
+        maxAge: 24 * 60 * 60 * 1000 
     }
 }));
 
@@ -29,6 +30,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "static/public/views"));
 
 app.use("/api/users", userRouter);
+app.use("/api/projects", projectRouter);
 app.use(globalRouter);
 
 app.listen(port, '0.0.0.0', () => {

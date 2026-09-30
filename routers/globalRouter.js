@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require("path");
 const os = require("os");
 const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsController");
-const {getAllProjects} = require("../controllers/ProjectController");
+const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
 
 function getPrimaryLocalIpAddress() {
@@ -54,7 +54,6 @@ router.get("/", (req, res)=>{
 router.get("/Dashboard", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
-    console.log(projects);
     res.render("Dashboard", {
         title: "Dashboard Page",
         username: req.session.username,
@@ -157,7 +156,7 @@ router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
 
 router.get("/AddProject", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    res.render("Add Project", {
+    res.render("AddProject", {
         title: "Add Project Page",
         host: hostData,
     });

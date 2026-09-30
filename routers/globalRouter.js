@@ -68,13 +68,7 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
     });
 });
 
-router.get("/AddProject", requireAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    res.render("Add Project", {
-        title: "Add Project Page",
-        host: hostData,
-    });
-});
+
 
 router.get("/Events", requireAuth,async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
@@ -158,6 +152,22 @@ router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
             totalHours: totalHours,
             totalProjects: uniqueProjects.size
         }
+    });
+});
+
+router.get("/AddProject", requireAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    res.render("Add Project", {
+        title: "Add Project Page",
+        host: hostData,
+    });
+});
+
+router.get("/AddEvent", requireAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    res.render("Add Event", {
+        title: "Add Event Page",
+        host: hostData,
     });
 });
 

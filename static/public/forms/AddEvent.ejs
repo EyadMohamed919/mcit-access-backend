@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة فعالية جديدة - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="../styles/DashboardStyles.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/dashboard">المشاريع</a>
+            <a class="nav-item active" href="/events">الفعاليات</a>
+            <a class="nav-item" href="/training-programs">البرامج التدريبية</a>
+            <a class="nav-item" href="/trainees">المتدربين</a>
+            <a class="nav-item" href="/products">المنتجات</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إضافة فعالية جديدة</h1>
+            <a href="/events" class="back-link">← العودة للفعاليات</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/events" method="POST" class="app-form">
+                
+                <div class="form-section-title">بيانات الفعالية الأساسية</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="event_name">عنوان الفعالية (عربي) <span class="required">*</span></label>
+                        <input type="text" id="event_name" name="event_name" required placeholder="أدخل اسم الفعالية بالعربية">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="event_name_en">عنوان الفعالية (إنجليزي)</label>
+                        <input type="text" id="event_name_en" name="event_name_en" placeholder="Enter event name in English">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_id">معرف المشروع (Project ID) <span class="required">*</span></label>
+                        <input type="number" id="pr_id" name="pr_id" required placeholder="مثال: 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_Date">تاريخ الفعالية</label>
+                        <input type="date" id="event_Date" name="event_Date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="out_id">معرف المخرج (Output ID)</label>
+                        <input type="number" id="out_id" name="out_id" placeholder="مثال: 10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gov_id">معرف المحافظة (Gov ID)</label>
+                        <input type="number" id="gov_id" name="gov_id" placeholder="مثال: 2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
+                        <input type="number" id="Age_Group_ID" name="Age_Group_ID" placeholder="مثال: 3">
+                    </div>
+                </div>
+
+                <div class="form-section-title">بيانات المستفيدين والحضور</div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ben_no">إجمالي الحضور / المستفيدين (ben_no)</label>
+                        <input type="number" id="ben_no" name="ben_no" placeholder="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ben_female">عدد الإناث (ben_female)</label>
+                        <input type="number" id="ben_female" name="ben_female" placeholder="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ben_male">عدد الذكور (ben_male)</label>
+                        <input type="number" id="ben_male" name="ben_male" placeholder="0">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="event_desc">وصف الفعالية (Description)</label>
+                        <textarea id="event_desc" name="event_desc" rows="3" placeholder="أدخل تفاصيل ووصف الفعالية..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">حفظ الفعالية</button>
+                    <a href="/events" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

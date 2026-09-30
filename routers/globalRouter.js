@@ -68,6 +68,14 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
     });
 });
 
+router.get("/AddProject", requireAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    res.render("Add Project", {
+        title: "Add Project Page",
+        host: hostData,
+    });
+});
+
 router.get("/Events", requireAuth,async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);

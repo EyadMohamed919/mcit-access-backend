@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة مشروع جديد - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="../styles/DashboardStyles.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item active" href="/dashboard">المشاريع</a>
+            <a class="nav-item" href="/events">الفعاليات</a>
+            <a class="nav-item" href="/training-programs">البرامج التدريبية</a>
+            <a class="nav-item" href="/trainees">المتدربين</a>
+            <a class="nav-item" href="/products">المنتجات</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إضافة مشروع جديد</h1>
+            <a href="/dashboard" class="back-link">← العودة للمشاريع</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/projects" method="POST" class="app-form">
+                
+                <div class="form-section-title">البيانات الأساسية للمشروع</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="Pr_title">عنوان المشروع (عربي) <span class="required">*</span></label>
+                        <input type="text" id="Pr_title" name="Pr_title" required placeholder="أدخل اسم المشروع بالعربية">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="pr_title_en">عنوان المشروع (إنجليزي)</label>
+                        <input type="text" id="pr_title_en" name="pr_title_en" placeholder="Enter project title in English">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Program_ID">معرف البرنامج الرئيسي (Program ID)</label>
+                        <input type="number" id="Program_ID" name="Program_ID" placeholder="مثال: 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sector_id">معرف القطاع (Sector ID)</label>
+                        <input type="number" id="sector_id" name="sector_id" placeholder="مثال: 5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_PhaseNo">رقم المرحلة (Phase No)</label>
+                        <input type="number" id="pr_PhaseNo" name="pr_PhaseNo" placeholder="مثال: 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Target">العدد المستهدف (Target)</label>
+                        <input type="number" id="Target" name="Target" placeholder="مثال: 2000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_StartDatedate">تاريخ البدء</label>
+                        <input type="date" id="pr_StartDatedate" name="pr_StartDatedate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_EndDate">تاريخ الانتهاء</label>
+                        <input type="date" id="pr_EndDate" name="pr_EndDate">
+                    </div>
+                </div>
+
+                <div class="form-section-title">التفاصيل والأهداف الاستراتيجية</div>
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="pr_desc">وصف المشروع (Description)</label>
+                        <textarea id="pr_desc" name="pr_desc" rows="3" placeholder="أدخل وصفاً مختصراً للمشروع..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="pr_vision">رؤية المشروع (Vision)</label>
+                        <textarea id="pr_vision" name="pr_vision" rows="2" placeholder="رؤية المشروع..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="pr_mission">رسالة المشروع (Mission)</label>
+                        <textarea id="pr_mission" name="pr_mission" rows="2" placeholder="رسالة المشروع..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="pr_StrategicObjective">الهدف الاستراتيجي (Strategic Objective)</label>
+                        <textarea id="pr_StrategicObjective" name="pr_StrategicObjective" rows="2" placeholder="الهدف الاستراتيجي..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">حفظ المشروع</button>
+                    <a href="/dashboard" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

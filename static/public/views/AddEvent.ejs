@@ -62,8 +62,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="out_id">معرف المخرج (Output ID)</label>
-                        <input type="number" id="out_id" name="out_id" placeholder="مثال: 10">
+                        <label for="out_id">المخرج (Output)</label>
+                        <% if (outputs && outputs.length > 0) { %>
+                            <select name="out_id" id="out_id">
+                            <% outputs.forEach(function(output) { %>
+                                <option value='<%= output.out_ID %>' ><%= output.out_title %></option>
+                                <% }); %>
+                            </select>
+                        <% } else { %>
+                            <select name="out_id" id="out_id">
+                                <option value="" disabled selected>لا توجد أي مخرجات حالياََ</option>
+                            </select>
+                        <% } %>
                     </div>
 
                     <div class="form-group">

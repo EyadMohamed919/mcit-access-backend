@@ -6,7 +6,7 @@ const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsControl
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
 const {getAllGovernorates} = require("../controllers/GovController");
-
+const {getAllOutputs} = require("../controllers/OutputController");
 function getPrimaryLocalIpAddress() {
     const interfaces = os.networkInterfaces();
     const virtualKeywords = ['vbox', 'vmware', 'wsl', 'hyper-v', 'virtual', 'vethernet'];
@@ -165,11 +165,13 @@ router.get("/AddEvent", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
     const govs = await getAllGovernorates();
+    const outputs = await getAllOutputs(req.session.user_id);
     res.render("AddEvent", {
         title: "Add Event Page",
         host: hostData,
         projects:projects,
-        govs:govs
+        govs:govs,
+        outputs:outputs
     });
 });
 

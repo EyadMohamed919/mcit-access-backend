@@ -15,9 +15,9 @@
         </div>
         <nav class="sidebar-nav">
             <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
-            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item active" href="/Events">الفعاليات Events</a>
             <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
-            <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Programs</a>
+            <a class="nav-item " href="/TrainingPrograms">البرامج التدريبية Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
         </nav>
         <div class="sidebar-footer">
@@ -27,7 +27,7 @@
 
     <main class="main-content">
         <header class="top-bar">
-            <h1 class="page-title">إدارة الفعاليات لمشروع: <%= projectTitle %></h1>
+            <h1 class="page-title">إدارة الفعاليات لمشروع: <label for=""><%= projectTitle %></label></h1>
             <div class="user-badge">
                 <span class="user-name">مرحباً، <%=  username + 'المستخدم' %></span>
             </div>

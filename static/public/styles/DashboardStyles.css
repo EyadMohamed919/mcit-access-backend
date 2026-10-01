@@ -103,6 +103,14 @@ body {
     color: #111111;
 }
 
+.page-title label{
+    padding: 5px;
+    padding-inline: 7px;
+    border-radius: 5px;
+    background-color: #d32f2f;
+    color: white;
+}
+
 .user-badge {
     background-color: #ffffff;
     padding: 8px 16px;

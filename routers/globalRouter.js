@@ -5,6 +5,7 @@ const os = require("os");
 const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
+const {getAllGovernorates} = require("../controllers/GovController");
 
 function getPrimaryLocalIpAddress() {
     const interfaces = os.networkInterfaces();
@@ -116,8 +117,6 @@ router.get("/Events", requireAuth,async (req, res)=>{
 router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
-
-  
     const programs = await getAllTrainingPrograms(projects[0]['Projects.pr_id']);
     
     let totalHours = 0;
@@ -165,10 +164,12 @@ router.get("/AddProject", requireAuth, async (req, res)=>{
 router.get("/AddEvent", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
+    const govs = await getAllGovernorates();
     res.render("AddEvent", {
         title: "Add Event Page",
         host: hostData,
-        projects:projects
+        projects:projects,
+        govs:govs
     });
 });
 

@@ -74,12 +74,9 @@ router.get("/Events", requireAuth,async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
 
-    // projects.forEach(async project => {
-    //     let eventsPerProject = await getAllEvents(project.pr_id);
-    //     events.push(eventsPerProject)
-    // });
-    const events = await getAllEvents(projects[0]['Projects.pr_id']);
     
+    const events = await getAllEvents(projects[0].pr_ID);
+
     let totalAttendees = 0;
     let governorates = 0;
     if (events && events.length > 0) {
@@ -117,7 +114,7 @@ router.get("/Events", requireAuth,async (req, res)=>{
 router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
-    const programs = await getAllTrainingPrograms(projects[0]['Projects.pr_id']);
+    const programs = await getAllTrainingPrograms(projects[0].pr_ID);
     
     let totalHours = 0;
     let uniqueProjects = new Set();

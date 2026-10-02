@@ -79,17 +79,16 @@
                                     <td class="font-bold whitespace-nowrap"><%= output.out_title || '-' %></td>
                                     <td class="whitespace-nowrap"><%= output.out_title_en || '-' %></td>
                                     <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
-                                    <td class="whitespace-nowrap"><%= event.event_Date ? new Date(event.event_Date).toLocaleDateString('ar-EG') : '-' %></td>
-                                    <td class="cell-desc" title="<%= event.event_desc %>"><%= event.event_desc || '-' %></td>
-                                    <td><%= event.out_id || '-' %></td>
-                                    <td><span class="badge"><%= event.ben_no || 0 %></span></td>
-                                    <td><%= event.ben_female || 0 %></td>
-                                    <td><%= event.ben_male || 0 %></td>
-                                    <td><%= event.gov_id || '-' %></td>
-                                    <td><%= event.Age_Group_ID || '-' %></td>
+                                    <td class="whitespace-nowrap"><%= output.start_date : '-' %></td>
+                                    <td class="cell-desc" title="<%= output.event_desc %>"><%= output.end_date || '-' %></td>
+                                    <td><%= output.out_target || '-' %></td>
+                                    <td><span class="badge"><%= output.out_baseline || 0 %></span></td>
+                                    <td><%= output.protocol_id || 0 %></td>
+                                    <td><%= output.pr_ID || 0 %></td>
+                                    
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link" href="/events/<%= event.event_id %>">عرض</a>
-                                        <a class="table-link edit" href="/events/<%= event.event_id %>/edit">تعديل</a>
+                                        <a class="table-link" href="/AddOutput/<%= output.out_ID %>">عرض</a>
+                                        <a class="table-link edit" href="/AddOutput/<%= output.out_ID">تعديل</a>
                                     </td>
                                 </tr>
                             <% }); %>

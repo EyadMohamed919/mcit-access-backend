@@ -1,7 +1,26 @@
 const {getProjectsByUserID, addProject} = require("../models/ProjectModel");
 
-const getAllProjects = async (id) =>{
+const getAllProjects = async (id, session, res) =>{
     const projects = await getProjectsByUserID(id);
+    console.log(session);
+    if(!projects[0].pr_ID)
+    {
+        res.redirect("/error/ErrorNoProject");
+    }
+    
+    session.projectID = projects[0].pr_ID;
+    session.projectTitle = projects[0].Pr_title;
+
+    session.save((err) => {
+        if (err) {
+            console.log("********** ERROR IN ProjectController.js **********");
+            console.error("Session save error:", err);
+        }
+       
+    });
+
+    console.log("****");
+    console.log(session);
     return projects;
 }
 

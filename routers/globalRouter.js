@@ -34,13 +34,25 @@ function getPrimaryLocalIpAddress() {
     return fallbackIp || '127.0.0.1';
 }
 
+const requireProjectAuth = (req, res, next) => {
+    if (req.session.projectID) {
+        next();
+    } else {
+        res.redirect("/error/ErrorNoProject");
+    }
+};
+
 const requireAuth = (req, res, next) => {
     if (req.session.username) {
+        
         next();
     } else {
         res.redirect("/");
     }
 };
+
+
+
 router.get("/", (req, res)=>{
     hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     res.render("Login", {
@@ -52,9 +64,13 @@ router.get("/", (req, res)=>{
     
 });
 
+
+
+
 router.get("/Dashboard", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const projects = await getAllProjects(req.session.user_id);
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
     res.render("Dashboard", {
         title: "Dashboard Page",
         username: req.session.username,
@@ -70,12 +86,9 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
 
 
 
-router.get("/Events", requireAuth,async (req, res)=>{
+router.get("/Events", requireProjectAuth,async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const projects = await getAllProjects(req.session.user_id);
-
-    
-    const events = await getAllEvents(projects[0].pr_ID);
+    const events = await getAllEvents(req.session.projectID);
 
     let totalAttendees = 0;
     let governorates = 0;
@@ -102,7 +115,7 @@ router.get("/Events", requireAuth,async (req, res)=>{
         username: req.session.username,
         id: req.session.user_id,
         host: hostData,
-        projectTitle: projects[0].Pr_title,
+        projectTitle: req.session.projectTitle,
         events:events,
         stats:{
             totalAttendees:totalAttendees,
@@ -111,10 +124,9 @@ router.get("/Events", requireAuth,async (req, res)=>{
     });
 });
 
-router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
+router.get("/TrainingPrograms", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const projects = await getAllProjects(req.session.user_id);
-    const programs = await getAllTrainingPrograms(projects[0].pr_ID);
+    const programs = await getAllTrainingPrograms(req.session.projectID);
     
     let totalHours = 0;
     let uniqueProjects = new Set();
@@ -141,7 +153,7 @@ router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
         username: req.session.username,
         id: req.session.user_id,
         host: hostData,
-        projectTitle: projects[0].Pr_title,
+        projectTitle: req.session.projectTitle,
         programs:programs,
         stats:{
             totalHours: totalHours,
@@ -150,7 +162,55 @@ router.get("/TrainingPrograms", requireAuth, async (req, res)=>{
     });
 });
 
-router.get("/AddProject", requireAuth, async (req, res)=>{
+
+router.get("/Outputs", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const outputs = await getAllOutputs(req.session.projectID)    
+    let totalHours = 0;
+    let uniqueProjects = new Set();
+
+    if (programs && programs.length > 0) 
+    {
+        totalHours = programs.reduce((sum, prog) => sum + (Number(prog.tp_hours) || 0), 0);
+
+        uniqueProjects = new Set(
+            programs
+                .map(prog => prog.pr_id)
+                .filter(id => id !== null && id !== undefined)
+        );
+    } 
+    else 
+    {
+        console.log("Training programs list is empty");
+    }
+    
+
+
+    res.render("TrainingProgram", {
+        title: "Training Program Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projectTitle: req.session.projectTitle,
+        programs:programs,
+        stats:{
+            totalHours: totalHours,
+            totalProjects: uniqueProjects.size
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+// **************** FORMS *****************
+router.get("/AddProject", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     res.render("AddProject", {
         title: "Add Project Page",
@@ -158,7 +218,7 @@ router.get("/AddProject", requireAuth, async (req, res)=>{
     });
 });
 
-router.get("/AddEvent", requireAuth, async (req, res)=>{
+router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const projects = await getAllProjects(req.session.user_id);
     const govs = await getAllGovernorates();

@@ -81,7 +81,7 @@
                                     <td class="font-bold whitespace-nowrap"><%= event.event_name || '-' %></td>
                                     <td class="whitespace-nowrap"><%= event.event_name_en || '-' %></td>
                                     <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
-                                    <td class="whitespace-nowrap"><%= event.event_Date ? new Date(event.event_Date).toLocaleDateString('ar-EG') : '-' %></td>
+                                    <td class="whitespace-nowrap"><%= event.event_Date ? event.event_Date : '-' %></td>
                                     <td class="cell-desc" title="<%= event.event_desc %>"><%= event.event_desc || '-' %></td>
                                     <td><%= event.out_id || '-' %></td>
                                     <td><span class="badge"><%= event.ben_no || 0 %></span></td>
@@ -90,8 +90,8 @@
                                     <td><%= event.gov_id || '-' %></td>
                                     <td><%= event.Age_Group_ID || '-' %></td>
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link" href="/events/<%= event.event_id %>">عرض</a>
-                                        <a class="table-link edit" href="/events/<%= event.event_id %>/edit">تعديل</a>
+                                        <a class="table-link" href="/AddEvent/<%= event.event_id %>">عرض</a>
+                                        <a class="table-link edit" href="/AddEvent/<%= event.event_id %>">تعديل</a>
                                     </td>
                                 </tr>
                             <% }); %>

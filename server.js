@@ -8,6 +8,7 @@ const session = require('express-session');
 const globalRouter = require("./routers/globalRouter");
 const userRouter = require("./routers/userRouter");
 const projectRouter = require("./routers/projectRouter");
+const errorRouter = require("./routers/errorRouter");
 
 app.use(express.static(path.join(__dirname, 'static/public')));
 
@@ -29,6 +30,7 @@ app.use(session({
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "static/public/views"));
 
+app.use("/error", errorRouter);
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use(globalRouter);

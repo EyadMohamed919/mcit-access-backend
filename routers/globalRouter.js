@@ -214,6 +214,17 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     });
 });
 
+router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    res.render("AddTrainingProgram", {
+        title: "Add Training Program Page",
+        host: hostData,
+        projects:projects
+    });
+});
+
 module.exports = router;
 
 

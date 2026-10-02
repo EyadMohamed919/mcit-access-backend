@@ -17,7 +17,7 @@ async function deleteTrainingProgram(prog_ID) {
             return { success: false };
         }
 
-        const sql = `DELETE FROM TrainingProgram WHERE prog_ID = ${Number(prog_ID)}`;
+        const sql = `DELETE FROM Training_Programs WHERE prog_ID = ${Number(prog_ID)}`;
         console.log("--> Executing Delete Query:", sql);
 
         if (typeof db.execute === 'function') {
@@ -33,4 +33,50 @@ async function deleteTrainingProgram(prog_ID) {
     }
 }
 
-module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram}
+async function addTrainingProgram(programData) {
+    try {
+        const {
+            prog_title,
+            prog_title_En,
+            prog_description,
+            prog_duration,
+            pr_ID,
+            type_id
+        } = programData;
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+
+        const sql = `
+            INSERT INTO Training_Programs (
+                prog_title, 
+                prog_title_En, 
+                prog_description, 
+                prog_duration, 
+                pr_ID, 
+                type_id
+            ) VALUES (
+                ${escapeSql(prog_title)}, 
+                ${escapeSql(prog_title_En)}, 
+                ${escapeSql(prog_description)}, 
+                ${prog_duration ? Number(prog_duration) : 'NULL'}, 
+                ${pr_ID ? Number(pr_ID) : 'NULL'}, 
+                ${type_id ? Number(type_id) : 'NULL'}
+            )
+        `;
+
+        console.log("--> Executing Training Program Insert SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in addTrainingProgram model:", error.message);
+        throw error;
+    }
+}
+
+module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة برنامج تدريبي جديد - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="../styles/DashboardStyles.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar"> 
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Programs</a>
+            <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخارج Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إضافة برنامج تدريبي جديد</h1>
+            <a href="/TrainingPrograms" class="back-link">← العودة للبرامج التدريبية</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/api/trainingProgram/AddTrainingProject" method="post" class="app-form">
+                
+                <div class="form-section-title">بيانات البرنامج التدريبي الأساسية</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="prog_title">عنوان البرنامج (عربي) <span class="required">*</span></label>
+                        <input type="text" id="prog_title" name="prog_title" required placeholder="أدخل اسم البرنامج التدريبي بالعربية">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="prog_title_En">عنوان البرنامج (إنجليزي)</label>
+                        <input type="text" id="prog_title_En" name="prog_title_En" placeholder="Enter training program title in English">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_ID">المشروع (Project) <span class="required">*</span></label>
+                        <select id="pr_ID" name="pr_ID">
+                            <% projects.forEach(function(project) { %>
+                            <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prog_duration">مدة التدريب بالساعات (Duration)</label>
+                        <input type="number" min="0" id="prog_duration" name="prog_duration" placeholder="مثال: 40">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type_id">نوع التدريب (Type ID)</label>
+                        <input type="number" id="type_id" name="type_id" placeholder="مثال: 1">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="prog_description">وصف البرنامج (Description)</label>
+                        <textarea id="prog_description" name="prog_description" rows="4" placeholder="أدخل تفاصيل ووصف البرنامج التدريبي..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">حفظ البرنامج التدريبي</button>
+                    <a href="/TrainingPrograms" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

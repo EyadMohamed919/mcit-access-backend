@@ -32,7 +32,7 @@
         </header>
 
         <section class="form-container">
-            <form action="/events" method="POST" class="app-form">
+            <form action="/api/event/AddEvent" method="POST" class="app-form">
                 
                 <div class="form-section-title">بيانات الفعالية الأساسية</div>
                 
@@ -51,7 +51,7 @@
                         <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
                         <select id="pr_id" name="pr_id">
                             <% projects.forEach(function(project) { %>
-                            <option value='<%= project["Projects.pr_id"] %>' ><%= project.Pr_title %></option>
+                            <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
                             <% }); %>
                         </select>
                     </div>
@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                         <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" id="Age_Group_ID" name="Age_Group_ID" placeholder="مثال: 3">
+                        <input type="number" id="Age_Group_ID" min="1" name="Age_Group_ID" placeholder="مثال: 3">
                     </div>
                 </div>
 
@@ -97,17 +97,17 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_no">إجمالي الحضور / المستفيدين (ben_no)</label>
-                        <input type="number" id="ben_no" name="ben_no" placeholder="0">
+                        <input type="number" min="0" id="ben_no" name="ben_no" placeholder="0">
                     </div>
 
                     <div class="form-group">
                         <label for="ben_female">عدد الإناث (ben_female)</label>
-                        <input type="number" id="ben_female" name="ben_female" placeholder="0">
+                        <input type="number" min="0" id="ben_female" name="ben_female" placeholder="0">
                     </div>
 
                     <div class="form-group">
                         <label for="ben_male">عدد الذكور (ben_male)</label>
-                        <input type="number" id="ben_male" name="ben_male" placeholder="0">
+                        <input type="number" min="0" id="ben_male" name="ben_male" placeholder="0">
                     </div>
 
                     <div class="form-group full-width">

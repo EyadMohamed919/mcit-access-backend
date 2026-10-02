@@ -8,6 +8,7 @@ const session = require('express-session');
 const globalRouter = require("./routers/globalRouter");
 const userRouter = require("./routers/userRouter");
 const projectRouter = require("./routers/projectRouter");
+const eventRouter = require("./routers/eventRouter");
 const errorRouter = require("./routers/errorRouter");
 
 app.use(express.static(path.join(__dirname, 'static/public')));
@@ -33,6 +34,7 @@ app.set("views", path.join(__dirname, "static/public/views"));
 app.use("/error", errorRouter);
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
+app.use("/api/event", eventRouter);
 app.use(globalRouter);
 
 app.listen(port, '0.0.0.0', () => {

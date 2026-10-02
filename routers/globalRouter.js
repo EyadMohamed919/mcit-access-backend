@@ -201,7 +201,8 @@ router.get("/AddProject", requireProjectAuth, async (req, res)=>{
 
 router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const projects = await getAllProjects(req.session.user_id);
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.user_id);
     res.render("AddEvent", {

@@ -8,19 +8,20 @@ const getAllProjects = async (id, session, res) =>{
         res.redirect("/error/ErrorNoProject");
     }
     
-    session.projectID = projects[0].pr_ID;
-    session.projectTitle = projects[0].Pr_title;
+    if(!session.projectID)
+    {
+        session.projectID = projects[0].pr_ID;
+        session.projectTitle = projects[0].Pr_title;
+    
+        session.save((err) => {
+            if (err) {
+                console.log("********** ERROR IN ProjectController.js **********");
+                console.error("Session save error:", err);
+            }
+           
+        });
+    }
 
-    session.save((err) => {
-        if (err) {
-            console.log("********** ERROR IN ProjectController.js **********");
-            console.error("Session save error:", err);
-        }
-       
-    });
-
-    console.log("****");
-    console.log(session);
     return projects;
 }
 

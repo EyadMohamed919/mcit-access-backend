@@ -9,6 +9,7 @@ const globalRouter = require("./routers/globalRouter");
 const userRouter = require("./routers/userRouter");
 const projectRouter = require("./routers/projectRouter");
 const eventRouter = require("./routers/eventRouter");
+const trainingProgramRouter = require("./routers/trainingProgramRouter");
 const errorRouter = require("./routers/errorRouter");
 
 app.use(express.static(path.join(__dirname, 'static/public')));
@@ -35,6 +36,7 @@ app.use("/error", errorRouter);
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/events", eventRouter);
+app.use("/api/trainingProgram", trainingProgramRouter);
 app.use(globalRouter);
 
 app.listen(port, '0.0.0.0', () => {

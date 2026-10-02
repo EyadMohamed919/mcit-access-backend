@@ -17,7 +17,7 @@
             <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
             <a class="nav-item" href="/Events">الفعاليات Events</a>
             <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
-            <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Programs</a>
+            <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
             <a class="nav-item" href="/Outputs">المخارج Outputs</a>
         </nav>
@@ -28,7 +28,7 @@
 
     <main class="main-content">
         <header class="top-bar">
-            <h1 class="page-title">إدارة البرامج التدريبية لمشروع:  <%= projectTitle %></h1>
+            <h1 class="page-title">إدارة البرامج التدريبية لمشروع:  <label for=""><%= projectTitle %></label></h1>
             <div class="user-badge">
                 <span class="user-name">مرحباً، <%= username || 'المستخدم' %></span>
             </div>
@@ -84,8 +84,11 @@
                                         <%= program.prog_description || '-' %>
                                     </td>
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link" href="/training-programs/<%= progId %>">عرض</a>
-                                        <a class="table-link edit" href="/training-programs/<%= progId %>/edit">تعديل</a>
+                                        <a class="table-link edit" href="/AddProject/<%= program.prog_ID %>">تعديل</a>
+                                        <form action="/api/trainingProgram/DeleteTrainingProgram" method="post">
+                                            <input hidden type="number" name="trainingProgramID" value="<%= program.prog_ID %>">
+                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <% }); %>

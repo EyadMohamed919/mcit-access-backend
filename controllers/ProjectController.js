@@ -1,4 +1,4 @@
-const {getProjectsByUserID, addProject} = require("../models/ProjectModel");
+const {getProjectsByUserID, addProject, deleteProject} = require("../models/ProjectModel");
 
 const getAllProjects = async (id, session, res) =>{
     const projects = await getProjectsByUserID(id);
@@ -32,4 +32,15 @@ const addNewProjects = async (projectData, userID) =>{
         console.log(error);
     }
 }
-module.exports = {getAllProjects, addNewProjects}
+
+const deleteProjectByID = async (req, res) =>{
+    try {
+        const {projectID} = req.body;
+        await deleteProject(projectID);
+        res.redirect("/Dashboard");
+    } catch (error) {
+        console.error("Failed to delete project:", error);
+        res.status(500).send("خطأ أثناء حذف البيانات");
+    }
+}
+module.exports = {getAllProjects, addNewProjects, deleteProjectByID}

@@ -70,14 +70,17 @@
                         <% if (projects && projects.length > 0) { %>
                             <% projects.forEach(function(project) { %>
                                 <tr>
-                                    <td>#<%= project["Projects.pr_id"] %></td>
+                                    <td>#<%= project.pr_ID %></td>
                                     <td class="font-bold"><%= project.Pr_title || project.pr_title_en %></td>
                                     <td><%= project.pr_StartDatedate ? project.pr_StartDate : '-' %></td>
                                     <td><%= project.pr_EndDate ? project.pr_EndDate : '-' %></td>
                                     <td><span class="badge">المرحلة <%= project.pr_PhaseNo || 1 %></span></td>
                                     <td class="actions-cell">
-                                        <a class="table-link" href="/projects/<%= project.pr_ID %>">عرض</a>
-                                        <a class="table-link edit" href="/projects/<%= project.pr_ID %>/edit">تعديل</a>
+                                        <a class="table-link edit" href="/AddProject/<%= project.pr_ID %>">تعديل</a>
+                                        <form action="/api/projects/DeleteProject" method="post">
+                                            <input hidden type="number" name="projectID" value="<%= project.pr_ID %>">
+                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <% }); %>

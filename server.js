@@ -34,7 +34,7 @@ app.set("views", path.join(__dirname, "static/public/views"));
 app.use("/error", errorRouter);
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
-app.use("/api/event", eventRouter);
+app.use("/api/events", eventRouter);
 app.use(globalRouter);
 
 app.listen(port, '0.0.0.0', () => {

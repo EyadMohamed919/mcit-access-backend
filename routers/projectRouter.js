@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router();
-const {addNewProjects} = require("../controllers/ProjectController");
+const {addNewProjects, deleteProjectByID} = require("../controllers/ProjectController");
 
 router.post("/AddProject", async (req, res)=>{
     try {
@@ -21,6 +21,8 @@ router.post("/AddProject", async (req, res)=>{
     }
     
 });
+
+router.post("/DeleteProject", deleteProjectByID)
 
 module.exports = router;
 

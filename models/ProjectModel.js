@@ -91,12 +91,34 @@ async function addProject(projectData, userId) {
         return { success: true, pr_id: newProjectId };
 
     } catch (error) {
+        console.log(error);
         console.error("Database Error in addProject:", error.message);
-        return { success: false, message:error.message};
         throw error;
     }
 }
 
-module.exports = { addProject };
 
-module.exports = {getProjectsByUserID, addProject}
+async function deleteProject(pr_ID) {
+    try {
+        if (!pr_ID) {
+            console.error("deleteProject error: pr_ID is missing");
+            return { success: false };
+        }
+
+        const sql = `DELETE FROM Projects WHERE pr_ID = ${Number(pr_ID)}`;
+        console.log("--> Executing Delete Query:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in deleteProject:", error.message);
+        throw error;
+    }
+}
+
+module.exports = {getProjectsByUserID, addProject, deleteProject}

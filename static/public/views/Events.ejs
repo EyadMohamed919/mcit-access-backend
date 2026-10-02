@@ -19,6 +19,7 @@
             <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
             <a class="nav-item " href="/TrainingPrograms">البرامج التدريبية Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخارج Outputs</a>
         </nav>
         <div class="sidebar-footer">
             <a class="logout-btn" href="/logout">تسجيل الخروج</a>
@@ -81,7 +82,7 @@
                                     <td class="font-bold whitespace-nowrap"><%= event.event_name || '-' %></td>
                                     <td class="whitespace-nowrap"><%= event.event_name_en || '-' %></td>
                                     <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
-                                    <td class="whitespace-nowrap"><%= event.event_Date ? event.event_Date : '-' %></td>
+                                    <td class="whitespace-nowrap"><%= event.event_Date ? new Date(event.event_Date).toLocaleDateString('en-UK') : '-' %></td>
                                     <td class="cell-desc" title="<%= event.event_desc %>"><%= event.event_desc || '-' %></td>
                                     <td><%= event.out_id || '-' %></td>
                                     <td><span class="badge"><%= event.ben_no || 0 %></span></td>

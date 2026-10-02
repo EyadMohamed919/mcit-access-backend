@@ -166,36 +166,17 @@ router.get("/TrainingPrograms", requireProjectAuth, async (req, res)=>{
 router.get("/Outputs", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const outputs = await getAllOutputs(req.session.projectID)    
-    let totalHours = 0;
-    let uniqueProjects = new Set();
+    let totalOutputs = outputs.length;
 
-    if (programs && programs.length > 0) 
-    {
-        totalHours = programs.reduce((sum, prog) => sum + (Number(prog.tp_hours) || 0), 0);
-
-        uniqueProjects = new Set(
-            programs
-                .map(prog => prog.pr_id)
-                .filter(id => id !== null && id !== undefined)
-        );
-    } 
-    else 
-    {
-        console.log("Training programs list is empty");
-    }
-    
-
-
-    res.render("TrainingProgram", {
-        title: "Training Program Page",
+    res.render("Outputs", {
+        title: "Outputs Page",
         username: req.session.username,
         id: req.session.user_id,
         host: hostData,
         projectTitle: req.session.projectTitle,
-        programs:programs,
+        outputs:outputs,
         stats:{
-            totalHours: totalHours,
-            totalProjects: uniqueProjects.size
+            totalOutputs: totalOutputs,
         }
     });
 });

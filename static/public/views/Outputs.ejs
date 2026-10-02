@@ -15,11 +15,11 @@
         </div>
         <nav class="sidebar-nav">
             <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
-            <a class="nav-item active" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
             <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
             <a class="nav-item " href="/TrainingPrograms">البرامج التدريبية Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
-            <a class="nav-item" href="/Products">المخارج Outputs</a>
+            <a class="nav-item active" href="/Outputs">المخارج Outputs</a>
         </nav>
         <div class="sidebar-footer">
             <a class="logout-btn" href="/logout">تسجيل الخروج</a>
@@ -30,29 +30,21 @@
         <header class="top-bar">
             <h1 class="page-title">إدارة المخرجات لمشروع: <label for=""><%= projectTitle %></label></h1>
             <div class="user-badge">
-                <span class="user-name">مرحباً، <%=  username + 'المستخدم' %></span>
+                <span class="user-name">مرحباً، <%=  username + 'المستخدم' %> </span>
             </div>
         </header>
 
         <section class="stats-overview">
             <div class="stat-card">
                 <span class="stat-label">إجمالي المخرجات</span>
-                <span class="stat-value"><%= events ? events.length : 0 %></span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">إجمالي المتبقى</span>
-                <span class="stat-value"><%= stats ? stats.totalAttendees : 0 %></span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">المحافظات المنتهي</span>
-                <span class="stat-value"><%= stats ? stats.totalGovs : 0 %></span>
+                <span class="stat-value"><%= stats.totalOutputs %></span>
             </div>
         </section>
 
         <section class="content-section">
             <div class="section-header">
                 <h2>سجل المخرجات التفصيلي</h2>
-                <a class="action-btn" href="/AddOutput">+ إضافة فعالية جديدة</a>
+                <a class="action-btn" href="/AddOutput">+ إضافة مخرج جديدة</a>
             </div>
 
             <div class="table-wrapper full-scroll">
@@ -78,23 +70,23 @@
                                     <td>#<%= output.out_ID %></td>
                                     <td class="font-bold whitespace-nowrap"><%= output.out_title || '-' %></td>
                                     <td class="whitespace-nowrap"><%= output.out_title_en || '-' %></td>
-                                    <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
-                                    <td class="whitespace-nowrap"><%= output.start_date : '-' %></td>
-                                    <td class="cell-desc" title="<%= output.event_desc %>"><%= output.end_date || '-' %></td>
+                                    <td class="whitespace-nowrap"><%= new Date(output.start_date).toLocaleDateString('en-UK') || '-' %></td>
+                                    <td class="cell-desc" title="<%= output.end_date %>"><%= new Date(output.end_date).toLocaleDateString('en-UK') || '-' %></td>
                                     <td><%= output.out_target || '-' %></td>
                                     <td><span class="badge"><%= output.out_baseline || 0 %></span></td>
                                     <td><%= output.protocol_id || 0 %></td>
+                                    <td><%= output.out_type_id || 0 %></td>
                                     <td><%= output.pr_ID || 0 %></td>
                                     
                                     <td class="actions-cell whitespace-nowrap">
                                         <a class="table-link" href="/AddOutput/<%= output.out_ID %>">عرض</a>
-                                        <a class="table-link edit" href="/AddOutput/<%= output.out_ID">تعديل</a>
+                                        <a class="table-link edit" href="/AddOutput/<%= output.out_ID %>">تعديل</a>
                                     </td>
                                 </tr>
                             <% }); %>
                         <% } else { %>
                             <tr>
-                                <td colspan="13" class="empty-state">لا توجد فعاليات مسجلة حالياً.</td>
+                                <td colspan="13" class="empty-state">لا توجد مخرجات مسجلة حالياً.</td>
                             </tr>
                         <% } %>
                     </tbody>

@@ -1,7 +1,7 @@
 const {getAllOutputsByUserID} = require("../models/OutputsModel");
 
-const getAllOutputs = async (userID)=>{
-    const outputs = await getAllOutputsByUserID(userID);
+const getAllOutputs = async (projectID)=>{
+    const outputs = await getAllOutputsByUserID(projectID);
     return outputs;
 }
 

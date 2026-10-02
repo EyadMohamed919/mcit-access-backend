@@ -73,8 +73,32 @@ async function addEvent(eventData) {
 
         return { success: true };
     } catch (error) {
-        console.error("Error in addNewEvent model:", error.message);
+        console.error("Error in addEvent model:", error.message);
         throw error;
     }
 }
-module.exports = {getAllEventsByProjectID, addEvent}
+
+async function deleteEvent(event_id) {
+    try {
+        if (!event_id) {
+            console.error("deleteEvent error: event_id is missing");
+            return { success: false };
+        }
+
+        const sql = `DELETE FROM Events WHERE event_id = ${Number(event_id)}`;
+        console.log("--> Executing Delete Query:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in deleteEvent:", error.message);
+        throw error;
+    }
+}
+
+module.exports = {getAllEventsByProjectID, addEvent, deleteEvent}

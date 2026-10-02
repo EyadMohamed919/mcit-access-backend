@@ -75,7 +75,6 @@ async function addProject(projectData, userId) {
             console.error("Could not fetch last inserted ID:", idErr.message);
         }
 
-        // 3. Insert into link table user_proj
         if (newProjectId && userId) {
             const linkUserSql = `
                 INSERT INTO user_proj (user_id, pr_id) 

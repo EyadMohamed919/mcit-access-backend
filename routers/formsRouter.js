@@ -77,4 +77,18 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
     });
 });
 
+router.get("/AddProduct", requireProjectAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    const outputs = await getAllOutputs(req.session.projectID); 
+
+    res.render("AddProduct", {
+        title: "Add Product Page",
+        host: hostData,
+        projects: projects,
+        outputs: outputs
+    });
+});
+
 module.exports = router;

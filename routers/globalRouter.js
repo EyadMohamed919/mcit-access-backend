@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {getPrimaryLocalIpAddress} = require("../config/network");
 
-
+const { getProductsByProjectID } = require("../controllers/ProductController");
 const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
@@ -174,6 +174,24 @@ router.get("/Trainees", requireProjectAuth, async (req, res)=>{
         governorates:governorates,
         stats:{
             totalTrainees: totalTrainees,
+        }
+    });
+});
+
+router.get("/Products", requireProjectAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const products = await getProductsByProjectID(req.session.projectID);
+    let totalProducts = products ? products.length : 0;
+
+    res.render("Products", {
+        title: "Products Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projectTitle: req.session.projectTitle,
+        products: products,
+        stats: {
+            totalProducts: totalProducts,
         }
     });
 });

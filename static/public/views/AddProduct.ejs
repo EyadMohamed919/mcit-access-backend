@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إضافة منتج جديد</title>
+    <link rel="stylesheet" href="/styles/DashboardStyles.css">
+    <link rel="stylesheet" href="/styles/AddProjectStyles.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
+            <a class="nav-item active" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخرجات Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+    
+    <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
+        <header class="top-bar">
+            <h1 class="page-title">إضافة منتج جديد</h1>
+            <a href="/Products" class="back-link">← العودة للمنتجات</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/api/products/AddProduct" method="POST" class="app-form">
+                
+                <div class="form-section-title">البيانات الأساسية للمنتج</div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="prod_title">اسم المنتج (عربي) <span class="required">*</span></label>
+                        <input type="text" id="prod_title" name="prod_title" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="prod_title_en">اسم المنتج (إنجليزي)</label>
+                        <input type="text" id="prod_title_en" name="prod_title_en">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_id">المشروع المرتبط (Project ID) <span class="required">*</span></label>
+                        <select id="pr_id" name="pr_id" required>
+                            <% if (projects && projects.length > 0) { %>
+                                <% projects.forEach(function(project) { %>
+                                    <option value='<%= project["Projects.pr_ID"] || project.pr_ID %>'><%= project.Pr_title %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="out_id">المخرج المرتبط (Output ID)</label>
+                        <select id="out_id" name="out_id">
+                            <option value="">-- بدون مخرج --</option>
+                            <% if (outputs && outputs.length > 0) { %>
+                                <% outputs.forEach(function(output) { %>
+                                    <option value='<%= output.out_ID %>'><%= output.out_title %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="prod_desc">وصف المنتج (Description)</label>
+                        <textarea id="prod_desc" name="prod_desc" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="submit" class="btn-primary">حفظ المنتج</button>
+                    <a href="/Products" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

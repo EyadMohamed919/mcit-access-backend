@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل المنتجات - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="/styles/DashboardStyles.css">
+    <link rel="stylesheet" href="/styles/EventStyle.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
+            <a class="nav-item active" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخرجات Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إدارة المنتجات للمشروع: <%= projectTitle %></h1>
+            <div class="user-badge">
+                <span class="user-name">مرحباً، <%= username %></span>
+            </div>
+        </header>
+
+        <section class="stats-overview">
+            <div class="stat-card">
+                <span class="stat-label">إجمالي المنتجات</span>
+                <span class="stat-value"><%= stats ? stats.totalProducts : 0 %></span>
+            </div>
+        </section>
+
+        <!-- ====== FILTER SECTION ====== -->
+        <section class="filter-section" style="margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-title">اسم المنتج</label>
+                <input type="text" id="filter-title" class="table-filter" data-col-index="1" placeholder="ابحث باسم المنتج...">
+            </div>
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-outid">معرف المخرج</label>
+                <input type="text" id="filter-outid" class="table-filter" data-col-index="4" placeholder="ابحث بمعرف المخرج...">
+            </div>
+            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary" id="clear-filters" style="height: 40px;">مسح الفلاتر</button>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-header">
+                <h2>سجل المنتجات التفصيلي</h2>
+                <a class="action-btn" href="/AddProduct">+ إضافة منتج جديد</a>
+            </div>
+
+            <div class="table-wrapper full-scroll">
+                <table class="data-table wide-table">
+                    <thead>
+                        <tr>
+                            <th>المعرف (ID)</th>
+                            <th>اسم المنتج (عربي)</th>
+                            <th>اسم المنتج (إنجليزي)</th>
+                            <th>الوصف</th>
+                            <th>معرف المخرج</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (products && products.length > 0) { %>
+                            <% products.forEach(function(product) { %>
+                                <tr>
+                                    <td>#<%= product.prod_id %></td>
+                                    <td class="font-bold whitespace-nowrap"><%= product.prod_title || '-' %></td>
+                                    <td class="whitespace-nowrap"><%= product.prod_title_en || '-' %></td>
+                                    <td><%= product.prod_desc || '-' %></td>
+                                    <td><%= product.out_id || '-' %></td>
+                                    
+                                    <td class="actions-cell whitespace-nowrap">
+                                        <form action="/api/products/DeleteProduct" method="post" style="display:inline;">
+                                            <input hidden type="number" name="prodID" value="<%= product.prod_id %>">
+                                            <button style="background: none; border: none; cursor:pointer;" class="table-link">حذف</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="empty-state">لا يوجد منتجات مسجلة حالياً.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="../scripts/filter.js"></script>
+</body>
+</html>

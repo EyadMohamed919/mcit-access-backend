@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة مخرج جديد - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="../styles/DashboardStyles.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar"> 
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
+            <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item active" href="/Outputs">المخرجات Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إضافة مخرج جديد</h1>
+            <a href="/Outputs" class="back-link">← العودة للمخرجات</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/outputs" method="POST" class="app-form">
+                
+                <div class="form-section-title">بيانات المخرج الأساسية</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="out_title">اسم المخرج (عربي) <span class="required">*</span></label>
+                        <input type="text" id="out_title" name="out_title" required placeholder="أدخل اسم المخرج بالعربية">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="out_title_en">اسم المخرج (إنجليزي)</label>
+                        <input type="text" id="out_title_en" name="out_title_en" placeholder="Enter output name in English">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_ID">المشروع المرتبط (Project ID) <span class="required">*</span></label>
+                        <!-- إذا كنت تمرر قائمة المشاريع من الكنترولر، يمكنك استخدام select هنا -->
+                        <input type="number" id="pr_ID" name="pr_ID" required placeholder="مثال: 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="protocol_id">معرف البروتوكول (Protocol ID)</label>
+                        <input type="number" id="protocol_id" name="protocol_id">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="start_date">تاريخ البداية</label>
+                        <input type="date" id="start_date" name="start_date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="end_date">تاريخ النهاية</label>
+                        <input type="date" id="end_date" name="end_date">
+                    </div>
+                </div>
+
+                <div class="form-section-title">مؤشرات الأداء والأنواع</div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="out_target">الهدف المستهدف (Target)</label>
+                        <input type="text" id="out_target" name="out_target" placeholder="مثال: 1500 أو نص الهدف">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="out_baseline">خط الأساس (Baseline)</label>
+                        <input type="number" id="out_baseline" name="out_baseline" placeholder="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="out_type_id">معرف نوع المخرج (Output Type ID)</label>
+                        <input type="number" id="out_type_id" name="out_type_id" placeholder="مثال: 2">
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="submit" class="btn-primary">حفظ المخرج</button>
+                    <a href="/Outputs" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

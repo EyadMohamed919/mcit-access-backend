@@ -93,9 +93,13 @@
                                     
                                     <td><%= trainee.gov_id || '-' %></td>
                                     
+
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link" href="/AddTrainee/<%= trainee.ben_id %>">عرض</a>
                                         <a class="table-link edit" href="/AddTrainee/<%= trainee.ben_id %>">تعديل</a>
+                                        <form action="/api/trainee/DeleteTrainee" method="post">
+                                            <input hidden type="number" name="benID" value="<%= trainee.ben_id %>">
+                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <% }); %>

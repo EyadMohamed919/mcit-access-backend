@@ -14,10 +14,10 @@ const addNewTrainee = async (req, res) => {
     }
 };
 
-const deleTraineeByID = async (req, res) =>{
+const deleteTraineeByID = async (req, res) =>{
     try {
-        const {ben_id} = req.body;
-        await deleteTrainee(ben_id);
+        const {benID} = req.body;
+        await deleteTrainee(benID);
         res.redirect("/Trainees");
     } catch (error) {
         console.error("Failed to delete Trainee:", error);
@@ -25,4 +25,4 @@ const deleTraineeByID = async (req, res) =>{
     }
 }
 
-module.exports = { getAllTraineesByProjectID, addNewTrainee, deleTraineeByID};
+module.exports = { getAllTraineesByProjectID, addNewTrainee, deleteTraineeByID};

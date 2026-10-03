@@ -6,6 +6,7 @@
     <title>سجل المستفيدين - وزارة الاتصالات وتكنولوجيا المعلومات</title>
     <link rel="stylesheet" href="/styles/DashboardStyles.css">
     <link rel="stylesheet" href="/styles/EventStyle.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
 </head>
 <body>
 
@@ -40,6 +41,33 @@
                 <span class="stat-value"><%= stats ? stats.totalTrainees : 0 %></span>
             </div>
         </section>
+
+        <!-- ====== FILTER SECTION ====== -->
+        <section class="filter-section" style="margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            
+            <!-- Filter by Gov ID (Column Index 11) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-gov">المحافظة (Gov ID)</label>
+                <input type="text" id="filter-gov" class="table-filter" data-col-index="11" placeholder="ابحث برقم المحافظة...">
+            </div>
+
+            <!-- Filter by Training Center (Column Index 2) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-center">مركز التدريب</label>
+                <input type="text" id="filter-center" class="table-filter" data-col-index="2" placeholder="ابحث باسم المركز...">
+            </div>
+
+            <!-- Filter by Trainer Name (Column Index 10) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-trainer">اسم المدرب</label>
+                <input type="text" id="filter-trainer" class="table-filter" data-col-index="10" placeholder="ابحث باسم المدرب...">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary" id="clear-filters" style="height: 40px;">مسح الفلاتر</button>
+            </div>
+        </section>
+        <!-- ====== END FILTER SECTION ====== -->
 
         <section class="content-section">
             <div class="section-header">
@@ -114,5 +142,6 @@
         </section>
     </main>
 
+    <script src="../scripts/filter.js"></script>
 </body>
 </html>

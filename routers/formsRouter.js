@@ -6,6 +6,7 @@ const {getAllProjects, addNewProjects} = require("../controllers/ProjectControll
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
+const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 
 const requireProjectAuth = (req, res, next) => {
     if (req.session.projectID) {
@@ -60,6 +61,19 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
         host: hostData,
         projects:projects,
         protocols:protocols
+    });
+});
+
+router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const trainingPrograms = await getAllTrainingProgramsByUser(req.session.user_id);
+    const govs = await getAllGovernorates();
+    res.render("AddTrainee", {
+        title: "Add Trainee Page",
+        host: hostData,
+        trainingPrograms:trainingPrograms,
+        govs:govs
     });
 });
 

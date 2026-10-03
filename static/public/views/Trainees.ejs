@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل المستفيدين - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="/styles/DashboardStyles.css">
+    <link rel="stylesheet" href="/styles/EventStyle.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item active" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
+            <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخرجات Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">إدارة سجل المستفيدين للبرنامج</h1>
+            <div class="user-badge">
+                <span class="user-name">مرحباً، <%= username %></span>
+            </div>
+        </header>
+
+        <section class="stats-overview">
+            <div class="stat-card">
+                <span class="stat-label">إجمالي السجلات</span>
+                <span class="stat-value"><%= stats ? stats.totalTrainees : 0 %></span>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-header">
+                <h2>سجل المستفيدين التفصيلي</h2>
+                <a class="action-btn" href="/AddTrainee">+ إضافة سجل جديد</a>
+            </div>
+
+            <div class="table-wrapper full-scroll">
+                <table class="data-table wide-table">
+                    <thead>
+                        <tr>
+                            <th>المعرف (ID)</th>
+                            <th>تاريخ البرنامج</th>
+                            <th>مركز التدريب</th>
+                            <th>إجمالي المسجلين</th>
+                            <th>المجتازين</th>
+                            <th>الذكور</th>
+                            <th>الإناث</th>
+                            <th>ذوي الإعاقة</th>
+                            <th>نوع الإعاقة</th>
+                            <th>الاحتفاظ</th>
+                            <th>اسم المدرب</th>
+                            <th>معرف المحافظة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (trainees && trainees.length > 0) { %>
+                            <% trainees.forEach(function(trainee) { %>
+                                <tr>
+                                    <td>#<%= trainee.ben_id %></td>
+                                    
+                                    <td class="whitespace-nowrap">
+                                        <%= trainee.prog_date ? new Date(trainee.prog_date).toLocaleDateString('en-UK') : '-' %>
+                                    </td>
+                                    
+                                    <!-- Use Bracket Notation for fields with spaces -->
+                                    <td class="font-bold whitespace-nowrap"><%= trainee['Training Center'] || '-' %></td>
+                                    
+                                    <td><%= trainee.ben_enrolled || 0 %></td>
+                                    <td><%= trainee.ben_completed || 0 %></td>
+                                    <td><%= trainee.ben_male || 0 %></td>
+                                    <td><%= trainee.ben_female || 0 %></td>
+                                    <td><%= trainee.ben_pwd || 0 %></td>
+                                    
+                                    <td><%= trainee['Type of disability'] || '-' %></td>
+                                    <td><%= trainee.ben_retention || 0 %></td>
+                                    
+                                    <!-- Handle single quote inside the key string -->
+                                    <td class="whitespace-nowrap"><%= trainee["name Trainer's"] || '-' %></td>
+                                    
+                                    <td><%= trainee.gov_id || '-' %></td>
+                                    
+                                    <td class="actions-cell whitespace-nowrap">
+                                        <a class="table-link" href="/AddTrainee/<%= trainee.ben_id %>">عرض</a>
+                                        <a class="table-link edit" href="/AddTrainee/<%= trainee.ben_id %>">تعديل</a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="13" class="empty-state">لا يوجد سجلات مستفيدين حالياً.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

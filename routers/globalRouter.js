@@ -8,7 +8,7 @@ const {getAllProjects, addNewProjects} = require("../controllers/ProjectControll
 const {getAllEvents} = require("../controllers/EventController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
-
+const {getAllTraineesByProjectID} = require("../controllers/TraineesController");
 
 
 const requireProjectAuth = (req, res, next) => {
@@ -154,6 +154,24 @@ router.get("/Outputs", requireProjectAuth, async (req, res)=>{
         outputs:outputs,
         stats:{
             totalOutputs: totalOutputs,
+        }
+    });
+});
+
+router.get("/Trainees", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const trainees = await getAllTraineesByProjectID(req.session.projectID)    
+    let totalTrainees = trainees.length;
+
+    res.render("Trainees", {
+        title: "Trainees Page",
+        username: req.session.username,
+        id: req.session.user_id,
+        host: hostData,
+        projectTitle: req.session.projectTitle,
+        trainees:trainees,
+        stats:{
+            totalTrainees: totalTrainees,
         }
     });
 });

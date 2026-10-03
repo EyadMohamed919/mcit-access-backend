@@ -1,7 +1,13 @@
-const {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram} = require("../models/TrainingProgramModel");
+const {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID} = require("../models/TrainingProgramModel");
 
-const getAllTrainingPrograms = async (id)=>{
-    const trainingPrograms = await getAllTrainingProgramsByProjectID(id);
+const getAllTrainingPrograms = async (projectID)=>{
+    const trainingPrograms = await getAllTrainingProgramsByProjectID(projectID);
+    return trainingPrograms;
+}
+
+const getAllTrainingProgramsByUser = async (userID)=>{
+    const trainingPrograms = await getAllTrainingProgramsByUserID(userID);
+    console.log(trainingPrograms);
     return trainingPrograms;
 }
 
@@ -29,4 +35,4 @@ const addNewTrainingProgram = async (req, res) => {
     }
 };
 
-module.exports = {getAllTrainingPrograms, deleteTrainingProgramByID, addNewTrainingProgram};
+module.exports = {getAllTrainingPrograms, deleteTrainingProgramByID, addNewTrainingProgram, getAllTrainingProgramsByUser};

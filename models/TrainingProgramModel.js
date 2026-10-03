@@ -10,6 +10,20 @@ async function getAllTrainingProgramsByProjectID(pr_ID)
     }
 }
 
+async function getAllTrainingProgramsByUserID(user_id)
+{
+    try {
+        const trainingPrograms = await db.query(`SELECT * FROM ((Training_Programs
+        INNER JOIN Projects ON Training_Programs.pr_ID = Projects.pr_ID)
+        INNER JOIN user_proj ON Projects.pr_ID = user_proj.pr_id)
+        WHERE user_proj.user_id = ${user_id}`);
+        return trainingPrograms    
+    } catch (error) {
+        console.log("********** ERROR IN getAllTrainingProgramsByUserID()<TrainingProgramModel.js");
+        console.log(error);
+    }
+}
+
 async function deleteTrainingProgram(prog_ID) {
     try {
         if (!prog_ID) {
@@ -79,4 +93,4 @@ async function addTrainingProgram(programData) {
     }
 }
 
-module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram}
+module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID}

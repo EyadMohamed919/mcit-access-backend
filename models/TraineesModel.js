@@ -1,11 +1,19 @@
 const db = require("../config/db");
 
-async function getAllTraineesByProgID(prog_id) {
+async function getAllTrainees(pr_ID) {
     try {
-        const trainees = await db.query(`SELECT * FROM Trainees WHERE prog_ID = ${Number(prog_id)}`);
+        const sql = `
+            SELECT Trainees.* 
+            FROM ((Trainees 
+            INNER JOIN Training_Programs ON Trainees.prog_ID = Training_Programs.prog_ID)
+            INNER JOIN Projects ON Training_Programs.pr_ID = Projects.pr_ID)
+            WHERE Projects.pr_ID = ${Number(pr_ID)}
+        `;
+        
+        const trainees = await db.query(sql);
         return trainees;
     } catch (error) {
-        console.error("Error in getAllTraineesByProgID:", error.message);
+        console.error("Error in getAllTrainees:", error.message);
         throw error;
     }
 }
@@ -74,4 +82,4 @@ async function addNewTrainee(data) {
     }
 }
 
-module.exports = { getAllTraineesByProgID, addNewTrainee };
+module.exports = { getAllTrainees, addNewTrainee };

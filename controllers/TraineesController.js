@@ -1,31 +1,9 @@
-const { getAllTraineesByProgID, addNewTrainee } = require("../models/TraineesModel");
+const { getAllTrainees, addNewTrainee } = require("../models/TraineesModel");
 
-const getTraineesPage = async (req, res) => {
-    try {
-        const progID = req.query.prog_id || 1; 
-        const trainees = await getAllTraineesByProgID(progID);
-
-        res.render("Trainees", {
-            title: "Trainees Page",
-            username: req.session ? req.session.username : 'المستخدم',
-            trainees: trainees || [],
-            stats: {
-                totalRecords: trainees ? trainees.length : 0
-            }
-        });
-    } catch (error) {
-        console.error("Error loading Trainees page:", error.message);
-        res.status(500).send("خطأ في تحميل البيانات");
-    }
-};
-
-const renderAddTraineeForm = (req, res) => {
-    res.render("forms/AddTrainee", {
-        title: "Add Trainee Record",
-        username: req.session ? req.session.username : 'المستخدم'
-    });
-};
-
+const getAllTraineesByProjectID = async (projectID) => {
+    const trainees = await getAllTrainees(projectID);
+    return trainees;   
+}
 const createTrainee = async (req, res) => {
     try {
         await addNewTrainee(req.body);
@@ -36,4 +14,4 @@ const createTrainee = async (req, res) => {
     }
 };
 
-module.exports = { getTraineesPage, renderAddTraineeForm, createTrainee };
+module.exports = { getAllTraineesByProjectID , createTrainee };

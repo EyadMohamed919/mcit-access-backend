@@ -18,7 +18,7 @@ async function getAllTrainees(pr_ID) {
     }
 }
 
-async function addNewTrainee(data) {
+async function addTrainee(data) {
     try {
         const {
             prog_ID,
@@ -80,6 +80,29 @@ async function addNewTrainee(data) {
         console.error("Error in addNewTrainee:", error.message);
         throw error;
     }
+};
+
+async function deleteTrainee(ben_id) {
+    try {
+        if (!ben_id) {
+            console.error("deleteTrainee error: ben_id is missing");
+            return { success: false };
+        }
+
+        const sql = `DELETE FROM Trainees WHERE ben_id = ${Number(ben_id)}`;
+        console.log("--> Executing Delete Query:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in deleteTrainee:", error.message);
+        throw error;
+    }
 }
 
-module.exports = { getAllTrainees, addNewTrainee };
+module.exports = { getAllTrainees, addTrainee, deleteTrainee };

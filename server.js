@@ -11,6 +11,7 @@ const userRouter = require("./routers/userRouter");
 const projectRouter = require("./routers/projectRouter");
 const eventRouter = require("./routers/eventRouter");
 const outputRouter = require("./routers/outputRouter");
+const traineeRouter = require("./routers/traineeRouter");
 const trainingProgramRouter = require("./routers/trainingProgramRouter");
 const errorRouter = require("./routers/errorRouter");
 
@@ -39,6 +40,7 @@ app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/outputs", outputRouter);
+app.use("/api/trainee", traineeRouter);
 app.use("/api/trainingProgram", trainingProgramRouter);
 
 app.use(globalRouter);

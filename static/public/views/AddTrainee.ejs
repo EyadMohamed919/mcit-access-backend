@@ -30,7 +30,7 @@
         </header>
 
         <section class="form-container">
-            <form action="/trainees" method="POST" class="app-form">
+            <form action="/api/trainee/AddTrainee" method="POST" class="app-form">
                 
                 <div class="form-section-title">بيانات البرنامج والمكان</div>
                 <div class="form-grid">
@@ -50,10 +50,6 @@
                         <label for="training_center">مركز التدريب (Training Center)</label>
                         <input type="text" id="training_center" name="training_center">
                     </div>
-                    <div class="form-group">
-                        <label for="gov_id">معرف المحافظة (Gov ID)</label>
-                        <input type="number" id="gov_id" name="gov_id">
-                    </div>
 
                     <div class="form-group">
                         <label for="gov_id">المحافظة (Governorate)<span class="required">*</span></label>
@@ -69,23 +65,23 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_enrolled">إجمالي المسجلين (Enrolled)</label>
-                        <input type="number" id="ben_enrolled" name="ben_enrolled">
+                        <input type="number" min="0" id="ben_enrolled" name="ben_enrolled">
                     </div>
                     <div class="form-group">
                         <label for="ben_completed">إجمالي المجتازين (Completed)</label>
-                        <input type="number" id="ben_completed" name="ben_completed">
+                        <input type="number" min="0" id="ben_completed" name="ben_completed">
                     </div>
                     <div class="form-group">
                         <label for="ben_male">عدد الذكور</label>
-                        <input type="number" id="ben_male" name="ben_male">
+                        <input type="number" min="0" id="ben_male" name="ben_male">
                     </div>
                     <div class="form-group">
                         <label for="ben_female">عدد الإناث</label>
-                        <input type="number" id="ben_female" name="ben_female">
+                        <input type="number" min="0" id="ben_female" name="ben_female">
                     </div>
                     <div class="form-group">
                         <label for="ben_retention">الاحتفاظ (Retention)</label>
-                        <input type="number" id="ben_retention" name="ben_retention">
+                        <input type="number" min="0" id="ben_retention" name="ben_retention">
                     </div>
                 </div>
 
@@ -93,7 +89,7 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_pwd">عدد ذوي الإعاقة (PWD)</label>
-                        <input type="number" id="ben_pwd" name="ben_pwd">
+                        <input type="number" min="0" id="ben_pwd" name="ben_pwd">
                     </div>
                     <div class="form-group">
                         <label for="type_of_disability">نوع الإعاقة</label>
@@ -101,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label for="ben_trainer_id">معرف المدرب (Trainer ID)</label>
-                        <input type="number" id="ben_trainer_id" name="ben_trainer_id">
+                        <input type="number" min="0" id="ben_trainer_id" name="ben_trainer_id">
                     </div>
                     <div class="form-group">
                         <label for="name_trainers">اسم المدرب (Trainer's Name)</label>
@@ -113,15 +109,15 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="out_id">معرف المخرج (Output ID)</label>
-                        <input type="number" id="out_id" name="out_id">
+                        <input type="number" min="0" id="out_id" name="out_id">
                     </div>
                     <div class="form-group">
                         <label for="tainee_type_id">نوع المتدرب (Trainee Type ID)</label>
-                        <input type="number" id="tainee_type_id" name="tainee_type_id">
+                        <input type="number" min="0" id="tainee_type_id" name="tainee_type_id">
                     </div>
                     <div class="form-group">
                         <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" id="Age_Group_ID" name="Age_Group_ID">
+                        <input type="number" min="0" id="Age_Group_ID" name="Age_Group_ID">
                     </div>
                 </div>
 

@@ -33,7 +33,7 @@
         </header>
 
         <section class="form-container">
-            <form action="/outputs" method="POST" class="app-form">
+            <form action="/api/outputs/AddOutput" method="POST" class="app-form">
                 
                 <div class="form-section-title">بيانات المخرج الأساسية</div>
                 
@@ -49,8 +49,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
-                        <select id="pr_id" name="pr_id">
+                        <label for="pr_ID">المشروع (Project) <span class="required">*</span></label>
+                        <select id="pr_ID" name="pr_ID">
                             <% projects.forEach(function(project) { %>
                             <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
                             <% }); %>

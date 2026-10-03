@@ -47,8 +47,14 @@
             
             <!-- Filter by Gov ID (Column Index 11) -->
             <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
-                <label for="filter-gov">المحافظة (Gov ID)</label>
-                <input type="text" id="filter-gov" class="table-filter" data-col-index="11" placeholder="ابحث برقم المحافظة...">
+                <label for="filter-gov">المحافظة (Governorate)</label>
+                <!-- <input type="text" id="filter-gov" class="table-filter" data-col-index="11" placeholder="ابحث برقم المحافظة..."> -->
+                <select id="filter-gov" class="table-filter" data-col-index="11">
+                    <option value="" selected>ابحث برقم المحافظة...</option>
+                    <% governorates.forEach(function(gov) { %>
+                    <option value='<%= gov.gov_id %>' ><%= gov.gov_name %></option>
+                    <% }); %>
+                </select>
             </div>
 
             <!-- Filter by Training Center (Column Index 2) -->

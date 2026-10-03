@@ -160,7 +160,8 @@ router.get("/Outputs", requireProjectAuth, async (req, res)=>{
 
 router.get("/Trainees", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const trainees = await getAllTraineesByProjectID(req.session.projectID)    
+    const trainees = await getAllTraineesByProjectID(req.session.projectID);
+    const governorates = await getAllGovernorates();  
     let totalTrainees = trainees.length;
 
     res.render("Trainees", {
@@ -170,6 +171,7 @@ router.get("/Trainees", requireProjectAuth, async (req, res)=>{
         host: hostData,
         projectTitle: req.session.projectTitle,
         trainees:trainees,
+        governorates:governorates,
         stats:{
             totalTrainees: totalTrainees,
         }

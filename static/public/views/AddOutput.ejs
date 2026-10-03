@@ -49,14 +49,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pr_ID">المشروع المرتبط (Project ID) <span class="required">*</span></label>
-                        <!-- إذا كنت تمرر قائمة المشاريع من الكنترولر، يمكنك استخدام select هنا -->
-                        <input type="number" id="pr_ID" name="pr_ID" required placeholder="مثال: 1">
+                        <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
+                        <select id="pr_id" name="pr_id">
+                            <% projects.forEach(function(project) { %>
+                            <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
+                            <% }); %>
+                        </select>
                     </div>
+
 
                     <div class="form-group">
                         <label for="protocol_id">معرف البروتوكول (Protocol ID)</label>
-                        <input type="number" id="protocol_id" name="protocol_id">
+                        <select id="protocol_id" name="protocol_id">
+                            <% protocols.forEach(function(protocol) { %>
+                            <option value='<%= protocol.protocol_id %>' ><%= protocol.pro_title %></option>
+                            <% }); %>
+                        </select>
                     </div>
 
                     <div class="form-group">

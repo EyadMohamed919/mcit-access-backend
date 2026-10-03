@@ -27,4 +27,4 @@ function getPrimaryLocalIpAddress() {
     return fallbackIp || '127.0.0.1';
 }
 
-module.exports = getPrimaryLocalIpAddress();
+module.exports = {getPrimaryLocalIpAddress};

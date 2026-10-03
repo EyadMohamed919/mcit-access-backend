@@ -5,7 +5,7 @@ const {getPrimaryLocalIpAddress} = require("../config/network");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
-const {getAllProtocolsWithoutGovID} = require("../controllers/GovController");
+const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 
 const requireProjectAuth = (req, res, next) => {
     if (req.session.projectID) {
@@ -50,13 +50,17 @@ router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
     });
 });
 
-router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
+router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
     const projects = await getAllProjects(req.session.user_id, session, res);
-    res.render("AddTrainingProgram", {
-        title: "Add Training Program Page",
+    const protocols = await getAllProtocolsWithoutGovID();
+    res.render("AddOutput", {
+        title: "Add Output Page",
         host: hostData,
-        projects:projects
+        projects:projects,
+        protocols:protocols
     });
 });
+
+module.exports = router;

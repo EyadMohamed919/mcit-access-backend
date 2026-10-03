@@ -6,6 +6,7 @@ const port = 8080;
 const session = require('express-session');
 
 const globalRouter = require("./routers/globalRouter");
+const formsRouter = require("./routers/formsRouter");
 const userRouter = require("./routers/userRouter");
 const projectRouter = require("./routers/projectRouter");
 const eventRouter = require("./routers/eventRouter");
@@ -38,6 +39,7 @@ app.use("/api/projects", projectRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/trainingProgram", trainingProgramRouter);
 app.use(globalRouter);
+app.use(formsRouter);
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server is listening on http://0.0.0.0:${port}`);

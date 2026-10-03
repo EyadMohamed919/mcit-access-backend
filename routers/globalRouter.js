@@ -1,38 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-const os = require("os");
+const {getPrimaryLocalIpAddress} = require("../config/network");
+
+
 const {getAllTrainingPrograms} = require("../controllers/TrainingProgramsController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllEvents} = require("../controllers/EventController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
-function getPrimaryLocalIpAddress() {
-    const interfaces = os.networkInterfaces();
-    const virtualKeywords = ['vbox', 'vmware', 'wsl', 'hyper-v', 'virtual', 'vethernet'];
 
-    let fallbackIp = null;
 
-    for (const interfaceName in interfaces) {
-        const lowerName = interfaceName.toLowerCase();
-        const isVirtual = virtualKeywords.some(keyword => lowerName.includes(keyword));
-
-        for (const layer of interfaces[interfaceName]) {
-            const isIPv4 = layer.family === 'IPv4' || layer.family === 4;
-
-            if (isIPv4 && !layer.internal) {
-                if (!isVirtual) {
-                    return layer.address;
-                }
-                if (!fallbackIp) {
-                    fallbackIp = layer.address;
-                }
-            }
-        }
-    }
-
-    return fallbackIp || '127.0.0.1';
-}
 
 const requireProjectAuth = (req, res, next) => {
     if (req.session.projectID) {
@@ -190,40 +167,7 @@ router.get("/Outputs", requireProjectAuth, async (req, res)=>{
 
 
 
-// **************** FORMS *****************
-router.get("/AddProject", requireProjectAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    res.render("AddProject", {
-        title: "Add Project Page",
-        host: hostData,
-    });
-});
 
-router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
-    const govs = await getAllGovernorates();
-    const outputs = await getAllOutputs(req.session.user_id);
-    res.render("AddEvent", {
-        title: "Add Event Page",
-        host: hostData,
-        projects:projects,
-        govs:govs,
-        outputs:outputs
-    });
-});
-
-router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
-    res.render("AddTrainingProgram", {
-        title: "Add Training Program Page",
-        host: hostData,
-        projects:projects
-    });
-});
 
 module.exports = router;
 

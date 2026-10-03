@@ -1,4 +1,4 @@
-const {getAllOutputsByUserID, addOutput} = require("../models/OutputsModel");
+const {getAllOutputsByUserID, addOutput, deleteOutput} = require("../models/OutputModel");
 
 const getAllOutputs = async (projectID)=>{
     const outputs = await getAllOutputsByUserID(projectID);
@@ -15,4 +15,15 @@ const addNewOutput = async (req, res) => {
     }
 };
 
-module.exports = {getAllOutputs, addNewOutput};
+const deleteOutputByID = async (req, res) =>{
+    try {
+        const {outputID} = req.body;
+        await deleteOutput(outputID);
+        res.redirect("/Outputs");
+    } catch (error) {
+        console.error("Failed to delete output:", error);
+        res.status(500).send("خطأ أثناء حذف البيانات");
+    }
+}
+
+module.exports = {getAllOutputs, addNewOutput, deleteOutputByID};

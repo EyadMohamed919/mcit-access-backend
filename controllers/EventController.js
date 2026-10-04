@@ -1,8 +1,12 @@
 const {getAllEventsByProjectID, addEvent, deleteEvent} = require("../models/EventModel")
 
-const getAllEvents = async (id)=>{
-    const events = await getAllEventsByProjectID(id);
-    return events;
+const getAllEvents = async (projectID)=>{
+    console.log("Incoming project ID: " + projectID);
+    if(projectID)
+    {
+        const events = await getAllEventsByProjectID(projectID);
+        return events;
+    }
 }
 
 const addNewEvent = async (req, res) => {

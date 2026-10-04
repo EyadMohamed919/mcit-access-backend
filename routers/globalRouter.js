@@ -48,6 +48,21 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
     const projects = await getAllProjects(req.session.user_id, session, res);
+    
+    let totalEvents = 0;
+    let totalTrainees = 0;
+
+    for (const project of projects) 
+    {
+        let projectID = project.pr_ID;
+        if (projectID) {
+          let events = await getAllEvents(projectID);
+          let trainees = await getAllTraineesByProjectID(projectID);
+          totalEvents = totalEvents + events.length;
+          totalTrainees = totalTrainees + trainees.length;
+        }
+    }
+    
     res.render("Dashboard", {
         title: "Dashboard Page",
         username: req.session.username,
@@ -55,8 +70,8 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
         host: hostData,
         projects:projects,
         stats: {
-            totalEvents: 20,
-            totalTrainees: 3400
+            totalEvents: totalEvents,
+            totalTrainees: totalTrainees
         }
     });
 });

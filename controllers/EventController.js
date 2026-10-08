@@ -1,11 +1,18 @@
-const {getAllEventsByProjectID, addEvent, deleteEvent} = require("../models/EventModel")
+const {getAllEventsByProjectID, addEvent, deleteEvent, getEventByID, updateEvent} = require("../models/EventModel")
 
 const getAllEvents = async (projectID)=>{
-    console.log("Incoming project ID: " + projectID);
     if(projectID)
     {
         const events = await getAllEventsByProjectID(projectID);
         return events;
+    }
+}
+
+const getEvent = async (eventID)=>{
+    if(eventID)
+    {
+        const event = await getEventByID(eventID);
+        return event[0];
     }
 }
 
@@ -33,4 +40,18 @@ const deleteEventByID = async (req, res) =>{
     }
 }
 
-module.exports = {getAllEvents, addNewEvent, deleteEventByID}
+const editEvent = async (req, res) => {
+    try {
+        console.log("--> Received Form Data:", req.body);
+
+        await updateEvent(req.body);
+
+        res.redirect('/Events');
+    } catch (error) {
+        console.error("Failed to edit event:", error);
+        res.status(500).send("خطأ أثناء حفظ بيانات الفعالية");
+    }
+};
+
+
+module.exports = {getAllEvents, addNewEvent, deleteEventByID, getEvent, editEvent}

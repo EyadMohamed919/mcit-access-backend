@@ -17,10 +17,26 @@ async function getAllEventsByProjectID(pr_id)
     
 }
 
+async function getEventByID(event_id)
+{
+    
+    try {
+        if(!event_id)
+        {
+            throw new Error("EventID is empty in getEventByID() in EventModel.js"); 
+        }
+        const event = await db.query(`SELECT * FROM Events WHERE event_id = ${event_id}`)
+        return event;
+    } catch (error) {
+        console.log("********** ERROR IN EventModel.js **********");
+        console.error(error.message);
+    }
+    
+}
+
 async function addEvent(eventData) {
     try {
         const {
-            event_name,
             event_name_en,
             pr_id,
             event_Date,
@@ -78,6 +94,60 @@ async function addEvent(eventData) {
     }
 }
 
+async function updateEvent(eventData) {
+    try {
+        const {
+            event_id,
+            event_name_en,
+            pr_id,
+            event_Date,
+            out_id,
+            gov_id,
+            Age_Group_ID,
+            ben_no,
+            ben_female,
+            ben_male,
+            event_desc
+        } = eventData;
+        if (!event_id) {
+            throw new Error("Missing event_id required for update operation.");
+        }
+
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+        
+        const eventDateVal = event_Date && event_Date.trim() !== '' ? `'${event_Date}'` : 'NULL';
+
+        const sql = `
+            UPDATE Events SET 
+                event_name_en = ${escapeSql(event_name_en)}, 
+                pr_id = ${pr_id ? Number(pr_id) : 'NULL'}, 
+                event_Date = ${eventDateVal}, 
+                out_id = ${out_id && out_id !== '' ? Number(out_id) : 'NULL'}, 
+                gov_id = ${gov_id && gov_id !== '' ? Number(gov_id) : 'NULL'}, 
+                Age_Group_ID = ${Age_Group_ID ? Number(Age_Group_ID) : 'NULL'}, 
+                ben_no = ${ben_no ? Number(ben_no) : 0}, 
+                ben_female = ${ben_female ? Number(ben_female) : 0}, 
+                ben_male = ${ben_male ? Number(ben_male) : 0}, 
+                event_desc = ${escapeSql(event_desc)}
+            WHERE event_id = ${Number(event_id)}
+        `;
+
+        console.log("--> Executing Event Update SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in updateEvent model:", error.message);
+        throw error;
+    }
+}
+
 async function deleteEvent(event_id) {
     try {
         if (!event_id) {
@@ -101,4 +171,4 @@ async function deleteEvent(event_id) {
     }
 }
 
-module.exports = {getAllEventsByProjectID, addEvent, deleteEvent}
+module.exports = {getAllEventsByProjectID, addEvent, deleteEvent, getEventByID, updateEvent}

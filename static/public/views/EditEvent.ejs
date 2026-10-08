@@ -27,43 +27,64 @@
 
     <main class="main-content">
         <header class="top-bar">
-            <h1 class="page-title">إضافة فعالية جديدة</h1>
+            <h1 class="page-title">تعديل فعالية</h1>
             <a href="/Events" class="back-link">← العودة للفعاليات</a>
         </header>
 
         <section class="form-container">
-            <form action="/api/events/AddEvent" method="POST" class="app-form">
+            <form action="/api/events/EditEvent" method="POST" class="app-form">
                 
                 <div class="form-section-title">بيانات الفعالية الأساسية</div>
                 
                 <div class="form-grid">
-
+                    <input type="number" id="event_id" name="event_id" hidden value="<%= event.event_id %>">
                     <div class="form-group full-width">
                         <label for="event_name_en">عنوان الفعالية (إنجليزي)</label>
-                        <input type="text" id="event_name_en" dir="ltr" name="event_name_en" placeholder="Enter event name in English">
+                        <input type="text" id="event_name_en" name="event_name_en" dir="ltr" value="<%= event.event_name_en %>" placeholder="Enter event name in English">
                     </div>
 
                     <div class="form-group">
                         <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
                         <select id="pr_id" name="pr_id">
-                            <% projects.forEach(function(project) { %>
-                            <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
+                            <% projects.forEach(function(project) { 
+                                const projectID = project["Projects.pr_ID"] || project.pr_ID || project.pr_id;
+                            %>
+                                <% if (Number(event.pr_id) === Number(projectID)) { %>
+                                    <option value="<%= projectID %>" selected><%= project.Pr_title || project.pr_title %></option>
+                                <% } else { %>
+                                    <option value="<%= projectID %>"><%= project.Pr_title || project.pr_title %></option>
+                                <% } %>
                             <% }); %>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="event_Date">تاريخ الفعالية</label>
-                        <input type="date" id="event_Date" name="event_Date">
+                        <% 
+                            // Format date to YYYY-MM-DD safely
+                            let formattedDate = '';
+                            if (event && event.event_Date) {
+                                const d = new Date(event.event_Date);
+                                if (!isNaN(d.getTime())) {
+                                    formattedDate = d.toISOString().split('T')[0];
+                                }
+                            }
+                        %>
+                        <input type="date" id="event_Date" name="event_Date" value="<%= formattedDate %>">
                     </div>
 
                     <div class="form-group">
                         <label for="out_id">المخرج (Output)</label>
                         <% if (outputs && outputs.length > 0) { %>
                             <select name="out_id" id="out_id">
+
                             <% outputs.forEach(function(output) { %>
-                                <option value='<%= output.out_ID %>' ><%= output.out_ID %> - <%= output.out_title %></option>
-                                <% }); %>
+                                <% if (event.out_id == output.out_ID) { %>
+                                    
+                                <option value='<%= output.out_ID %>' selected><%= output.out_ID %> - <%= output.out_title %></option>
+                                <% } else { %>
+                                    <option value='<%= output.out_ID %>'><%= output.out_ID %> - <%= output.out_title %></option>
+                                <% }}); %>
                             </select>
                         <% } else { %>
                             <select name="out_id" id="out_id">
@@ -77,14 +98,20 @@
                         
                         <select id="gov_id" name="gov_id">
                             <% govs.forEach(function(gov) { %>
-                            <option value='<%= gov.gov_id %>' ><%= gov.gov_name %></option>
-                            <% }); %>
+                                <% if (event.gov_id == 0) { %>
+                            <option value='29' selected>29 - غير محدد</option>
+                            <% } else if(event.gov_id == gov.gov_id) {%>
+                                <option value='<%= gov.gov_id %>' selected><%= gov.gov_id %> - <%= gov.gov_name %></option>
+                            <% } else { %>
+                            <option value='<%= gov.gov_id %>'><%= gov.gov_id %> <%= gov.gov_name %></option>
+
+                            <% }}); %>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" id="Age_Group_ID" min="1" name="Age_Group_ID" placeholder="مثال: 3">
+                        <input type="number" id="Age_Group_ID" value="<%= event.Age_Group_ID %>" min="1" name="Age_Group_ID" placeholder="مثال: 3">
                     </div>
                 </div>
 
@@ -93,28 +120,28 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_no">إجمالي الحضور / المستفيدين (ben_no)</label>
-                        <input type="number" min="0" id="ben_no" name="ben_no" placeholder="0">
+                        <input type="number" min="0" id="ben_no" value="<%= event.ben_no %>" name="ben_no" placeholder="0">
                     </div>
 
                     <div class="form-group">
                         <label for="ben_female">عدد الإناث (ben_female)</label>
-                        <input type="number" min="0" id="ben_female" name="ben_female" placeholder="0">
+                        <input type="number" min="0" id="ben_female" value="<%= event.ben_female %>" name="ben_female" placeholder="0">
                     </div>
 
                     <div class="form-group">
                         <label for="ben_male">عدد الذكور (ben_male)</label>
-                        <input type="number" min="0" id="ben_male" name="ben_male" placeholder="0">
+                        <input type="number" min="0" id="ben_male" value="<%= event.ben_male %>" name="ben_male" placeholder="0">
                     </div>
 
                     <div class="form-group full-width">
                         <label for="event_desc">وصف الفعالية (Description)</label>
-                        <textarea id="event_desc" name="event_desc" rows="3" placeholder="أدخل تفاصيل ووصف الفعالية..."></textarea>
+                        <textarea id="event_desc" name="event_desc"  rows="3" placeholder="أدخل تفاصيل ووصف الفعالية..." ><%= event.event_desc %></textarea>
                     </div>
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">حفظ الفعالية</button>
-                    <a href="/events" class="btn-secondary">إلغاء</a>
+                    <a href="/Events" class="btn-secondary">إلغاء</a>
                 </div>
             </form>
         </section>

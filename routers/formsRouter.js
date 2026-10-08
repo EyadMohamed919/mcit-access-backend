@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {getPrimaryLocalIpAddress} = require("../config/network");
-
+const {getEvent} = require("../controllers/EventController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
@@ -37,6 +37,24 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
         projects:projects,
         govs:govs,
         outputs:outputs
+    });
+});
+
+router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    const govs = await getAllGovernorates();
+    const outputs = await getAllOutputs(req.session.user_id);
+    const eventID = req.params.id 
+    const event = await getEvent(eventID);
+    res.render("EditEvent", {
+        title: "Edit Event Page",
+        host: hostData,
+        projects:projects,
+        govs:govs,
+        outputs:outputs,
+        event:event
     });
 });
 

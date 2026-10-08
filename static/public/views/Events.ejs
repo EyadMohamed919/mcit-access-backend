@@ -91,10 +91,10 @@
                                     <td><%= event.gov_id || '-' %></td>
                                     <td><%= event.Age_Group_ID || '-' %></td>
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link edit" href="/AddEvent/<%= event.event_id %>">تعديل</a>
+                                        <a class="table-link" href="/EditEvent/<%= event.event_id %>">تعديل</a>
                                         <form action="/api/events/DeleteEvent" method="post">
                                             <input hidden type="number" name="eventID" value="<%= event.event_id %>">
-                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                            <button style="background: none; border: none;" class="table-link edit">حذف</button>
                                         </form>
                                     </td>
                                 </tr>

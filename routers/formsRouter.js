@@ -7,6 +7,7 @@ const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
+const {getTraineeByID} = require("../controllers/TraineesController");
 
 const requireProjectAuth = (req, res, next) => {
     if (req.session.projectID) {
@@ -55,6 +56,22 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
         govs:govs,
         outputs:outputs,
         event:event
+    });
+});
+
+router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const trainingPrograms = await getAllTrainingProgramsByUser(req.session.user_id, session, res);
+    const govs = await getAllGovernorates();
+    const traineeID = req.params.id 
+    const trainee = await getTraineeByID(traineeID);
+    res.render("EditTrainee", {
+        title: "Edit Trainee Page",
+        host: hostData,
+        govs:govs,
+        trainingPrograms:trainingPrograms,
+        trainee:trainee
     });
 });
 

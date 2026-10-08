@@ -18,6 +18,24 @@ async function getAllTrainees(pr_ID) {
     }
 }
 
+async function getTrainee(ben_id) {
+    try {
+        if (!ben_id) {
+            throw new Error("Missing ben_id required for update operation.");
+        }
+
+        const sql = `
+            SELECT * FROM Trainees WHERE ben_id = ${Number(ben_id)}
+        `;
+
+        const trainees = await db.query(sql);
+        return trainees;
+    } catch (error) {
+        console.error("Error in getTrainee:", error.message);
+        throw error;
+    }
+}
+
 async function addTrainee(data) {
     try {
         const {
@@ -82,6 +100,72 @@ async function addTrainee(data) {
     }
 };
 
+async function updateTrainee(data) {
+    try {
+        const {
+            ben_id,
+            prog_ID,
+            ben_enrolled,
+            ben_female,
+            ben_male,
+            ben_pwd,
+            ben_completed,
+            ben_retention,
+            ben_trainer_id,
+            gov_id,
+            prog_date,
+            out_id,
+            tainee_type_id, 
+            Age_Group_ID,
+            training_center, 
+            name_trainers,   
+            type_of_disability 
+        } = data;
+        if (!ben_id) {
+            throw new Error("Missing ben_id required for update operation.");
+        }
+
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+        
+        const dateVal = prog_date && prog_date.trim() !== '' ? `'${prog_date}'` : 'NULL';
+
+        const sql = `
+            UPDATE Trainees SET 
+                prog_ID = ${prog_ID ? Number(prog_ID) : 'NULL'}, 
+                ben_enrolled = ${ben_enrolled ? Number(ben_enrolled) : 'NULL'}, 
+                ben_female = ${ben_female ? Number(ben_female) : 'NULL'}, 
+                ben_male = ${ben_male ? Number(ben_male) : 'NULL'}, 
+                ben_pwd = ${ben_pwd ? Number(ben_pwd) : 'NULL'}, 
+                ben_completed = ${ben_completed ? Number(ben_completed) : 'NULL'}, 
+                ben_retention = ${ben_retention ? Number(ben_retention) : 'NULL'}, 
+                ben_trainer_id = ${ben_trainer_id ? Number(ben_trainer_id) : 'NULL'}, 
+                gov_id = ${gov_id ? Number(gov_id) : 'NULL'}, 
+                prog_date = ${dateVal}, 
+                out_id = ${out_id ? Number(out_id) : 'NULL'}, 
+                tainee_type_id = ${tainee_type_id ? Number(tainee_type_id) : 'NULL'}, 
+                Age_Group_ID = ${Age_Group_ID ? Number(Age_Group_ID) : 'NULL'}, 
+                [Training Center] = ${escapeSql(training_center)}, 
+                [name Trainer's] = ${escapeSql(name_trainers)}, 
+                [Type of disability] = ${escapeSql(type_of_disability)}
+            WHERE ben_id = ${Number(ben_id)}
+        `;
+
+        console.log("--> Executing Trainee Update SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in updateTrainee:", error.message);
+        throw error;
+    }
+}
+
 async function deleteTrainee(ben_id) {
     try {
         if (!ben_id) {
@@ -105,4 +189,4 @@ async function deleteTrainee(ben_id) {
     }
 }
 
-module.exports = { getAllTrainees, addTrainee, deleteTrainee };
+module.exports = { getAllTrainees, addTrainee, deleteTrainee, getTrainee, updateTrainee};

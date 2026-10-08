@@ -7,7 +7,6 @@ const getAllTrainingPrograms = async (projectID)=>{
 
 const getAllTrainingProgramsByUser = async (userID)=>{
     const trainingPrograms = await getAllTrainingProgramsByUserID(userID);
-    console.log(trainingPrograms);
     return trainingPrograms;
 }
 

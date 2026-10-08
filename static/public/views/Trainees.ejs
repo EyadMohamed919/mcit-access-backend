@@ -63,7 +63,6 @@
                 <input type="text" id="filter-center" class="table-filter" data-col-index="2" placeholder="ابحث باسم المركز...">
             </div>
 
-            <!-- Filter by Trainer Name (Column Index 10) -->
             <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
                 <label for="filter-trainer">اسم المدرب</label>
                 <input type="text" id="filter-trainer" class="table-filter" data-col-index="10" placeholder="ابحث باسم المدرب...">
@@ -73,7 +72,6 @@
                 <button type="button" class="btn-secondary" id="clear-filters" style="height: 40px;">مسح الفلاتر</button>
             </div>
         </section>
-        <!-- ====== END FILTER SECTION ====== -->
 
         <section class="content-section">
             <div class="section-header">
@@ -129,10 +127,10 @@
                                     
 
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link edit" href="/AddTrainee/<%= trainee.ben_id %>">تعديل</a>
+                                        <a class="table-link" href="/EditTrainee/<%= trainee.ben_id %>">تعديل</a>
                                         <form action="/api/trainee/DeleteTrainee" method="post">
                                             <input hidden type="number" name="benID" value="<%= trainee.ben_id %>">
-                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                            <button style="background: none; border: none;" class="table-link edit">حذف</button>
                                         </form>
                                     </td>
                                 </tr>

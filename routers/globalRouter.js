@@ -41,7 +41,19 @@ router.get("/", (req, res)=>{
     
 });
 
+router.get("/Settings", requireAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    
+    const projects = await getAllProjects(req.session.user_id, req.session, res);
 
+    res.render("Settings", {
+        title: "الإعدادات - Settings",
+        username: req.session.username,
+        currentProjectID: req.session.projectID,
+        projects: projects || [],
+        host: hostData
+    });
+});
 
 
 router.get("/Dashboard", requireAuth, async (req, res)=>{

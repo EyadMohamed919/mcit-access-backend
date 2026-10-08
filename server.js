@@ -14,6 +14,7 @@ const outputRouter = require("./routers/outputRouter");
 const traineeRouter = require("./routers/traineeRouter");
 const productRouter = require("./routers/productRouter");
 const trainingProgramRouter = require("./routers/trainingProgramRouter");
+const settingsRouter = require("./routers/settingsRouter");
 const errorRouter = require("./routers/errorRouter");
 
 app.use(express.static(path.join(__dirname, 'static/public')));
@@ -44,6 +45,7 @@ app.use("/api/outputs", outputRouter);
 app.use("/api/trainee", traineeRouter);
 app.use("/api/trainingProgram", trainingProgramRouter);
 app.use("/api/products", productRouter);
+app.use("/api/settings", settingsRouter);
 app.use(globalRouter);
 app.use(formsRouter);
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإعدادات - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="/styles/DashboardStyles.css">
+    <link rel="stylesheet" href="/styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
+            <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخرجات Outputs</a>
+            <!-- Optional: Add a visual separator here -->
+            <a class="nav-item active" href="/Settings" style="margin-top: 20px;">الإعدادات Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
+        <header class="top-bar">
+            <h1 class="page-title">إعدادات النظام</h1>
+            <div class="user-badge">
+                <span class="user-name">مرحباً، <%= username %></span>
+            </div>
+        </header>
+
+        <section class="form-container">
+            <form action="/api/Settings/changeProject" method="POST" class="app-form">
+                
+                <div class="form-section-title">تغيير المشروع النشط</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="new_project_id">المشروع الحالي (Active Project)</label>
+                        <select id="new_project_id" name="new_project_id" onchange="updateHiddenTitle(this)" required>
+                            <% if (projects && projects.length > 0) { %>
+                                <% projects.forEach(function(project) { 
+                                    const pID = project["Projects.pr_ID"] || project.pr_id || project.pr_ID;
+                                    const pTitle = project.Pr_title || project.pr_title;
+                                %>
+                                    <option value="<%= pID %>" data-title="<%= pTitle %>" <%= Number(currentProjectID) === Number(pID) ? 'selected' : '' %>>
+                                        <%= pTitle %>
+                                    </option>
+                                <% }); %>
+                            <% } else { %>
+                                <option value="" disabled>لا توجد مشاريع متاحة</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Hidden field to pass the text of the selected project title to req.session -->
+                    <input type="hidden" id="new_project_title" name="new_project_title" value="">
+                </div>
+
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="submit" class="btn-primary">حفظ وتغيير المشروع</button>
+                    <a href="/Dashboard" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function updateHiddenTitle(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            if (selectedOption) {
+                document.getElementById('new_project_title').value = selectedOption.getAttribute('data-title');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const projectSelect = document.getElementById('new_project_id');
+            if (projectSelect) {
+                updateHiddenTitle(projectSelect);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -41,6 +41,33 @@
             </div>
         </section>
 
+        <!-- ====== FILTER SECTION ====== -->
+        <section class="filter-section" style="margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            
+            <!-- Filter by Output Name (Column Index 1) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-title">اسم المخرج</label>
+                <input type="text" id="filter-title" class="table-filter" data-col-index="1" placeholder="ابحث باسم المخرج...">
+            </div>
+
+            <!-- Filter by Protocol ID (Column Index 7) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-protocol">معرف البروتوكول</label>
+                <input type="text" id="filter-protocol" class="table-filter" data-col-index="7" placeholder="ابحث بمعرف البروتوكول...">
+            </div>
+
+            <!-- Filter by Output Type ID (Column Index 8) -->
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-type">نوع المخرج (Type ID)</label>
+                <input type="text" id="filter-type" class="table-filter" data-col-index="8" placeholder="ابحث برقم نوع المخرج...">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary" id="clear-filters" style="height: 40px;">مسح الفلاتر</button>
+            </div>
+        </section>
+        <!-- ====== END FILTER SECTION ====== -->
+
         <section class="content-section">
             <div class="section-header">
                 <h2>سجل المخرجات التفصيلي</h2>
@@ -61,6 +88,7 @@
                             <th>معرف البروتوكول</th>
                             <th>معرف نوع المخرج</th>
                             <th>معرف المشروع</th>
+                            <th>الإجراءات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,16 +108,16 @@
                                     
                                     <td class="actions-cell whitespace-nowrap">
                                         <a class="table-link edit" href="/AddOutput/<%= output.out_ID %>">تعديل</a>
-                                        <form action="/api/outputs/DeleteOutput" method="post">
+                                        <form action="/api/outputs/DeleteOutput" method="post" style="display:inline;">
                                             <input hidden type="number" name="outputID" value="<%= output.out_ID %>">
-                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                            <button style="background: none; border: none; cursor:pointer;" class="table-link">حذف</button>
                                         </form>
                                     </td>
                                 </tr>
                             <% }); %>
                         <% } else { %>
                             <tr>
-                                <td colspan="13" class="empty-state">لا توجد مخرجات مسجلة حالياً.</td>
+                                <td colspan="11" class="empty-state">لا توجد مخرجات مسجلة حالياً.</td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -98,5 +126,7 @@
         </section>
     </main>
 
+    <!-- Generic Client-Side Table Filter Script -->
+    <script src="../scripts/filter.js"></script>
 </body>
 </html>

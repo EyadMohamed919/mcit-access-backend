@@ -16,7 +16,7 @@
 }
 
 .table-wrapper.full-scroll::-webkit-scrollbar-thumb {
-    background: #d32f2f;
+    background: rgb(0, 128, 255);
     border-radius: 4px;
 }
 

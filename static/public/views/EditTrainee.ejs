@@ -127,10 +127,7 @@
                         <label for="type_of_disability">نوع الإعاقة</label>
                         <input type="text" id="type_of_disability" name="type_of_disability" value="<%= trainee['Type of disability'] || '' %>">
                     </div>
-                    <div class="form-group">
-                        <label for="ben_trainer_id">معرف المدرب (Trainer ID)</label>
-                        <input type="number" min="0" id="ben_trainer_id" name="ben_trainer_id" value="<%= trainee.ben_trainer_id || '' %>">
-                    </div>
+                   
                     <div class="form-group">
                         <label for="name_trainers">اسم المدرب (Trainer's Name)</label>
                         <input type="text" id="name_trainers" name="name_trainers" value="<%= trainee["name Trainer's"] || '' %>">
@@ -159,12 +156,30 @@
                         <% } %>
                     </div>
                     <div class="form-group">
-                        <label for="tainee_type_id">نوع المتدرب (Trainee Type ID)</label>
-                        <input type="number" min="0" id="tainee_type_id" name="tainee_type_id" value="<%= trainee.tainee_type_id || '' %>">
+                        <label for="tainee_type_id">نوع المتدرب (Trainee Type)</label>
+                        <!-- <input type="number" min="0" id="tainee_type_id" name="tainee_type_id" value="<%= trainee.tainee_type_id || '' %>"> -->
+                        
+                        <select id="tainee_type_id" name="tainee_type_id" required>
+                            <% traineeTypes.forEach(function(type) { %>
+                                <% if (trainee.type_id == type.type_id) { %>
+                                    <option  value='<%= type.type_id %>' selected><%= type.type_title %></option>
+                                <% } else { %>
+                                    <option  value='<%= type.type_id %>' ><%= type.type_title %></option>
+                            <% }}); %>
+                        </select>
+
                     </div>
                     <div class="form-group">
                         <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" min="0" id="Age_Group_ID" name="Age_Group_ID" value="<%= trainee.Age_Group_ID || '' %>">
+                        <!-- <input type="number" min="0" id="Age_Group_ID" name="Age_Group_ID" value="<%= trainee.Age_Group_ID || '' %>"> -->
+                        <select id="Age_Group_ID" name="Age_Group_ID" required>
+                            <% ageGroups.forEach(function(age) { %>
+                                <% if (trainee.Age_Group_ID == age.type_id) { %>
+                                    <option  value='<%= age.type_id %>' selected><%= age.type_title %></option>
+                                <% } else { %>
+                                    <option  value='<%= age.type_id %>' ><%= age.type_title %></option>
+                            <% }}); %>
+                        </select>
                     </div>
                 </div>
 

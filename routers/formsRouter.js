@@ -8,6 +8,7 @@ const {getAllOutputs} = require("../controllers/OutputController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 const {getTraineeByID, getAllTraineesByProjectID, getAllTraineesWithNoID} = require("../controllers/TraineesController");
+const {getAllTraineeTypes, getAllAgeGroups} = require("../controllers/TypeController");
 
 const requireProjectAuth = (req, res, next) => {
     if (!req.session.username) {
@@ -110,6 +111,8 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.projectID);
     const trainees = await getAllTraineesWithNoID();
+    const traineeTypes = await getAllTraineeTypes();
+    const ageGroups = await getAllAgeGroups();
     let centers = new Map();
 
     trainees.forEach(trainee => {
@@ -129,7 +132,9 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
         trainingPrograms:trainingPrograms,
         govs:govs,
         centers:centers,
-        outputs:outputs
+        outputs:outputs,
+        traineeTypes:traineeTypes,
+        ageGroups:ageGroups
     });
 });
 
@@ -141,6 +146,8 @@ router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
     const traineeID = req.params.id 
     let t = []
 
+    const traineeTypes = await getAllTraineeTypes();
+    const ageGroups = await getAllAgeGroups();
     const outputs = await getAllOutputs(req.session.projectID);
     const trainees = await getAllTraineesWithNoID();
     let centers = new Map();
@@ -172,7 +179,9 @@ router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
         trainingPrograms:trainingPrograms,
         trainee:t,
         outputs:outputs,
-        centers:centers
+        centers:centers,
+        traineeTypes:traineeTypes,
+        ageGroups:ageGroups
     });
 });
 

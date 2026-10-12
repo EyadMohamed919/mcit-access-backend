@@ -125,12 +125,24 @@
                         <% } %>
                     </div>
                     <div class="form-group">
-                        <label for="tainee_type_id">نوع المتدرب (Trainee Type ID)</label>
-                        <input type="number" min="0" id="tainee_type_id" name="tainee_type_id">
+                        <label for="tainee_type_id">نوع المتدرب (Trainee Type)</label>
+                        <!-- <input type="number" min="0" id="tainee_type_id" name="tainee_type_id"> -->
+                        <select id="tainee_type_id" name="tainee_type_id" required>
+                            <option value="" disabled selected>Choose trainee type</option>
+                            <% traineeTypes.forEach(function(type) { %>
+                            <option  value='<%= type.type_id %>' ><%= type.type_title %></option>
+                            <% }); %>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" min="0" id="Age_Group_ID" name="Age_Group_ID">
+                        <label for="Age_Group_ID">الفئة العمرية (Age Group)</label>
+                        <!-- <input type="number" min="0" id="Age_Group_ID" name="Age_Group_ID"> -->
+                        <select id="Age_Group_ID" name="Age_Group_ID" required>
+                            <option value="" disabled selected>Choose age group</option>
+                            <% ageGroups.forEach(function(age) { %>
+                            <option  value='<%= age.type_id %>' ><%= age.type_title %></option>
+                            <% }); %>
+                        </select>
                     </div>
                 </div>
 

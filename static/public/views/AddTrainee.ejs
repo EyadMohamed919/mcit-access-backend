@@ -43,12 +43,18 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="prog_date">تاريخ البرنامج</label>
+                        <label for="prog_date">تاريخ البرنامج (prog_date)</label>
                         <input type="date" id="prog_date" name="prog_date">
                     </div>
                     <div class="form-group">
                         <label for="training_center">مركز التدريب (Training Center)</label>
-                        <input type="text" id="training_center" name="training_center">
+                        <!-- <input type="text" id="training_center" name="training_center"> -->
+                        <select id="training_center" name="training_center" required>
+                            <option value="" disabled selected>Choose training center</option>
+                            <% centers.forEach(function(center) { %>
+                            <option  value='<%= center %>' ><%= center %></option>
+                            <% }); %>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -105,8 +111,18 @@
                 <div class="form-section-title">معرفات الربط الإضافية</div>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="out_id">معرف المخرج (Output ID)</label>
-                        <input type="number" min="0" id="out_id" name="out_id">
+                        <label for="out_id">المخرج (Output)</label>
+                        <% if (outputs && outputs.length > 0) { %>
+                            <select name="out_id" id="out_id" required>
+                            <% outputs.forEach(function(output) { %>
+                                <option value='<%= output.out_ID %>' ><%= output.out_title %></option>
+                                <% }); %>
+                            </select>
+                        <% } else { %>
+                            <select name="out_id" id="out_id" required>
+                                <option value="" disabled selected>لا توجد أي مخرجات حالياََ</option>
+                            </select>
+                        <% } %>
                     </div>
                     <div class="form-group">
                         <label for="tainee_type_id">نوع المتدرب (Trainee Type ID)</label>

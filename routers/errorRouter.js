@@ -11,4 +11,8 @@ router.get("/ErrorNoEvent", (req, res)=>{
     res.render("ErrorNoEvent");
 });
 
+router.get("/ErrorNoTrainee", (req, res)=>{
+    res.render("ErrorNoTrainee");
+});
+
 module.exports = router;

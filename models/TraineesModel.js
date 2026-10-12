@@ -18,6 +18,18 @@ async function getAllTrainees(pr_ID) {
     }
 }
 
+async function getAllTraineesWithoutID() {
+    try {
+        const sql = `SELECT * FROM Trainees`;
+        
+        const trainees = await db.query(sql);
+        return trainees;
+    } catch (error) {
+        console.error("Error in getAllTraineesWithoutID:", error.message);
+        throw error;
+    }
+}
+
 async function getTrainee(ben_id) {
     try {
         if (!ben_id) {
@@ -189,4 +201,4 @@ async function deleteTrainee(ben_id) {
     }
 }
 
-module.exports = { getAllTrainees, addTrainee, deleteTrainee, getTrainee, updateTrainee};
+module.exports = { getAllTrainees, addTrainee, deleteTrainee, getTrainee, updateTrainee, getAllTraineesWithoutID};

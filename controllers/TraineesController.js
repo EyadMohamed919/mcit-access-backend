@@ -1,7 +1,12 @@
-const { getAllTrainees, addTrainee, deleteTrainee, getTrainee, updateTrainee } = require("../models/TraineesModel");
+const { getAllTrainees, addTrainee, deleteTrainee, getTrainee, updateTrainee, getAllTraineesWithoutID } = require("../models/TraineesModel");
 
 const getAllTraineesByProjectID = async (projectID) => {
     const trainees = await getAllTrainees(projectID);
+    return trainees;   
+}
+
+const getAllTraineesWithNoID = async () => {
+    const trainees = await getAllTraineesWithoutID();
     return trainees;   
 }
 
@@ -41,4 +46,4 @@ const deleteTraineeByID = async (req, res) =>{
     }
 }
 
-module.exports = { getAllTraineesByProjectID, addNewTrainee, deleteTraineeByID, getTraineeByID, editTrainee};
+module.exports = { getAllTraineesByProjectID, addNewTrainee, deleteTraineeByID, getTraineeByID, editTrainee, getAllTraineesWithNoID};

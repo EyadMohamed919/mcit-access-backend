@@ -121,8 +121,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Age_Group_ID">الفئة العمرية (Age Group ID)</label>
-                        <input type="number" id="Age_Group_ID" value="<%= event.Age_Group_ID %>" min="1" name="Age_Group_ID" placeholder="مثال: 3">
+                        <label for="Age_Group_ID">الفئة العمرية (Age Group)</label>
+                        <select id="Age_Group_ID" name="Age_Group_ID" required>
+                            <% ageGroups.forEach(function(age) { %>
+                                <% if (event.Age_Group_ID == age.type_id) { %>
+                                    <option  value='<%= age.type_id %>' selected><%= age.type_title %></option>
+                                <% } else { %>
+                                    <option  value='<%= age.type_id %>' ><%= age.type_title %></option>
+                            <% }}); %>
+                        </select>
                     </div>
                 </div>
 

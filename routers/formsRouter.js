@@ -38,6 +38,7 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.projectID);
     const events = await getAllEvents(req.session.projectID);
+    const ageGroups = await getAllAgeGroups();
 
     // gettings events titles
     let eventsTitle = new Map();
@@ -56,7 +57,8 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
         govs:govs,
         outputs:outputs,
         events:events,
-        eventsTitle:eventsTitle
+        eventsTitle:eventsTitle,
+        ageGroups:ageGroups
     });
 });
 
@@ -69,6 +71,7 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
     const eventID = req.params.id 
     let event = [];
     const events = await getAllEvents(req.session.projectID);
+    const ageGroups = await getAllAgeGroups();
 
     // gettings events titles
     let eventsTitle = new Map();
@@ -100,7 +103,8 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
         outputs:outputs,
         event:event,
         events:events,
-        eventsTitle:eventsTitle
+        eventsTitle:eventsTitle,
+        ageGroups:ageGroups
     });
 });
 

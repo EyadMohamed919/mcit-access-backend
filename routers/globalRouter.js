@@ -12,8 +12,12 @@ const {getAllTraineesByProjectID} = require("../controllers/TraineesController")
 
 
 const requireProjectAuth = (req, res, next) => {
+    if (!req.session.username) {
+        res.redirect("/");
+    }
     if (req.session.projectID) {
         next();
+    
     } else {
         res.redirect("/error/ErrorNoProject");
     }

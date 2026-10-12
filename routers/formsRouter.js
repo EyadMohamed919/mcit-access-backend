@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {getPrimaryLocalIpAddress} = require("../config/network");
-const {getEvent} = require("../controllers/EventController");
+const {getEvent, getAllEvents} = require("../controllers/EventController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
@@ -10,8 +10,12 @@ const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../contr
 const {getTraineeByID} = require("../controllers/TraineesController");
 
 const requireProjectAuth = (req, res, next) => {
+    if (!req.session.username) {
+        res.redirect("/");
+    }
     if (req.session.projectID) {
         next();
+    
     } else {
         res.redirect("/error/ErrorNoProject");
     }
@@ -32,12 +36,26 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     const projects = await getAllProjects(req.session.user_id, session, res);
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.user_id);
+    const events = await getAllEvents(req.session.projectID);
+
+    // gettings events titles
+    let eventsTitle = new Map();
+    events.forEach(event => {
+        if(!eventsTitle.has(event.event_name_en))
+        {
+            eventsTitle.set(event.event_name_en, event.event_name_en);
+        }
+    });
+
+    eventsTitle = Array.from(eventsTitle.keys());
     res.render("AddEvent", {
         title: "Add Event Page",
         host: hostData,
         projects:projects,
         govs:govs,
-        outputs:outputs
+        outputs:outputs,
+        events:events,
+        eventsTitle:eventsTitle
     });
 });
 
@@ -48,14 +66,40 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.user_id);
     const eventID = req.params.id 
-    const event = await getEvent(eventID);
+    let event = [];
+    const events = await getAllEvents(req.session.projectID);
+
+    // gettings events titles
+    let eventsTitle = new Map();
+    events.forEach(e => {
+        // Finding matching event
+        if(e.event_id == eventID)
+        {
+            event = e;
+        }
+        if(!eventsTitle.has(e.event_name_en))
+        {
+            eventsTitle.set(e.event_name_en, e.event_name_en);
+        }
+    });
+
+    
+    if(event.length <= 0)
+    {
+        res.redirect("/error/ErrorNoEvent");
+        return;
+    }
+    eventsTitle = Array.from(eventsTitle.keys());
+
     res.render("EditEvent", {
         title: "Edit Event Page",
         host: hostData,
         projects:projects,
         govs:govs,
         outputs:outputs,
-        event:event
+        event:event,
+        events:events,
+        eventsTitle:eventsTitle
     });
 });
 

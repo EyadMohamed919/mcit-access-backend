@@ -78,7 +78,7 @@
                             <% events.forEach(function(event) { %>
                                 <tr>
                                     <td>#<%= event.event_id %></td>
-                                    <td class="whitespace-nowrap"><%= event.event_name_en || '-' %></td>
+                                    <td class="whitespace-nowrap" dir="ltr" ><%= event.event_name_en || '-' %></td>
                                     <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
                                     <td class="whitespace-nowrap"><%= event.event_Date ? new Date(event.event_Date).toLocaleDateString('en-UK') : '-' %></td>
                                     <td class="cell-desc" title="<%= event.event_desc %>"><%= event.event_desc || '-' %></td>

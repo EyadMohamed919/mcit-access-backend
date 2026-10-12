@@ -27,20 +27,30 @@
 
     <main class="main-content">
         <header class="top-bar">
-            <h1 class="page-title">تعديل فعالية</h1>
-            <a href="/Events" class="back-link">← العودة للفعاليات</a>
+            <h1 class="page-title">(Event) تعديل فعالية</h1>
+            <a href="/Events" class="back-link">← (Events) العودة للفعاليات</a>
         </header>
 
         <section class="form-container">
             <form action="/api/events/EditEvent" method="POST" class="app-form">
                 
-                <div class="form-section-title">بيانات الفعالية الأساسية</div>
+                <div class="form-section-title">بيانات الفعالية الأساسية (Event)</div>
                 
                 <div class="form-grid">
                     <input type="number" id="event_id" name="event_id" hidden value="<%= event.event_id %>">
                     <div class="form-group full-width">
-                        <label for="event_name_en">عنوان الفعالية (إنجليزي)</label>
-                        <input type="text" id="event_name_en" name="event_name_en" dir="ltr" value="<%= event.event_name_en %>" placeholder="Enter event name in English">
+                        <label for="event_name_en">عنوان الفعالية (Event) (إنجليزي)</label>
+                        <!-- <input type="text" id="event_name_en" name="event_name_en" dir="ltr" value="<%= event.event_name_en %>" placeholder="Enter event name in English"> -->
+                        <select dir="ltr" id="event_name_en" name="event_name_en">
+                            <% eventsTitle.forEach(function(name) { %>
+                            <% if (event.event_name_en == name) { %>
+                                <option value="<%= name %>" selected><%= name %></option>
+                            <% } else { %>
+                                <option value="<%= name %>"><%= name %></option>
+                            <% } %>
+                            <% }); %>
+
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -59,7 +69,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="event_Date">تاريخ الفعالية</label>
+                        <label for="event_Date"> (Event Date) تاريخ الفعالية</label>
                         <% 
                             // Format date to YYYY-MM-DD safely
                             let formattedDate = '';
@@ -68,6 +78,7 @@
                                 if (!isNaN(d.getTime())) {
                                     formattedDate = d.toISOString().split('T')[0];
                                 }
+                                
                             }
                         %>
                         <input type="date" id="event_Date" name="event_Date" value="<%= formattedDate %>">

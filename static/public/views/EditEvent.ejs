@@ -81,9 +81,9 @@
                             <% outputs.forEach(function(output) { %>
                                 <% if (event.out_id == output.out_ID) { %>
                                     
-                                <option value='<%= output.out_ID %>' selected><%= output.out_ID %> - <%= output.out_title %></option>
+                                <option value='<%= output.out_ID %>' selected><%= output.out_title %></option>
                                 <% } else { %>
-                                    <option value='<%= output.out_ID %>'><%= output.out_ID %> - <%= output.out_title %></option>
+                                    <option value='<%= output.out_ID %>'> <%= output.out_title %></option>
                                 <% }}); %>
                             </select>
                         <% } else { %>

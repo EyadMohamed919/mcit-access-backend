@@ -60,7 +60,6 @@
                     <thead>
                         <tr>
                             <th>معرف الفعالية</th>
-                            <th>اسم الفعالية (عربي)</th>
                             <th>اسم الفعالية (إنجليزي)</th>
                             <th>معرف المشروع</th>
                             <th>تاريخ الفعالية</th>
@@ -79,7 +78,6 @@
                             <% events.forEach(function(event) { %>
                                 <tr>
                                     <td>#<%= event.event_id %></td>
-                                    <td class="font-bold whitespace-nowrap"><%= event.event_name || '-' %></td>
                                     <td class="whitespace-nowrap"><%= event.event_name_en || '-' %></td>
                                     <td><a class="table-link" href="/projects/<%= event.pr_id %>">#<%= event.pr_id %></a></td>
                                     <td class="whitespace-nowrap"><%= event.event_Date ? new Date(event.event_Date).toLocaleDateString('en-UK') : '-' %></td>

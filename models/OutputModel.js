@@ -1,5 +1,6 @@
 const db = require("../config/db");
 
+// Adjust it
 async function getAllOutputsByUserID(pr_id)
 {
     try {

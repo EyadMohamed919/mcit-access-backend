@@ -5,6 +5,7 @@ const {getEvent, getAllEvents} = require("../controllers/EventController");
 const {getAllProjects, addNewProjects} = require("../controllers/ProjectController");
 const {getAllGovernorates} = require("../controllers/GovController");
 const {getAllOutputs} = require("../controllers/OutputController");
+const {getProductsByProjectID} = require("../controllers/ProductController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 const {getTraineeByID, getAllTraineesByProjectID, getAllTraineesWithNoID} = require("../controllers/TraineesController");
@@ -218,12 +219,36 @@ router.get("/AddProduct", requireProjectAuth, async (req, res) => {
     const session = req.session;
     const projects = await getAllProjects(req.session.user_id, session, res);
     const outputs = await getAllOutputs(req.session.projectID); 
+    const products = await getProductsByProjectID(req.session.projectID);
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+    products.forEach(product => {
+        if(!arabicTitles.has(product.prod_title))
+        {
+            if(product.prod_title != "" && product.prod_title != 0)
+            {
+                arabicTitles.set(product.prod_title, product.prod_title);
+            }
+        }
 
+        if(!englishTitles.has(product.prod_title_en))
+        {
+            if(product.prod_title_en != "" && product.prod_title_en != 0)
+            {
+                englishTitles.set(product.prod_title_en, product.prod_title_en);
+            }
+        }
+    });
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
     res.render("AddProduct", {
         title: "Add Product Page",
         host: hostData,
         projects: projects,
-        outputs: outputs
+        outputs: outputs,
+        englishTitles:englishTitles,
+        arabicTitles:arabicTitles
     });
 });
 

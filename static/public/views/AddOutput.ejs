@@ -28,29 +28,41 @@
 
     <main class="main-content">
         <header class="top-bar">
-            <h1 class="page-title">إضافة مخرج جديد</h1>
-            <a href="/Outputs" class="back-link">← العودة للمخرجات</a>
+            <h1 class="page-title">إضافة مخرج جديد (Output)</h1>
+            <a href="/Outputs" class="back-link">← (Outputs) العودة للمخرجات</a>
         </header>
 
         <section class="form-container">
             <form action="/api/outputs/AddOutput" method="POST" class="app-form">
                 
-                <div class="form-section-title">بيانات المخرج الأساسية</div>
+                <div class="form-section-title">بيانات المخرج الأساسية (Output)</div>
                 
                 <div class="form-grid">
                     <div class="form-group full-width">
                         <label for="out_title">اسم المخرج (عربي) <span class="required">*</span></label>
-                        <input type="text" id="out_title" name="out_title" required placeholder="أدخل اسم المخرج بالعربية">
+                        <!-- <input type="text" id="out_title" name="out_title" required placeholder="أدخل اسم المخرج بالعربية"> -->
+                        <select id="out_title" name="out_title" required>
+                            <option value="" disabled selected>اختار اسم المخرج</option>
+                            <% arabicTitles.forEach(function(title) { %>
+                            <option  value='<%= title %>' ><%= title %></option>
+                            <% }); %>
+                        </select>
                     </div>
 
                     <div class="form-group full-width">
                         <label for="out_title_en">اسم المخرج (إنجليزي)</label>
-                        <input type="text" id="out_title_en" name="out_title_en" placeholder="Enter output name in English">
+                        <!-- <input type="text" id="out_title_en" name="out_title_en" placeholder="Enter output name in English"> -->
+                        <select id="out_title_en" name="out_title_en" required>
+                            <option value="" disabled selected>Choose output name</option>
+                            <% englishTitles.forEach(function(title) { %>
+                            <option  value='<%= title %>' ><%= title %></option>
+                            <% }); %>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="pr_ID">المشروع (Project) <span class="required">*</span></label>
-                        <select id="pr_ID" name="pr_ID">
+                        <select id="pr_ID" name="pr_ID" required>
                             <% projects.forEach(function(project) { %>
                             <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
                             <% }); %>
@@ -59,8 +71,8 @@
 
 
                     <div class="form-group">
-                        <label for="protocol_id">معرف البروتوكول (Protocol ID)</label>
-                        <select id="protocol_id" name="protocol_id">
+                        <label for="protocol_id">معرف البروتوكول (Protocol)</label>
+                        <select id="protocol_id" name="protocol_id" required>
                             <% protocols.forEach(function(protocol) { %>
                             <option value='<%= protocol.protocol_id %>' ><%= protocol.pro_title %></option>
                             <% }); %>
@@ -69,12 +81,12 @@
 
                     <div class="form-group">
                         <label for="start_date">تاريخ البداية</label>
-                        <input type="date" id="start_date" name="start_date">
+                        <input type="date" id="start_date" name="start_date" required>
                     </div>
 
                     <div class="form-group">
                         <label for="end_date">تاريخ النهاية</label>
-                        <input type="date" id="end_date" name="end_date">
+                        <input type="date" id="end_date" name="end_date" required>
                     </div>
                 </div>
 
@@ -83,17 +95,23 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="out_target">الهدف المستهدف (Target)</label>
-                        <input type="text" id="out_target" name="out_target" placeholder="مثال: 1500 أو نص الهدف">
+                        <input type="text" id="out_target" name="out_target" placeholder="مثال: 1500 أو نص الهدف" required>
                     </div>
 
                     <div class="form-group">
                         <label for="out_baseline">خط الأساس (Baseline)</label>
-                        <input type="number" id="out_baseline" name="out_baseline" placeholder="0">
+                        <input type="number" id="out_baseline" name="out_baseline" placeholder="0" required>
                     </div>
 
                     <div class="form-group">
                         <label for="out_type_id">معرف نوع المخرج (Output Type ID)</label>
-                        <input type="number" id="out_type_id" name="out_type_id" placeholder="مثال: 2">
+                        <!-- <input type="number" id="out_type_id" name="out_type_id" placeholder="مثال: 2"> -->
+                        <select id="out_type_id" name="out_type_id" required>
+                            <option value="" disabled selected>Choose output type</option>
+                            <% types.forEach(function(type) { %>
+                            <option  value='<%= type.type_id %>' ><%= type.type_title %></option>
+                            <% }); %>
+                        </select>
                     </div>
                 </div>
 

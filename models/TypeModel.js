@@ -24,4 +24,17 @@ async function getAgeGroups()
     }
 }
 
-module.exports = {getAllTypesForTrainees, getAgeGroups}
+async function getOutputTypes()
+{
+    try {
+        
+        const typesForTrainees = await db.query(`SELECT * FROM Types WHERE type_id in (11, 12, 13, 14, 22, 23, 26, 31, 32, 33, 35, 39, 58)`)
+        return typesForTrainees;
+    } catch (error) {
+        console.log("********** ERROR IN TypeModel.js **********");
+        console.error(error.message);
+    }
+}
+
+
+module.exports = {getAllTypesForTrainees, getAgeGroups, getOutputTypes}

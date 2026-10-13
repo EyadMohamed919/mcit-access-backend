@@ -9,7 +9,7 @@ const {getProductsByProjectID} = require("../controllers/ProductController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 const {getTraineeByID, getAllTraineesByProjectID, getAllTraineesWithNoID} = require("../controllers/TraineesController");
-const {getAllTraineeTypes, getAllAgeGroups} = require("../controllers/TypeController");
+const {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes} = require("../controllers/TypeController");
 
 const requireProjectAuth = (req, res, next) => {
     if (!req.session.username) {
@@ -206,11 +206,33 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     const session = req.session;
     const projects = await getAllProjects(req.session.user_id, session, res);
     const protocols = await getAllProtocolsWithoutGovID();
+    const types = await getAllOutputTypes();
+    const outputs = await getAllOutputs(req.session.projectID);
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+    outputs.forEach(output => {
+
+        if(!arabicTitles.has(output.out_title))
+        {
+            arabicTitles.set(output.out_title, output.out_title);
+        }
+
+        if(!englishTitles.has(output.out_title_en))
+        {
+            englishTitles.set(output.out_title_en, output.out_title_en);
+        }
+    });
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
     res.render("AddOutput", {
         title: "Add Output Page",
         host: hostData,
         projects:projects,
-        protocols:protocols
+        protocols:protocols,
+        arabicTitles:arabicTitles,
+        englishTitles:englishTitles,
+        types:types
     });
 });
 

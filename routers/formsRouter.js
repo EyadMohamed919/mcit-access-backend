@@ -9,7 +9,7 @@ const {getProductsByProjectID} = require("../controllers/ProductController");
 const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController");
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 const {getTraineeByID, getAllTraineesByProjectID, getAllTraineesWithNoID} = require("../controllers/TraineesController");
-const {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes} = require("../controllers/TypeController");
+const {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes, getAllTrainingProgramTypes} = require("../controllers/TypeController");
 
 const requireProjectAuth = (req, res, next) => {
     if (!req.session.username) {
@@ -196,10 +196,34 @@ router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
     const projects = await getAllProjects(req.session.user_id, session, res);
+    const programs = await getAllTrainingPrograms(req.session.projectID);
+    const types = await getAllTrainingProgramTypes();
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+    programs.forEach(program => {
+
+        if(!arabicTitles.has(program.prog_title))
+        {
+            arabicTitles.set(program.prog_title, program.prog_title);
+        }
+
+        if(!englishTitles.has(program.prog_title_En))
+        {
+            englishTitles.set(program.prog_title_En, program.prog_title_En);
+        }
+    });
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
+
     res.render("AddTrainingProgram", {
         title: "Add Training Program Page",
         host: hostData,
-        projects:projects
+        projects:projects,
+        arabicTitles:arabicTitles,
+        englishTitles:englishTitles,
+        isAdmin:req.session.admin,
+        types:types
     });
 });
 
@@ -234,7 +258,8 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
         protocols:protocols,
         arabicTitles:arabicTitles,
         englishTitles:englishTitles,
-        types:types
+        types:types,
+        isAdmin:req.session.admin
     });
 });
 
@@ -272,7 +297,8 @@ router.get("/AddProduct", requireProjectAuth, async (req, res) => {
         projects: projects,
         outputs: outputs,
         englishTitles:englishTitles,
-        arabicTitles:arabicTitles
+        arabicTitles:arabicTitles,
+        isAdmin:req.session.admin
     });
 });
 

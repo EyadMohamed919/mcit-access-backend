@@ -1,4 +1,4 @@
-const {getAllTypesForTrainees, getAgeGroups, getOutputTypes} = require("../models/TypeModel");
+const {getAllTypesForTrainees, getAgeGroups, getOutputTypes, getTrainingProgramTypes} = require("../models/TypeModel");
 
 const getAllTraineeTypes = async () =>{
     return await getAllTypesForTrainees();
@@ -12,4 +12,8 @@ const getAllOutputTypes = async () =>{
     return await getOutputTypes();
 }
 
-module.exports = {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes}
+const getAllTrainingProgramTypes = async () =>{
+    return await getTrainingProgramTypes();
+}
+
+module.exports = {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes, getAllTrainingProgramTypes}

@@ -36,5 +36,17 @@ async function getOutputTypes()
     }
 }
 
+async function getTrainingProgramTypes()
+{
+    try {
+        
+        const typesForTrainees = await db.query(`SELECT * FROM Types WHERE type_id in (11, 12, 57, 58)`)
+        return typesForTrainees;
+    } catch (error) {
+        console.log("********** ERROR IN TypeModel.js **********");
+        console.error(error.message);
+    }
+}
 
-module.exports = {getAllTypesForTrainees, getAgeGroups, getOutputTypes}
+
+module.exports = {getAllTypesForTrainees, getAgeGroups, getOutputTypes, getTrainingProgramTypes}

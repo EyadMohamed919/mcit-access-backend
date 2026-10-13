@@ -194,7 +194,14 @@ router.get("/Trainees", requireProjectAuth, async (req, res)=>{
     const trainees = await getAllTraineesByProjectID(req.session.projectID);
     const governorates = await getAllGovernorates();  
     let totalTrainees = trainees.length;
-
+    let totalPassed = 0;
+    let totalMale = 0;
+    let totalFemale = 0;
+    trainees.forEach(trainee => {
+        totalPassed += trainee.ben_completed
+        totalMale += trainee.ben_male
+        totalFemale += trainee.ben_female
+    });
     res.render("Trainees", {
         title: "Trainees Page",
         username: req.session.username,
@@ -205,6 +212,9 @@ router.get("/Trainees", requireProjectAuth, async (req, res)=>{
         governorates:governorates,
         stats:{
             totalTrainees: totalTrainees,
+            totalPassed:totalPassed,
+            totalMale:totalMale,
+            totalFemale:totalFemale
         }
     });
 });

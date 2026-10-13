@@ -40,13 +40,16 @@
 
                     <div class="form-group full-width">
                         <label for="event_name_en">عنوان الفعالية (Event) (إنجليزي)</label>
-                        <!-- <input required type="text" id="event_name_en" dir="ltr" name="event_name_en" placeholder="Enter event name in English"> -->
+                        <% if(isAdmin){ %>
+                        <input required type="text" id="event_name_en" dir="ltr" name="event_name_en" placeholder="Enter event name in English">
+                        <% }else{ %>
                         <select dir="ltr" id="event_name_en" name="event_name_en" required>
                             <option value="" disabled selected>Choose event name in English</option>
                             <% eventsTitle.forEach(function(name) { %>
                             <option  value='<%= name %>' ><%= name %></option>
                             <% }); %>
                         </select>
+                        <% } %>
                     </div>
 
                     <div class="form-group">

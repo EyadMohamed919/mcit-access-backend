@@ -40,17 +40,23 @@
                     <input type="number" id="event_id" name="event_id" hidden value="<%= event.event_id %>">
                     <div class="form-group full-width">
                         <label for="event_name_en">عنوان الفعالية (Event) (إنجليزي)</label>
-                        <!-- <input type="text" id="event_name_en" name="event_name_en" dir="ltr" value="<%= event.event_name_en %>" placeholder="Enter event name in English"> -->
-                        <select dir="ltr" id="event_name_en" name="event_name_en">
-                            <% eventsTitle.forEach(function(name) { %>
-                            <% if (event.event_name_en == name) { %>
-                                <option value="<%= name %>" selected><%= name %></option>
-                            <% } else { %>
-                                <option value="<%= name %>"><%= name %></option>
-                            <% } %>
-                            <% }); %>
 
-                        </select>
+                        <% if(isAdmin){ %>
+                            <input required type="text" id="event_name_en" dir="ltr" name="event_name_en" value="<%= event.event_name_en %>">
+                        
+                        <% }else{ %>
+
+                            <select dir="ltr" id="event_name_en" name="event_name_en">
+                                <% eventsTitle.forEach(function(name) { %>
+                                <% if (event.event_name_en == name) { %>
+                                    <option value="<%= name %>" selected><%= name %></option>
+                                <% } else { %>
+                                    <option value="<%= name %>"><%= name %></option>
+                                <% } %>
+                                <% }); %>
+
+                            </select>
+                        <% } %>
                     </div>
 
                     <div class="form-group">

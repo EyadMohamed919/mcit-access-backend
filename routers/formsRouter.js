@@ -59,7 +59,8 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
         outputs:outputs,
         events:events,
         eventsTitle:eventsTitle,
-        ageGroups:ageGroups
+        ageGroups:ageGroups,
+        isAdmin:req.session.admin
     });
 });
 
@@ -105,7 +106,8 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
         event:event,
         events:events,
         eventsTitle:eventsTitle,
-        ageGroups:ageGroups
+        ageGroups:ageGroups,
+        isAdmin:req.session.admin
     });
 });
 

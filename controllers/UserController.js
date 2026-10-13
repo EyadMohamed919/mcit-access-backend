@@ -11,7 +11,7 @@ const login = async (req, res) => {
         if (user && user.password == password) {
             req.session.username = user.username;
             req.session.user_id = user.ID;
-
+            req.session.admin = user.admin;
             return req.session.save((err) => {
                 if (err) {
                     console.error("Session save error:", err);

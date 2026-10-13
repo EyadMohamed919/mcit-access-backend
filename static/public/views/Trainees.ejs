@@ -37,8 +37,17 @@
 
         <section class="stats-overview">
             <div class="stat-card">
-                <span class="stat-label">إجمالي السجلات</span>
-                <span class="stat-value"><%= stats ? stats.totalTrainees : 0 %></span>
+                <span class="stat-label">إجمالي المجتازين</span>
+                <span class="stat-value"><%= stats ? stats.totalPassed : 0 %></span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">إجمالي الذكور</span>
+                <span class="stat-value"><%= stats ? stats.totalMale : 0 %></span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">إجمالي الإناث</span>
+                <span class="stat-value"><%= stats ? stats.totalFemale : 0 %></span>
             </div>
         </section>
 

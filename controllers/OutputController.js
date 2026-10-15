@@ -1,4 +1,4 @@
-const {getAllOutputsByUserID, addOutput, deleteOutput} = require("../models/OutputModel");
+const {getAllOutputsByUserID, addOutput, deleteOutput, updateOutput} = require("../models/OutputModel");
 
 const getAllOutputs = async (projectID)=>{
     const outputs = await getAllOutputsByUserID(projectID);
@@ -26,4 +26,16 @@ const deleteOutputByID = async (req, res) =>{
     }
 }
 
-module.exports = {getAllOutputs, addNewOutput, deleteOutputByID};
+const editOutputRecord = async (req, res) => {
+    try {
+
+        await updateOutput(req.body);
+        
+        res.redirect("/Outputs");
+    } catch (error) {
+        console.error("Failed to update output record:", error.message);
+        res.status(500).send("خطأ في تعديل بيانات المخرج");
+    }
+};
+
+module.exports = {getAllOutputs, addNewOutput, deleteOutputByID, editOutputRecord};

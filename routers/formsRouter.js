@@ -263,6 +263,58 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     });
 });
 
+router.get("/EditOutput/:id", requireProjectAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    const protocols = await getAllProtocolsWithoutGovID();
+    const types = await getAllOutputTypes();
+    const outputs = await getAllOutputs(req.session.projectID);
+    
+    const outID = req.params.id;
+    let outputToEdit = null;
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+
+    outputs.forEach(output => {
+        if(output.out_ID == outID) {
+            outputToEdit = output;
+        }
+
+        if(!arabicTitles.has(output.out_title)) {
+            if(output.out_title != "" && output.out_title != null) {
+                arabicTitles.set(output.out_title, output.out_title);
+            }
+        }
+        if(!englishTitles.has(output.out_title_en)) {
+            if(output.out_title_en != "" && output.out_title_en != null) {
+                englishTitles.set(output.out_title_en, output.out_title_en);
+            }
+        }
+    });
+
+    if(!outputToEdit) {
+        res.redirect("/Outputs"); 
+        return;
+    }
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
+
+    res.render("EditOutput", {
+        title: "Edit Output Page",
+        host: hostData,
+        projects: projects,
+        protocols: protocols,
+        output: outputToEdit,
+        arabicTitles: arabicTitles,
+        englishTitles: englishTitles,
+        types: types,
+        isAdmin: req.session.admin
+    });
+});
+
 router.get("/AddProduct", requireProjectAuth, async (req, res) => {
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;

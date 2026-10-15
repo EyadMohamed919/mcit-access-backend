@@ -1,6 +1,6 @@
 const db = require("../config/db");
 
-// Adjust it
+
 async function getAllOutputsByUserID(pr_id)
 {
     try {
@@ -54,6 +54,49 @@ async function addOutput(data) {
     }
 }
 
+async function updateOutput(data) {
+    try {
+        const {
+            out_ID, out_title, out_title_en, pr_ID, protocol_id, 
+            start_date, end_date, out_target, out_baseline, out_type_id
+        } = data;
+
+        if (!out_ID) {
+            throw new Error("Missing out_ID required for update operation.");
+        }
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+        const startDateVal = start_date && start_date.trim() !== '' ? `'${start_date}'` : 'NULL';
+        const endDateVal = end_date && end_date.trim() !== '' ? `'${end_date}'` : 'NULL';
+
+        const sql = `
+            UPDATE Outputs SET 
+                out_title = ${escapeSql(out_title)}, 
+                out_title_en = ${escapeSql(out_title_en)}, 
+                pr_ID = ${pr_ID ? Number(pr_ID) : 'NULL'}, 
+                protocol_id = ${protocol_id ? Number(protocol_id) : 'NULL'}, 
+                start_date = ${startDateVal}, 
+                end_date = ${endDateVal}, 
+                out_target = ${escapeSql(out_target)}, 
+                out_baseline = ${out_baseline ? Number(out_baseline) : 'NULL'}, 
+                out_type_id = ${out_type_id ? Number(out_type_id) : 'NULL'}
+            WHERE out_ID = ${Number(out_ID)}
+        `;
+
+        console.log("--> Executing Output Update SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+        return { success: true };
+    } catch (error) {
+        console.error("Error updating Output:", error.message);
+        throw error;
+    }
+}
+
 async function deleteOutput(out_ID) {
     try {
         if (!out_ID) {
@@ -78,4 +121,4 @@ async function deleteOutput(out_ID) {
 }
 
 
-module.exports = {getAllOutputsByUserID, addOutput, deleteOutput};
+module.exports = {getAllOutputsByUserID, addOutput, deleteOutput, updateOutput};

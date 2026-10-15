@@ -108,7 +108,7 @@
                                     <td><%= output.pr_ID || 0 %></td>
                                     
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link edit" href="/AddOutput/<%= output.out_ID %>">تعديل</a>
+                                        <a class="table-link edit" href="/EditOutput/<%= output.out_ID %>">تعديل</a>
                                         <form action="/api/outputs/DeleteOutput" method="post" style="display:inline;">
                                             <input hidden type="number" name="outputID" value="<%= output.out_ID %>">
                                             <button style="background: none; border: none; cursor:pointer;" class="table-link">حذف</button>

@@ -1,4 +1,4 @@
-const { getAllProductsByProjectID, addProduct, deleteProduct } = require("../models/ProductModel");
+const { getAllProductsByProjectID, addProduct, deleteProduct, updateProduct } = require("../models/ProductModel");
 
 const getProductsByProjectID = async (projectID) => {
     const products = await getAllProductsByProjectID(projectID);
@@ -26,4 +26,16 @@ const deleteProductByID = async (req, res) => {
     }
 }
 
-module.exports = { getProductsByProjectID, addNewProduct, deleteProductByID };
+const editProductRecord = async (req, res) => {
+    try {
+
+        await updateProduct(req.body);
+        
+        res.redirect("/Products");
+    } catch (error) {
+        console.error("Failed to update product record:", error.message);
+        res.status(500).send("خطأ في تعديل بيانات المنتج");
+    }
+};
+
+module.exports = { getProductsByProjectID, addNewProduct, deleteProductByID, editProductRecord };

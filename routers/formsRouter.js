@@ -302,4 +302,54 @@ router.get("/AddProduct", requireProjectAuth, async (req, res) => {
     });
 });
 
+router.get("/EditProduct/:id", requireProjectAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    const outputs = await getAllOutputs(req.session.projectID); 
+    const products = await getProductsByProjectID(req.session.projectID);
+    const prodID = req.params.id;
+
+    let product = null;
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+
+    products.forEach(p => {
+        if(p.prod_id == prodID) {
+            product = p;
+        }
+
+        if(!arabicTitles.has(p.prod_title)) {
+            if(p.prod_title != "" && p.prod_title != null) {
+                arabicTitles.set(p.prod_title, p.prod_title);
+            }
+        }
+
+        if(!englishTitles.has(p.prod_title_en)) {
+            if(p.prod_title_en != "" && p.prod_title_en != null) {
+                englishTitles.set(p.prod_title_en, p.prod_title_en);
+            }
+        }
+    });
+
+    if(!product) {
+        res.redirect("/Products"); 
+        return;
+    }
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
+
+    res.render("EditProduct", {
+        title: "Edit Product Page",
+        host: hostData,
+        projects: projects,
+        outputs: outputs,
+        product: product,
+        englishTitles: englishTitles,
+        arabicTitles: arabicTitles,
+        isAdmin: req.session.admin
+    });
+});
+
 module.exports = router;

@@ -41,6 +41,41 @@ async function addProduct(data) {
     }
 }
 
+async function updateProduct(data) {
+    try {
+
+        const { prod_id, prod_title, prod_title_en, prod_desc, pr_id, out_id } = data;
+
+        if (!prod_id) {
+            throw new Error("Missing prod_id required for update operation.");
+        }
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+
+        const sql = `
+            UPDATE Products SET 
+                prod_title = ${escapeSql(prod_title)}, 
+                prod_title_en = ${escapeSql(prod_title_en)}, 
+                prod_desc = ${escapeSql(prod_desc)}, 
+                pr_id = ${pr_id ? Number(pr_id) : 'NULL'}, 
+                out_id = ${out_id ? Number(out_id) : 'NULL'}
+            WHERE prod_id = ${Number(prod_id)}
+        `;
+
+        console.log("--> Executing Product Update SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+        return { success: true };
+    } catch (error) {
+        console.error("Error in updateProduct:", error.message);
+        throw error;
+    }
+}
+
 async function deleteProduct(prod_id) {
     try {
         if (!prod_id) {
@@ -62,4 +97,4 @@ async function deleteProduct(prod_id) {
     }
 }
 
-module.exports = { getAllProductsByProjectID, addProduct, deleteProduct };
+module.exports = { getAllProductsByProjectID, addProduct, deleteProduct, updateProduct };

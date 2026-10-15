@@ -86,9 +86,10 @@
                                     <td><%= product.out_id || '-' %></td>
                                     
                                     <td class="actions-cell whitespace-nowrap">
+                                        <a class="table-link" href="/EditProduct/<%= product.prod_id %>">تعديل</a>
                                         <form action="/api/products/DeleteProduct" method="post" style="display:inline;">
                                             <input hidden type="number" name="prodID" value="<%= product.prod_id %>">
-                                            <button style="background: none; border: none; cursor:pointer;" class="table-link">حذف</button>
+                                            <button style="background: none; border: none; cursor:pointer;" class="table-link edit">حذف</button>
                                         </form>
                                     </td>
                                 </tr>

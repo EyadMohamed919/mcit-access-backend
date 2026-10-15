@@ -93,4 +93,50 @@ async function addTrainingProgram(programData) {
     }
 }
 
-module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID}
+async function updateTrainingProgram(data) {
+    try {
+        const {
+            prog_ID,
+            prog_title,
+            prog_title_En,
+            pr_ID,
+            prog_duration,
+            type_id,
+            prog_description
+        } = data;
+
+        if (!prog_ID) {
+            throw new Error("Missing prog_ID required for update operation.");
+        }
+
+
+        const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
+
+        const sql = `
+            UPDATE Training_Programs SET 
+                prog_title = ${escapeSql(prog_title)}, 
+                prog_title_En = ${escapeSql(prog_title_En)}, 
+                pr_ID = ${pr_ID ? Number(pr_ID) : 'NULL'}, 
+                prog_duration = ${prog_duration ? Number(prog_duration) : 'NULL'}, 
+                type_id = ${type_id ? Number(type_id) : 'NULL'},
+                prog_description = ${escapeSql(prog_description)}
+            WHERE prog_ID = ${Number(prog_ID)}
+        `;
+
+        console.log("--> Executing Training Program Update SQL:", sql);
+
+        if (typeof db.execute === 'function') {
+            await db.execute(sql);
+        } else {
+            await db.query(sql);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error in updateTrainingProgram model:", error.message);
+        throw error;
+    }
+}
+
+
+module.exports = {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID, updateTrainingProgram}

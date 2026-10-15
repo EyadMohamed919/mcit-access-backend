@@ -227,6 +227,56 @@ router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
     });
 });
 
+router.get("/EditTrainingProgram/:id", requireProjectAuth, async (req, res) => {
+    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
+    const session = req.session;
+    
+    const projects = await getAllProjects(req.session.user_id, session, res);
+    const programs = await getAllTrainingPrograms(req.session.projectID);
+    const types = await getAllTrainingProgramTypes();
+    
+    const progID = req.params.id;
+    let programToEdit = null;
+    let arabicTitles = new Map();
+    let englishTitles = new Map();
+
+    programs.forEach(program => {
+        if (program.prog_ID == progID) {
+            programToEdit = program;
+        }
+
+        if (!arabicTitles.has(program.prog_title)) {
+            if (program.prog_title != "" && program.prog_title != null) {
+                arabicTitles.set(program.prog_title, program.prog_title);
+            }
+        }
+        if (!englishTitles.has(program.prog_title_En)) {
+            if (program.prog_title_En != "" && program.prog_title_En != null) {
+                englishTitles.set(program.prog_title_En, program.prog_title_En);
+            }
+        }
+    });
+
+    if (!programToEdit) {
+        res.redirect("/TrainingPrograms");
+        return;
+    }
+
+    arabicTitles = Array.from(arabicTitles.keys());
+    englishTitles = Array.from(englishTitles.keys());
+
+    res.render("EditTrainingProgram", {
+        title: "Edit Training Program Page",
+        host: hostData,
+        projects: projects,
+        program: programToEdit,
+        arabicTitles: arabicTitles,
+        englishTitles: englishTitles,
+        types: types,
+        isAdmin: req.session.admin
+    });
+});
+
 router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل برنامج تدريبي - وزارة الاتصالات وتكنولوجيا المعلومات</title>
+    <link rel="stylesheet" href="/styles/DashboardStyles.css">
+    <link rel="stylesheet" href="/styles/AddProjectStyles.css">
+</head>
+<body>
+
+    <aside class="sidebar"> 
+        <div class="sidebar-header">
+            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
+            <a class="nav-item" href="/Events">الفعاليات Events</a>
+            <a class="nav-item" href="/Trainees">المتدربين Trainees</a>
+            <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Programs</a>
+            <a class="nav-item" href="/Products">المنتجات Products</a>
+            <a class="nav-item" href="/Outputs">المخرجات Outputs</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="logout-btn" href="/logout">تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 class="page-title">تعديل البرنامج التدريبي</h1>
+            <a href="/TrainingPrograms" class="back-link">← العودة للبرامج التدريبية</a>
+        </header>
+
+        <section class="form-container">
+            <form action="/api/trainingProgram/EditTrainingProgram" method="post" class="app-form">
+                
+                <input type="number" hidden id="prog_ID" name="prog_ID" value="<%= program.prog_ID %>">
+
+                <div class="form-section-title">بيانات البرنامج التدريبي الأساسية</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="prog_title">عنوان البرنامج (عربي) <span class="required">*</span></label>
+
+                        <% if(isAdmin){ %>
+                            <input type="text" id="prog_title" name="prog_title" required value="<%= program.prog_title %>">
+                        <% }else{ %>
+                            <select id="prog_title" name="prog_title" required>
+                                <% arabicTitles.forEach(function(title) { %>
+                                    <% if (program.prog_title == title) { %>
+                                        <option value="<%= title %>" selected><%= title %></option>
+                                    <% } else { %>
+                                        <option value="<%= title %>"><%= title %></option>
+                                    <% } %>
+                                <% }); %>
+                            </select>
+                        <% } %>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="prog_title_En">عنوان البرنامج (إنجليزي) (Program)</label>
+
+                        <% if(isAdmin){ %>
+                            <input type="text" id="prog_title_En" name="prog_title_En" required value="<%= program.prog_title_En %>" dir="ltr">
+                        <% }else{ %>
+                            <select id="prog_title_En" name="prog_title_En" required dir="ltr">
+                                <% englishTitles.forEach(function(title) { %>
+                                    <% if (program.prog_title_En == title) { %>
+                                        <option value="<%= title %>" selected><%= title %></option>
+                                    <% } else { %>
+                                        <option value="<%= title %>"><%= title %></option>
+                                    <% } %>
+                                <% }); %>
+                            </select>
+                        <% } %>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pr_ID">المشروع (Project) <span class="required">*</span></label>
+                        <select id="pr_ID" name="pr_ID">
+                            <% projects.forEach(function(project) { 
+                                const projectID = project["Projects.pr_ID"] || project.pr_ID || project.pr_id;
+                            %>
+                                <% if (Number(program.pr_ID) === Number(projectID)) { %>
+                                    <option value="<%= projectID %>" selected><%= project.Pr_title || project.pr_title %></option>
+                                <% } else { %>
+                                    <option value="<%= projectID %>"><%= project.Pr_title || project.pr_title %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prog_duration">مدة التدريب بالساعات (Duration)</label>
+                        <input type="number" min="0" id="prog_duration" name="prog_duration" value="<%= program.prog_duration || 0 %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type_id">نوع التدريب (Type ID)</label>
+                        <select id="type_id" name="type_id" required>
+                            <% types.forEach(function(type) { %>
+                                <% if (Number(program.type_id) === Number(type.type_id)) { %>
+                                    <option value="<%= type.type_id %>" selected><%= type.type_title %></option>
+                                <% } else { %>
+                                    <option value="<%= type.type_id %>"><%= type.type_title %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="prog_description">وصف البرنامج (Description)</label>
+                        <textarea id="prog_description" name="prog_description" rows="4"><%= program.prog_description %></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">حفظ التعديلات</button>
+                    <a href="/TrainingPrograms" class="btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

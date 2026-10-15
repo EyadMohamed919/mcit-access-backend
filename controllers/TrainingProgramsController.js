@@ -1,4 +1,4 @@
-const {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID} = require("../models/TrainingProgramModel");
+const {getAllTrainingProgramsByProjectID, deleteTrainingProgram, addTrainingProgram, getAllTrainingProgramsByUserID, updateTrainingProgram} = require("../models/TrainingProgramModel");
 
 const getAllTrainingPrograms = async (projectID)=>{
     const trainingPrograms = await getAllTrainingProgramsByProjectID(projectID);
@@ -34,4 +34,15 @@ const addNewTrainingProgram = async (req, res) => {
     }
 };
 
-module.exports = {getAllTrainingPrograms, deleteTrainingProgramByID, addNewTrainingProgram, getAllTrainingProgramsByUser};
+const editTrainingProgramRecord = async (req, res) => {
+    try {
+        await updateTrainingProgram(req.body);
+        
+        res.redirect("/TrainingPrograms");
+    } catch (error) {
+        console.error("Failed to update training program record:", error.message);
+        res.status(500).send("خطأ في تعديل بيانات البرنامج التدريبي");
+    }
+};
+
+module.exports = {getAllTrainingPrograms, deleteTrainingProgramByID, addNewTrainingProgram, getAllTrainingProgramsByUser, editTrainingProgramRecord};

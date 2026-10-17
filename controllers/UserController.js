@@ -18,8 +18,6 @@ const login = async (req, res) => {
                     return res.status(500).send("Session save failed");
                 }
 
-                
-
                 return res.redirect("/Dashboard");
             });
         } else {
@@ -27,7 +25,6 @@ const login = async (req, res) => {
         }
     } catch (error) {
         console.error("Login controller error:", error);
-        return res.redirect("/");
     }
 };
 

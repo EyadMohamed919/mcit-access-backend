@@ -75,7 +75,9 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
           let events = await getAllEvents(projectID);
           let trainees = await getAllTraineesByProjectID(projectID);
           totalEvents = totalEvents + events.length;
-          totalTrainees = totalTrainees + trainees.length;
+          trainees.forEach((trainee)=>{
+            totalTrainees = totalTrainees + trainee.ben_enrolled;
+          });
         }
     }
     
@@ -236,6 +238,15 @@ router.get("/Products", requireProjectAuth, async (req, res) => {
         }
     });
 });
+
+router.get("/logout", (req, res)=>{
+    req.session.destroy((err) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.redirect('/'); 
+      });
+})
 
 
 

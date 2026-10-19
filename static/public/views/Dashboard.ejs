@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../styles/DashboardStyles.css">
 </head>
 <body>
+    <div id="global-loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <script src="../scripts/loading.js"></script>
 
     <aside class="sidebar">
         <div class="sidebar-header">
@@ -52,7 +56,7 @@
         <section class="content-section">
             <div class="section-header">
                 <h2>قائمة المشاريع الحالية</h2>
-                <a class="action-btn" href="/AddProject">+ إضافة مشروع جديد</a>
+                <!-- <a class="action-btn" href="/AddProject">+ إضافة مشروع جديد</a> -->
             </div>
 
             <div class="table-wrapper">
@@ -64,7 +68,7 @@
                             <th>تاريخ البدء</th>
                             <th>تاريخ الانتهاء</th>
                             <th>المرحلة</th>
-                            <th>الإجراءات</th>
+                            <!-- <th>الإجراءات</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -76,13 +80,13 @@
                                     <td><%= project.pr_StartDatedate ? project.pr_StartDate : '-' %></td>
                                     <td><%= project.pr_EndDate ? project.pr_EndDate : '-' %></td>
                                     <td><span class="badge">المرحلة <%= project.pr_PhaseNo || 1 %></span></td>
-                                    <td class="actions-cell">
+                                    <!-- <td class="actions-cell">
                                         <a class="table-link edit" href="/AddProject/<%= project.pr_ID %>">تعديل</a>
                                         <form action="/api/projects/DeleteProject" method="post">
                                             <input hidden type="number" name="projectID" value="<%= project.pr_ID %>">
                                             <button style="background: none; border: none;" class="table-link">حذف</button>
                                         </form>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             <% }); %>
                         <% } else { %>

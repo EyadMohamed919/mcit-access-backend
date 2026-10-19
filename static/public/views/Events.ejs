@@ -7,10 +7,14 @@
     <link rel="stylesheet" href="../styles/DashboardStyles.css">
 </head>
 <body>
+    <div id="global-loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <script src="../scripts/loading.js"></script>
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+            <img class="sidebar-logo" height="100px" src="../media/MainLogo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
         </div>
         <nav class="sidebar-nav">
             <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
@@ -19,6 +23,8 @@
             <a class="nav-item " href="/TrainingPrograms">البرامج التدريبية Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
             <a class="nav-item" href="/Outputs">المخارج Outputs</a>
+
+            <a class="nav-item" href="/Settings" style="margin-top: 20px;">الإعدادات Settings</a>
         </nav>
         <div class="sidebar-footer">
             <a class="logout-btn" href="/logout">تسجيل الخروج</a>

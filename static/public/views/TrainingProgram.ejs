@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="../styles/EventStyle.css">
 </head>
 <body>
+    <div id="global-loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <script src="../scripts/loading.js"></script>
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img class="sidebar-logo" src="/images/mcit-logo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
+            <img class="sidebar-logo" height="100px" src="../media/MainLogo.png" alt="شعار وزارة الاتصالات وتكنولوجيا المعلومات">
         </div>
         <nav class="sidebar-nav">
             <a class="nav-item" href="/Dashboard">المشاريع Projects</a>
@@ -20,6 +24,8 @@
             <a class="nav-item active" href="/TrainingPrograms">البرامج التدريبية Training Programs</a>
             <a class="nav-item" href="/Products">المنتجات Products</a>
             <a class="nav-item" href="/Outputs">المخارج Outputs</a>
+
+            <a class="nav-item" href="/Settings" style="margin-top: 20px;">الإعدادات Settings</a>
         </nav>
         <div class="sidebar-footer">
             <a class="logout-btn" href="/logout">تسجيل الخروج</a>
@@ -55,7 +61,6 @@
                             <th>معرف البرنامج</th>
                             <th>عنوان البرنامج (عربي)</th>
                             <th>عنوان البرنامج (إنجليزي)</th>
-                            <th>معرف المشروع</th>
                             <th>مدة التدريب</th>
                             <th>نوع التدريب (Type ID)</th>
                             <th>الوصف</th>
@@ -71,23 +76,17 @@
                                     <td>#<%= progId %></td>
                                     <td class="font-bold whitespace-nowrap"><%= program.prog_title || '-' %></td>
                                     <td class="whitespace-nowrap"><%= program.prog_title_En || '-' %></td>
-                                    <td>
-                                        <% if (prId) { %>
-                                            <a class="table-link" href="/projects/<%= prId %>">#<%= prId %></a>
-                                        <% } else { %>
-                                            -
-                                        <% } %>
-                                    </td>
+                                    
                                     <td><span class="badge"><%= program.prog_duration || 0 %> ساعة</span></td>
                                     <td><%= program.type_id || '-' %></td>
                                     <td class="cell-desc" title="<%= program.prog_description %>">
                                         <%= program.prog_description || '-' %>
                                     </td>
                                     <td class="actions-cell whitespace-nowrap">
-                                        <a class="table-link edit" href="/EditTrainingProgram/<%= program.prog_ID %>">تعديل</a>
+                                        <a class="table-link" href="/EditTrainingProgram/<%= program.prog_ID %>">تعديل</a>
                                         <form action="/api/trainingProgram/DeleteTrainingProgram" method="post">
                                             <input hidden type="number" name="trainingProgramID" value="<%= program.prog_ID %>">
-                                            <button style="background: none; border: none;" class="table-link">حذف</button>
+                                            <button style="background: none; border: none;" class="table-link edit">حذف</button>
                                         </form>
                                     </td>
                                 </tr>

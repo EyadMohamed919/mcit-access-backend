@@ -10,17 +10,43 @@ SolidCompression=yes
 PrivilegesRequired=admin
 
 [Files]
-; Copy all compiled Electron files
+; Application files
 Source: "dist\win-unpacked\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
-; Copy your database file directly into the application folder
-Source: "data\dashboard-DevelopmentProjects_Data.accdb"; DestDir: "{app}"; Flags: ignoreversion
-; Copy the driver installer
+Source: "data\*"; DestDir: "{app}\data"; Flags: recursesubdirs ignoreversion
+
+; Redistributable installers (temporary extraction)
 Source: "redist\accessdatabaseengine_X64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "redist\VC_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Run]
-; Run driver installer quietly
-Filename: "{tmp}\accessdatabaseengine_X64.exe"; Parameters: "/passive /quiet"; \
-    StatusMsg: "Installing required Microsoft Database Drivers..."; Flags: waituntilterminated
+; 1. Install Visual C++ 2015-2022 Redistributable (Only if NOT already installed)
+Filename: "{tmp}\VC_redist.x64.exe"; Parameters: "/passive /norestart"; \
+    StatusMsg: "Installing Microsoft Visual C++ Runtime..."; \
+    Check: VCRedistNeedsInstall; Flags: waituntilterminated
 
-; Launch the correct executable name matching Screenshot 3
-Filename: "{app}\mcit-access-backend.exe"; Description: "Launch MCIT Dashboard"; Flags: nowait postinstall skipifsilent
+; 2. Install MS Access Database Engine 64-bit
+Filename: "{tmp}\accessdatabaseengine_X64.exe"; Parameters: "/passive /quiet"; \
+    StatusMsg: "Installing Microsoft Access Database Drivers..."; \
+    Flags: waituntilterminated
+
+; 3. Launch App post-install
+Filename: "{app}\MCIT-Dashboard.exe"; Description: "Launch MCIT Dashboard"; \
+    Flags: nowait postinstall skipifsilent
+
+[Code]
+// Helper function to check if VC++ 2015-2022 (x64) is already installed on the target machine
+function VCRedistNeedsInstall: Boolean;
+var
+  installed: Cardinal;
+begin
+  // Check Windows Registry for VC++ Redistributable (x64) installation state
+  if RegQueryDWordValue(HKEY_LOCAL_MACHINE, 
+    'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Installed', installed) then
+  begin
+    Result := (installed = 0);
+  end
+  else
+  begin
+    Result := True; // Not found in registry, installation needed
+  end;
+end;

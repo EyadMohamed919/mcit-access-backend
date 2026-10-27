@@ -1,16 +1,43 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
-// 1. Start the Express backend server
-require('./server');
+const configPath = path.join(app.getPath('userData'), 'db-config.json');
 
 let mainWindow;
+
+// Function to force user to pick a database if one isn't saved
+async function enforceDatabaseSelection() {
+    if (!fs.existsSync(configPath)) {
+        const result = await dialog.showOpenDialog({
+            title: 'Please select your MS Access Database',
+            properties: ['openFile'],
+            filters: [{ name: 'Access Database', extensions: ['accdb', 'mdb'] }]
+        });
+
+        if (!result.canceled && result.filePaths.length > 0) {
+            // Save the path so it doesn't ask again next time
+            fs.writeFileSync(configPath, JSON.stringify({ dbPath: result.filePaths[0] }));
+            return true;
+        } else {
+            // If they click "Cancel", the app cannot run. Show error and quit.
+            dialog.showErrorBox(
+                "Database Required", 
+                "You must select the database file to launch the application."
+            );
+            app.quit();
+            return false;
+        }
+    }
+    return true; // Config already exists
+}
 
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1280,
         height: 800,
         title: "وزارة الاتصالات وتكنولوجيا المعلومات",
+        icon: path.join(__dirname, 'static/public/media', 'favicon.ico'),
         show: true,
         autoHideMenuBar: true,
         webPreferences: {
@@ -19,7 +46,6 @@ function createWindow() {
         }
     });
 
-    // 2. Load Express local endpoint
     mainWindow.loadURL('http://127.0.0.1:8080');
 
     mainWindow.on('closed', () => {
@@ -27,8 +53,15 @@ function createWindow() {
     });
 }
 
-app.whenReady().then(() => {
-    // Give Express a brief moment to bind to port 8080 before creating the window
+app.whenReady().then(async () => {
+    // 1. Prompt the user FIRST (Wait until they pick a file)
+    const hasDatabase = await enforceDatabaseSelection();
+    if (!hasDatabase) return; 
+
+    // 2. Start Express SECOND (Now db.js will find the saved config)
+    require('./server');
+
+    // 3. Open the UI window THIRD
     setTimeout(createWindow, 500);
 });
 

@@ -1,8 +1,8 @@
 {
-  "name": "mcit-access-backend",
+  "name": "MCIT-Dashboard",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
@@ -29,13 +29,18 @@
   "build": {
     "appId": "com.mcit.dashboard",
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "static/public/media/favicon.ico"
     },
     "files": [
-      "**/*"
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin"
     ],
     "asarUnpack": [
-      "**/node_modules/node-adodb/**/*"
+      "node_modules/node-adodb/lib/adodb.js"
     ]
   }
 }

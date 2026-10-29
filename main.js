@@ -1,8 +1,33 @@
-const { app, BrowserWindow, dialog } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const configPath = path.join(app.getPath('userData'), 'db-config.json');
+
+// main.js
+
+ipcMain.handle('select-db-location', async () => {
+    const result = await dialog.showOpenDialog({
+        title: 'Select MS Access Database File',
+        properties: ['openFile'],
+        filters: [{ name: 'Access Database', extensions: ['accdb', 'mdb'] }]
+    });
+
+    if (!result.canceled && result.filePaths.length > 0) {
+        const selectedPath = path.normalize(result.filePaths[0]);
+        
+        // Write new path to config
+        fs.writeFileSync(configPath, JSON.stringify({ dbPath: selectedPath }));
+        return selectedPath;
+    }
+    return null;
+});
+
+ipcMain.handle('restart-app', () => {
+    app.relaunch();
+    app.exit(0);
+});
+// --------------------
 
 let mainWindow;
 
@@ -42,7 +67,9 @@ function createWindow() {
         autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: false,
-            contextIsolation: true
+            contextIsolation: true,
+            // NEW: Attach the preload script
+            preload: path.join(__dirname, 'preload.js') 
         }
     });
 

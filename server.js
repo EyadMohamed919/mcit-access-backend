@@ -4,6 +4,10 @@ const cors = require('cors');
 const path = require("path");
 const session = require('express-session');
 
+const db = require('./config/db');
+
+
+
 const port = process.env.PORT || 8080;
 
 const globalRouter = require("./routers/globalRouter");
@@ -63,4 +67,18 @@ const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Network URL: http://0.0.0.0:${port}`);
 });
 
+db.query("SELECT TOP 1 * FROM Users")
+    .then(data => {
+        console.log("--> Database Connection Successful! Sample query returned:", data.length, "rows");
+    })
+    .catch(error => {
+        console.error("--> DATABASE CONNECTION ERROR:", error);
+        app.use((req, res) => {
+            res.redirect('/ErrorDB');
+        });
+    });
+
+app.get('/ErrorDB', (req, res) => {
+    res.render('ErrorDB');
+});
 module.exports = app;

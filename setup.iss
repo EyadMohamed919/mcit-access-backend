@@ -9,10 +9,17 @@ Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
 
+[Dirs]
+; CRITICAL FIX: Grants standard Windows users write access to the data folder.
+; This prevents MS Access "Read-Only" errors when creating .laccdb lock files in Program Files.
+Name: "{app}\data"; Permissions: users-modify
+
 [Files]
 ; Application files
 Source: "dist\win-unpacked\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
-Source: "data\*"; DestDir: "{app}\data"; Flags: recursesubdirs ignoreversion
+
+; Database files (Applies modify permissions to the actual .accdb file)
+Source: "data\*"; DestDir: "{app}\data"; Flags: recursesubdirs ignoreversion; Permissions: users-modify
 
 ; Redistributable installers (temporary extraction)
 Source: "redist\accessdatabaseengine_X64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall

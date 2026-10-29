@@ -106,8 +106,20 @@ body {
     margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background-color: rgb(0, 74, 149);
+.loc-btn {
+    background-color: rgb(0, 139, 53);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.loc-btn:hover {
+    background-color: rgb(0, 44, 17);
 }
 
 @media (max-width: 650px) {

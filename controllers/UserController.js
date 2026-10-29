@@ -21,9 +21,11 @@ const login = async (req, res) => {
                 return res.redirect("/Dashboard");
             });
         } else {
+            console.log("Login failed");
             return res.redirect("/");
         }
     } catch (error) {
+        console.log("----- ERROR IN UserController.js -----");
         console.error("Login controller error:", error);
     }
 };

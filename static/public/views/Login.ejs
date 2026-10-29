@@ -35,6 +35,9 @@
             </div>
 
             <button class="submit-btn" type="submit">تسجيل الدخول</button>
+            <button class="loc-btn" type="button" id="change-db-btn">
+                Change DB location
+            </button>
         </form>
     </div>
 
@@ -45,5 +48,26 @@
     <h4>ادخل على الموقع من خلال الرابط التالي</h4>
     <a href="<%= hostData %>"><%= hostData %></a>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const changeDbBtn = document.getElementById('change-db-btn');
+        
+        if (changeDbBtn) {
+            changeDbBtn.addEventListener('click', async () => {
+                if (window.electronAPI) {
+                    const newPath = await window.electronAPI.selectDbLocation();
+                    
+                    if (newPath) {
+                        alert('تم تحديث مسار قاعدة البيانات بنجاح. سيتم إعادة تشغيل النظام لتطبيق التغييرات.');
+                        window.electronAPI.restartApp(); 
+                    }
+                } else {
+                    alert('هذه الخاصية تعمل فقط داخل تطبيق الديسكتوب الأساسي.');
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

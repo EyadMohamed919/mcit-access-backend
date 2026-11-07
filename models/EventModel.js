@@ -37,6 +37,7 @@ async function getEventByID(event_id)
 async function addEvent(eventData) {
     try {
         const {
+            event_name,
             event_name_en,
             pr_id,
             event_Date,
@@ -55,6 +56,7 @@ async function addEvent(eventData) {
 
         const sql = `
             INSERT INTO Events (
+                event_name,
                 event_name_en, 
                 pr_id, 
                 event_Date, 
@@ -66,6 +68,7 @@ async function addEvent(eventData) {
                 ben_male, 
                 event_desc
             ) VALUES (
+                ${escapeSql(event_name)},
                 ${escapeSql(event_name_en)}, 
                 ${pr_id ? Number(pr_id) : 'NULL'}, 
                 ${eventDateVal}, 
@@ -98,6 +101,7 @@ async function updateEvent(eventData) {
     try {
         const {
             event_id,
+            event_name,
             event_name_en,
             pr_id,
             event_Date,
@@ -120,6 +124,7 @@ async function updateEvent(eventData) {
 
         const sql = `
             UPDATE Events SET 
+                event_name = ${escapeSql(event_name)}, 
                 event_name_en = ${escapeSql(event_name_en)}, 
                 pr_id = ${pr_id ? Number(pr_id) : 'NULL'}, 
                 event_Date = ${eventDateVal}, 

@@ -46,7 +46,21 @@
                 <div class="form-grid">
 
                     <div class="form-group full-width">
-                        <label for="event_name_en">عنوان الفعالية (Event) (إنجليزي)</label>
+                        <label for="event_name_en">اسم الفعالية (Event)</label>
+                        <% if(isAdmin){ %>
+                        <input required type="text" id="event_name" dir="rtl" name="event_name" placeholder="اختر الاسم بالعربي">
+                        <% }else{ %>
+                        <select dir="rtl" id="event_name" name="event_name" required>
+                            <option value="" disabled selected>اختر الاسم بالعربي</option>
+                            <% eventsTitle.forEach(function(name) { %>
+                            <option  value='<%= name %>' ><%= name %></option>
+                            <% }); %>
+                        </select>
+                        <% } %>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="event_name_en">اسم الفعالية (Event) (إنجليزي)</label>
                         <% if(isAdmin){ %>
                         <input required type="text" id="event_name_en" dir="ltr" name="event_name_en" placeholder="Enter event name in English">
                         <% }else{ %>

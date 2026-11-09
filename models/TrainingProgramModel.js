@@ -3,7 +3,7 @@ const db = require("../config/db");
 async function getAllTrainingProgramsByProjectID(pr_ID)
 {
     try {
-        const trainingPrograms = await db.query(`SELECT * FROM Training_Programs WHERE pr_ID = ${pr_ID}`);
+        const trainingPrograms = await db.query(`SELECT * FROM Training_Programs WHERE pr_ID = ${pr_ID} order by Training_Programs.prog_ID`);
         return trainingPrograms    
     } catch (error) {
         console.log(error);
@@ -16,7 +16,7 @@ async function getAllTrainingProgramsByUserID(user_id)
         const trainingPrograms = await db.query(`SELECT * FROM ((Training_Programs
         INNER JOIN Projects ON Training_Programs.pr_ID = Projects.pr_ID)
         INNER JOIN user_proj ON Projects.pr_ID = user_proj.pr_id)
-        WHERE user_proj.user_id = ${user_id}`);
+        WHERE user_proj.user_id = ${user_id} order by Training_Programs.prog_ID `);
         return trainingPrograms    
     } catch (error) {
         console.log("********** ERROR IN getAllTrainingProgramsByUserID()<TrainingProgramModel.js");
@@ -47,14 +47,13 @@ async function deleteTrainingProgram(prog_ID) {
     }
 }
 
-async function addTrainingProgram(programData) {
+async function addTrainingProgram(programData, pr_ID) {
     try {
         const {
             prog_title,
             prog_title_En,
             prog_description,
             prog_duration,
-            pr_ID,
             type_id
         } = programData;
 
@@ -93,13 +92,12 @@ async function addTrainingProgram(programData) {
     }
 }
 
-async function updateTrainingProgram(data) {
+async function updateTrainingProgram(data, pr_ID) {
     try {
         const {
             prog_ID,
             prog_title,
             prog_title_En,
-            pr_ID,
             prog_duration,
             type_id,
             prog_description

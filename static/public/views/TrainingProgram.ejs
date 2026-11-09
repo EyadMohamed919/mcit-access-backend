@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرامج التدريبية - وزارة الاتصالات وتكنولوجيا المعلومات</title>
     <link rel="stylesheet" href="../styles/DashboardStyles.css">
-    <link rel="stylesheet" href="../styles/EventStyle.css">
 </head>
 <body>
     <div id="global-loader" class="loader-overlay hidden">
@@ -77,7 +76,7 @@
                                     <td class="font-bold whitespace-nowrap"><%= program.prog_title || '-' %></td>
                                     <td class="whitespace-nowrap"><%= program.prog_title_En || '-' %></td>
                                     
-                                    <td><span class="badge"><%= program.prog_duration || 0 %> ساعة</span></td>
+                                    <td><span class="badge" style="white-space: nowrap;"><%= program.prog_duration || 0 %> ساعة</span></td>
                                     <td><%= program.type_id || '-' %></td>
                                     <td class="cell-desc" title="<%= program.prog_description %>">
                                         <%= program.prog_description || '-' %>

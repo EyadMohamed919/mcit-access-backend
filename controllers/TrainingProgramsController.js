@@ -25,7 +25,7 @@ const addNewTrainingProgram = async (req, res) => {
     try {
         console.log("--> Received Form Data for Training Program:", req.body);
 
-        await addTrainingProgram(req.body);
+        await addTrainingProgram(req.body, req.session.projectID);
 
         res.redirect('/TrainingPrograms');
     } catch (error) {
@@ -36,7 +36,7 @@ const addNewTrainingProgram = async (req, res) => {
 
 const editTrainingProgramRecord = async (req, res) => {
     try {
-        await updateTrainingProgram(req.body);
+        await updateTrainingProgram(req.body, req.session.projectID);
         
         res.redirect("/TrainingPrograms");
     } catch (error) {

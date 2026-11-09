@@ -167,7 +167,6 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
 
 router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
     const trainingPrograms = await getAllTrainingPrograms(req.session.projectID);
     const govs = await getAllGovernorates();
     const traineeID = req.params.id 
@@ -215,8 +214,6 @@ router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
 
 router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const programs = await getAllTrainingPrograms(req.session.projectID);
     const types = await getAllTrainingProgramTypes();
     let arabicTitles = new Map();
@@ -240,9 +237,9 @@ router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
     res.render("AddTrainingProgram", {
         title: "Add Training Program Page",
         host: hostData,
-        projects:projects,
         arabicTitles:arabicTitles,
         englishTitles:englishTitles,
+        projectTitle:req.session.projectTitle,
         isAdmin:req.session.admin,
         types:types
     });
@@ -250,9 +247,6 @@ router.get("/AddTrainingProgram", requireProjectAuth, async (req, res)=>{
 
 router.get("/EditTrainingProgram/:id", requireProjectAuth, async (req, res) => {
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const programs = await getAllTrainingPrograms(req.session.projectID);
     const types = await getAllTrainingProgramTypes();
     
@@ -289,10 +283,10 @@ router.get("/EditTrainingProgram/:id", requireProjectAuth, async (req, res) => {
     res.render("EditTrainingProgram", {
         title: "Edit Training Program Page",
         host: hostData,
-        projects: projects,
         program: programToEdit,
         arabicTitles: arabicTitles,
         englishTitles: englishTitles,
+        projectTitle:req.session.projectTitle,
         types: types,
         isAdmin: req.session.admin
     });

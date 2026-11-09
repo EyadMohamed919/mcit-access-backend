@@ -11,10 +11,10 @@ async function getAllTrainees(pr_ID) {
         `;
         
         const trainees = await db.query(sql);
-        return trainees;
+        return trainees || [];
     } catch (error) {
-        console.error("Error in getAllTrainees:", error.message);
-        throw error;
+        console.error(`Error in getAllTrainees (Project ID: ${pr_ID}):`, error.message);
+        return [];
     }
 }
 

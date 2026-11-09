@@ -13,9 +13,17 @@ const requireAuth = (req, res, next) => {
 router.post("/changeProject", requireAuth, (req, res) => {
     const { new_project_id, new_project_title } = req.body;
 
+    
     if (new_project_id) {
         req.session.projectID = new_project_id;
         req.session.projectTitle = new_project_title || "مستند بدون عنوان";
+
+        if (req.session.projectID == 6) {
+            req.session.projectTitle = "كنانة اونلاين (مشاركات)";
+        }
+        if (req.session.projectID == 7) {
+            req.session.projectTitle = "كنانة اونلاين (منشورات)";
+        }
         
         req.session.save((err) => {
             if (err) {

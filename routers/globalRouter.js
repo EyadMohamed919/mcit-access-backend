@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const db = require("../config/db");
 const {getPrimaryLocalIpAddress} = require("../config/network");
 
 const { getProductsByProjectID } = require("../controllers/ProductController");
@@ -50,6 +51,17 @@ router.get("/Settings", requireAuth, async (req, res) => {
     
     const projects = await getAllProjects(req.session.user_id, req.session, res);
 
+    for(const project of projects)
+    {
+        let projectID = project.pr_ID;
+        if (projectID == 6) {
+            project.Pr_title = "كنانة اونلاين (مشاركات)";
+        }
+        if (projectID == 7) {
+            project.Pr_title = "كنانة اونلاين (منشورات)";
+        }
+    }
+
     res.render("Settings", {
         title: "الإعدادات - Settings",
         username: req.session.username,
@@ -68,30 +80,45 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
     let totalEvents = 0;
     let totalTrainees = 0;
 
-    for (const project of projects) 
-    {
-        let projectID = project.pr_ID;
-        if (projectID) {
-          let events = await getAllEvents(projectID);
-          let trainees = await getAllTraineesByProjectID(projectID);
-          totalEvents = totalEvents + events.length;
-          trainees.forEach((trainee)=>{
-            totalTrainees = totalTrainees + trainee.ben_enrolled;
-          });
-        }
+    try {
+        const projects = (await getAllProjects(req.session.user_id, session, res)) || [];
+
+        const [eventsCountResult, traineesCountResult] = await Promise.all([
+            db.query("SELECT COUNT(*) AS total FROM Events"),
+            db.query("SELECT SUM(ben_enrolled) AS total FROM Trainees")
+        ]);
+
+        const totalEvents = (eventsCountResult && eventsCountResult[0] && eventsCountResult[0].total) || 0;
+        const totalTrainees = (traineesCountResult && traineesCountResult[0] && traineesCountResult[0].total) || 0;
+
+        projects.forEach(project => {
+            if (project.pr_ID == 6) project.Pr_title = "كنانة (مشاركات)";
+            if (project.pr_ID == 7) project.Pr_title = "كنانة (منشورات)";
+        });
+
+        res.render("Dashboard", {
+            title: "Dashboard Page",
+            username: req.session.username,
+            id: req.session.user_id,
+            host: hostData,
+            projects: projects,
+            stats: {
+                totalEvents: Number(totalEvents) || 0,
+                totalTrainees: Number(totalTrainees) || 0
+            }
+        });
+
+    } catch (err) {
+        console.error("Dashboard route error:", err);
+        res.render("Dashboard", {
+            title: "Dashboard Page",
+            username: req.session.username,
+            id: req.session.user_id,
+            host: hostData,
+            projects: [],
+            stats: { totalEvents: 0, totalTrainees: 0 }
+        });
     }
-    
-    res.render("Dashboard", {
-        title: "Dashboard Page",
-        username: req.session.username,
-        id: req.session.user_id,
-        host: hostData,
-        projects:projects,
-        stats: {
-            totalEvents: totalEvents,
-            totalTrainees: totalTrainees
-        }
-    });
 });
 
 
@@ -120,6 +147,8 @@ router.get("/Events", requireProjectAuth,async (req, res)=>{
 
     const totalGovs = Object.keys(governorates).length;
 
+    
+    
     res.render("Events", {
         title: "Events Page",
         username: req.session.username,

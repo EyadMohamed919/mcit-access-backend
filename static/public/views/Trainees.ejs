@@ -99,6 +99,7 @@
                         <tr>
                             <th>المعرف (ID)</th>
                             <th>تاريخ البرنامج</th>
+                            <th>اسم البرنامج</th>
                             <th>مركز التدريب</th>
                             <th>إجمالي المسجلين</th>
                             <th>المجتازين</th>
@@ -122,7 +123,7 @@
                                         <%= trainee.prog_date ? new Date(trainee.prog_date).toLocaleDateString('en-UK') : '-' %>
                                     </td>
                                     
-                                    <!-- Use Bracket Notation for fields with spaces -->
+                                    <td class="font-bold whitespace-nowrap"><%= trainee.prog_title || '-' %></td>
                                     <td class="font-bold whitespace-nowrap"><%= trainee['Training Center'] || '-' %></td>
                                     
                                     <td><%= trainee.ben_enrolled || 0 %></td>

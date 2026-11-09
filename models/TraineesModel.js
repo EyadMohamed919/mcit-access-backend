@@ -3,7 +3,7 @@ const db = require("../config/db");
 async function getAllTrainees(pr_ID) {
     try {
         const sql = `
-            SELECT Trainees.* 
+            SELECT Trainees.*, Training_Programs.prog_title
             FROM ((Trainees 
             INNER JOIN Training_Programs ON Trainees.prog_ID = Training_Programs.prog_ID)
             INNER JOIN Projects ON Training_Programs.pr_ID = Projects.pr_ID)

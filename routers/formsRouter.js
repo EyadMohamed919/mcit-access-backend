@@ -36,7 +36,6 @@ router.get("/AddProject", requireProjectAuth, async (req, res)=>{
 router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.projectID);
     const events = await getAllEvents(req.session.projectID);
@@ -62,7 +61,6 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     res.render("AddEvent", {
         title: "Add Event Page",
         host: hostData,
-        projects:projects,
         govs:govs,
         outputs:outputs,
         events:events,
@@ -76,7 +74,6 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
 router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.projectID);
     const eventID = req.params.id 
@@ -122,7 +119,6 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
     res.render("EditEvent", {
         title: "Edit Event Page",
         host: hostData,
-        projects:projects,
         govs:govs,
         outputs:outputs,
         event:event,

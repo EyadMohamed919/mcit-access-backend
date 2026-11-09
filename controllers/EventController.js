@@ -20,7 +20,7 @@ const addNewEvent = async (req, res) => {
     try {
         console.log("--> Received Form Data:", req.body);
 
-        await addEvent(req.body);
+        await addEvent(req.body, req.session.projectID);
 
         res.redirect('/Events');
     } catch (error) {
@@ -44,7 +44,7 @@ const editEvent = async (req, res) => {
     try {
         console.log("--> Received Form Data:", req.body);
 
-        await updateEvent(req.body);
+        await updateEvent(req.body, req.session.projectID);
 
         res.redirect('/Events');
     } catch (error) {

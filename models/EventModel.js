@@ -34,12 +34,11 @@ async function getEventByID(event_id)
     
 }
 
-async function addEvent(eventData) {
+async function addEvent(eventData, pr_id) {
     try {
         const {
             event_name,
             event_name_en,
-            pr_id,
             event_Date,
             out_id,
             gov_id,
@@ -97,13 +96,12 @@ async function addEvent(eventData) {
     }
 }
 
-async function updateEvent(eventData) {
+async function updateEvent(eventData, pr_id) {
     try {
         const {
             event_id,
             event_name,
             event_name_en,
-            pr_id,
             event_Date,
             out_id,
             gov_id,

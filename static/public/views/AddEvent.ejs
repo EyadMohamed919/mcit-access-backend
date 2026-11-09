@@ -73,14 +73,6 @@
                         <% } %>
                     </div>
 
-                    <div class="form-group">
-                        <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
-                        <select id="pr_id" name="pr_id" required>
-                            <% projects.forEach(function(project) { %>
-                            <option value='<%= project.pr_ID %>' ><%= project.Pr_title %></option>
-                            <% }); %>
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <label for="event_Date">تاريخ الفعالية</label>

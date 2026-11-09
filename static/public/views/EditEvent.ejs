@@ -87,21 +87,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
-                        <select id="pr_id" name="pr_id">
-                            <% projects.forEach(function(project) { 
-                                const projectID = project["Projects.pr_ID"] || project.pr_ID || project.pr_id;
-                            %>
-                                <% if (Number(event.pr_id) === Number(projectID)) { %>
-                                    <option value="<%= projectID %>" selected><%= project.Pr_title || project.pr_title %></option>
-                                <% } else { %>
-                                    <option value="<%= projectID %>"><%= project.Pr_title || project.pr_title %></option>
-                                <% } %>
-                            <% }); %>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label for="event_Date"> (Event Date) تاريخ الفعالية</label>
                         <% 
                             // Format date to YYYY-MM-DD safely

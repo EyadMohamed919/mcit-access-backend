@@ -85,7 +85,7 @@ router.get("/Dashboard", requireAuth, async (req, res)=>{
 
         const [eventsCountResult, traineesCountResult] = await Promise.all([
             db.query("SELECT COUNT(*) AS total FROM Events"),
-            db.query("SELECT SUM(ben_enrolled) AS total FROM Trainees")
+            db.query("SELECT SUM(IIF(ben_female IS NULL, 0, ben_female) + IIF(ben_male IS NULL, 0, ben_male)) AS total FROM Trainees")
         ]);
 
         const totalEvents = (eventsCountResult && eventsCountResult[0] && eventsCountResult[0].total) || 0;

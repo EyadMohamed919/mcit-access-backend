@@ -41,12 +41,19 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
     const events = await getAllEvents(req.session.projectID);
     const ageGroups = await getAllAgeGroups();
 
-    // gettings events titles
     let eventsTitle = new Map();
     events.forEach(event => {
-        if(!eventsTitle.has(event.event_name_en))
+        if(!eventsTitle.has(event.event_name))
         {
-            eventsTitle.set(event.event_name_en, event.event_name_en);
+            eventsTitle.set(event.event_name, event.event_name);
+        }
+    });
+
+    let eventsTitleEn = new Map();
+    events.forEach(event => {
+        if(!eventsTitleEn.has(event.event_name_en))
+        {
+            eventsTitleEn.set(event.event_name_en, event.event_name_en);
         }
     });
 
@@ -59,6 +66,7 @@ router.get("/AddEvent", requireProjectAuth, async (req, res)=>{
         outputs:outputs,
         events:events,
         eventsTitle:eventsTitle,
+        eventsTitleEn:eventsTitleEn,
         ageGroups:ageGroups,
         isAdmin:req.session.admin
     });
@@ -78,14 +86,27 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
     // gettings events titles
     let eventsTitle = new Map();
     events.forEach(e => {
-        // Finding matching event
+        
         if(e.event_id == eventID)
         {
             event = e;
         }
-        if(!eventsTitle.has(e.event_name_en))
+        if(!eventsTitle.has(e.event_name))
         {
-            eventsTitle.set(e.event_name_en, e.event_name_en);
+            eventsTitle.set(e.event_name, e.event_name);
+        }
+    });
+
+    let eventsTitleEn = new Map();
+    events.forEach(e => {
+    
+        if(e.event_id == eventID)
+        {
+            event = e;
+        }
+        if(!eventsTitleEn.has(e.event_name_en))
+        {
+            eventsTitleEn.set(e.event_name_en, e.event_name_en);
         }
     });
 
@@ -106,6 +127,7 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
         event:event,
         events:events,
         eventsTitle:eventsTitle,
+        eventsTitleEn:eventsTitleEn,
         ageGroups:ageGroups,
         isAdmin:req.session.admin
     });

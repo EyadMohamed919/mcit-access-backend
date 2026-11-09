@@ -66,7 +66,7 @@
                         <% }else{ %>
                         <select dir="ltr" id="event_name_en" name="event_name_en" required>
                             <option value="" disabled selected>Choose event name in English</option>
-                            <% eventsTitle.forEach(function(name) { %>
+                            <% eventsTitleEn.forEach(function(name) { %>
                             <option  value='<%= name %>' ><%= name %></option>
                             <% }); %>
                         </select>

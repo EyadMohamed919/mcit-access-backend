@@ -55,7 +55,7 @@
 
                             <select dir="rtl" id="event_name" name="event_name">
                                 <% eventsTitle.forEach(function(name) { %>
-                                <% if (event.event_name_en == name) { %>
+                                <% if (event.event_name == name) { %>
                                     <option value="<%= name %>" selected><%= name %></option>
                                 <% } else { %>
                                     <option value="<%= name %>"><%= name %></option>
@@ -74,7 +74,7 @@
                         <% }else{ %>
 
                             <select dir="ltr" id="event_name_en" name="event_name_en">
-                                <% eventsTitle.forEach(function(name) { %>
+                                <% eventsTitleEn.forEach(function(name) { %>
                                 <% if (event.event_name_en == name) { %>
                                     <option value="<%= name %>" selected><%= name %></option>
                                 <% } else { %>

@@ -32,7 +32,7 @@
     </aside>
     <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
         <header class="top-bar">
-            <h1 class="page-title">إضافة سجل مستفيدين جديد</h1>
+            <h1 class="page-title">إضافة سجل مستفيدين جديد <label for=""><%= projectTitle %></label></h1>
             <a href="/Trainees" class="back-link">← العودة للسجل</a>
         </header>
 
@@ -43,7 +43,8 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="prog_ID">البرنامج التدريبي (Training Program)<span class="required">*</span></label>
-                        <select id="prog_ID" name="prog_ID">
+                        <select id="prog_ID" name="prog_ID" required>
+                            <option value="" selected disabled>اختر البرنامج التدريبي</option>
                             <% trainingPrograms.forEach(function(trainingProgram) { %>
                             <option value='<%= trainingProgram.prog_ID %>' ><%= trainingProgram.prog_title %></option>
                             <% }); %>
@@ -51,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="prog_date">تاريخ البرنامج (prog_date)</label>
-                        <input type="date" id="prog_date" name="prog_date">
+                        <input type="date" id="prog_date" name="prog_date" required>
                     </div>
                     <div class="form-group">
                         <label for="training_center">مركز التدريب (Training Center)</label>
@@ -66,7 +67,7 @@
 
                     <div class="form-group">
                         <label for="gov_id">المحافظة (Governorate)<span class="required">*</span></label>
-                        <select id="gov_id" name="gov_id">
+                        <select id="gov_id" name="gov_id" required>
                             <% govs.forEach(function(gov) { %>
                             <option value='<%= gov.gov_id %>' ><%= gov.gov_name %></option>
                             <% }); %>
@@ -78,23 +79,23 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_enrolled">إجمالي المسجلين (Enrolled)</label>
-                        <input type="number" min="0" id="ben_enrolled" name="ben_enrolled">
+                        <input type="number" min="0" id="ben_enrolled" name="ben_enrolled" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_completed">إجمالي المجتازين (Completed)</label>
-                        <input type="number" min="0" id="ben_completed" name="ben_completed">
+                        <input type="number" min="0" id="ben_completed" name="ben_completed" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_male">عدد الذكور</label>
-                        <input type="number" min="0" id="ben_male" name="ben_male">
+                        <input type="number" min="0" id="ben_male" name="ben_male" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_female">عدد الإناث</label>
-                        <input type="number" min="0" id="ben_female" name="ben_female">
+                        <input type="number" min="0" id="ben_female" name="ben_female" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_retention">الاحتفاظ (Retention)</label>
-                        <input type="number" min="0" id="ben_retention" name="ben_retention">
+                        <input type="number" min="0" id="ben_retention" name="ben_retention" required>
                     </div>
                 </div>
 
@@ -111,7 +112,7 @@
                  
                     <div class="form-group">
                         <label for="name_trainers">اسم المدرب (Trainer's Name)</label>
-                        <input type="text" id="name_trainers" name="name_trainers">
+                        <input type="text" id="name_trainers" name="name_trainers" required>
                     </div>
                 </div>
 
@@ -120,7 +121,7 @@
                     <div class="form-group">
                         <label for="out_id">المخرج (Output)</label>
                         <% if (outputs && outputs.length > 0) { %>
-                            <select name="out_id" id="out_id" required>
+                            <select name="out_id" id="out_id" required required>
                             <% outputs.forEach(function(output) { %>
                                 <option value='<%= output.out_ID %>' ><%= output.out_title %></option>
                                 <% }); %>

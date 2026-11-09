@@ -10,6 +10,7 @@ const {getAllProtocolsWithoutGovID} = require("../controllers/ProtocolController
 const {getAllTrainingPrograms, getAllTrainingProgramsByUser} = require("../controllers/TrainingProgramsController");
 const {getTraineeByID, getAllTraineesByProjectID, getAllTraineesWithNoID} = require("../controllers/TraineesController");
 const {getAllTraineeTypes, getAllAgeGroups, getAllOutputTypes, getAllTrainingProgramTypes} = require("../controllers/TypeController");
+const { getAllTrainingProgramsByProjectID } = require("../models/TrainingProgramModel");
 
 const requireProjectAuth = (req, res, next) => {
     if (!req.session.username) {
@@ -136,7 +137,7 @@ router.get("/EditEvent/:id", requireProjectAuth, async (req, res)=>{
 router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
-    const trainingPrograms = await getAllTrainingProgramsByUser(req.session.user_id);
+    const trainingPrograms = await getAllTrainingPrograms(req.session.projectID);
     const govs = await getAllGovernorates();
     const outputs = await getAllOutputs(req.session.projectID);
     const trainees = await getAllTraineesWithNoID();
@@ -161,6 +162,7 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
         trainingPrograms:trainingPrograms,
         govs:govs,
         centers:centers,
+        projectTitle:req.session.projectTitle,
         outputs:outputs,
         traineeTypes:traineeTypes,
         ageGroups:ageGroups
@@ -170,7 +172,7 @@ router.get("/AddTrainee", requireProjectAuth, async (req, res)=>{
 router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const session = req.session;
-    const trainingPrograms = await getAllTrainingProgramsByUser(req.session.user_id, session, res);
+    const trainingPrograms = await getAllTrainingPrograms(req.session.projectID);
     const govs = await getAllGovernorates();
     const traineeID = req.params.id 
     let t = []
@@ -208,6 +210,7 @@ router.get("/EditTrainee/:id", requireProjectAuth, async (req, res)=>{
         trainingPrograms:trainingPrograms,
         trainee:t,
         outputs:outputs,
+        projectTitle:req.session.projectTitle,
         centers:centers,
         traineeTypes:traineeTypes,
         ageGroups:ageGroups

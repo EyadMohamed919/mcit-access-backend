@@ -32,7 +32,7 @@
     </aside>
     <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
         <header class="top-bar">
-            <h1 class="page-title">تعديل سجل المستفيدين</h1>
+            <h1 class="page-title">تعديل سجل المستفيدين <label for=""><%= projectTitle %></label></h1>
             <a href="/Trainees" class="back-link">← العودة للسجل</a>
         </header>
 
@@ -46,7 +46,7 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="prog_ID">البرنامج التدريبي (Training Program)<span class="required">*</span></label>
-                        <select id="prog_ID" name="prog_ID">
+                        <select id="prog_ID" name="prog_ID" required>
                             <% trainingPrograms.forEach(function(trainingProgram) { %>
                                 <% if (Number(trainee.prog_ID) === Number(trainingProgram.prog_ID)) { %>
                                     <option value='<%= trainingProgram.prog_ID %>' selected><%= trainingProgram.prog_title %></option>
@@ -69,7 +69,7 @@
                                 }
                             }
                         %>
-                        <input type="date" id="prog_date" name="prog_date" value="<%= formattedDate %>">
+                        <input type="date" id="prog_date" name="prog_date" value="<%= formattedDate %>" required>
                     </div>
 
                     <div class="form-group">
@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                         <label for="gov_id">المحافظة (Governorate)<span class="required">*</span></label>
-                        <select id="gov_id" name="gov_id">
+                        <select id="gov_id" name="gov_id" required>
                             <% govs.forEach(function(gov) { %>
                                 <% if (Number(trainee.gov_id) === Number(gov.gov_id)) { %>
                                     <option value='<%= gov.gov_id %>' selected><%= gov.gov_name %></option>
@@ -104,23 +104,23 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_enrolled">إجمالي المسجلين (Enrolled)</label>
-                        <input type="number" min="0" id="ben_enrolled" name="ben_enrolled" value="<%= trainee.ben_enrolled || 0 %>">
+                        <input type="number" min="0" id="ben_enrolled" name="ben_enrolled" value="<%= trainee.ben_enrolled || 0 %>" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_completed">إجمالي المجتازين (Completed)</label>
-                        <input type="number" min="0" id="ben_completed" name="ben_completed" value="<%= trainee.ben_completed || 0 %>">
+                        <input type="number" min="0" id="ben_completed" name="ben_completed" value="<%= trainee.ben_completed || 0 %>" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_male">عدد الذكور</label>
-                        <input type="number" min="0" id="ben_male" name="ben_male" value="<%= trainee.ben_male || 0 %>">
+                        <input type="number" min="0" id="ben_male" name="ben_male" value="<%= trainee.ben_male || 0 %>" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_female">عدد الإناث</label>
-                        <input type="number" min="0" id="ben_female" name="ben_female" value="<%= trainee.ben_female || 0 %>">
+                        <input type="number" min="0" id="ben_female" name="ben_female" value="<%= trainee.ben_female || 0 %>" required>
                     </div>
                     <div class="form-group">
                         <label for="ben_retention">الاحتفاظ (Retention)</label>
-                        <input type="number" min="0" id="ben_retention" name="ben_retention" value="<%= trainee.ben_retention || 0 %>">
+                        <input type="number" min="0" id="ben_retention" name="ben_retention" value="<%= trainee.ben_retention || 0 %>" required>
                     </div>
                 </div>
 
@@ -128,16 +128,16 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="ben_pwd">عدد ذوي الإعاقة (PWD)</label>
-                        <input type="number" min="0" id="ben_pwd" name="ben_pwd" value="<%= trainee.ben_pwd || 0 %>">
+                        <input type="number" min="0" id="ben_pwd" name="ben_pwd" value="<%= trainee.ben_pwd || 0 %>" >
                     </div>
                     <div class="form-group">
                         <label for="type_of_disability">نوع الإعاقة</label>
-                        <input type="text" id="type_of_disability" name="type_of_disability" value="<%= trainee['Type of disability'] || '' %>">
+                        <input type="text" id="type_of_disability" name="type_of_disability" value="<%= trainee['Type of disability'] || '' %>" >
                     </div>
                    
                     <div class="form-group">
                         <label for="name_trainers">اسم المدرب (Trainer's Name)</label>
-                        <input type="text" id="name_trainers" name="name_trainers" value="<%= trainee["name Trainer's"] || '' %>">
+                        <input type="text" id="name_trainers" name="name_trainers" value="<%= trainee["name Trainer's"] || '' %>" required>
                     </div>
                 </div>
 
@@ -146,7 +146,7 @@
                     <div class="form-group">
                         <label for="out_id">المخرج (Output)</label>
                         <% if (outputs && outputs.length > 0) { %>
-                            <select name="out_id" id="out_id">
+                            <select name="out_id" id="out_id" required>
 
                             <% outputs.forEach(function(output) { %>
                                 <% if (trainee.out_id == output.out_ID) { %>

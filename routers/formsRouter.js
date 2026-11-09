@@ -294,8 +294,6 @@ router.get("/EditTrainingProgram/:id", requireProjectAuth, async (req, res) => {
 
 router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const protocols = await getAllProtocolsWithoutGovID();
     const types = await getAllOutputTypes();
     const outputs = await getAllOutputs(req.session.projectID);
@@ -319,8 +317,8 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
     res.render("AddOutput", {
         title: "Add Output Page",
         host: hostData,
-        projects:projects,
         protocols:protocols,
+        projectTitle:req.session.projectTitle,
         arabicTitles:arabicTitles,
         englishTitles:englishTitles,
         types:types,
@@ -330,9 +328,6 @@ router.get("/AddOutput", requireProjectAuth, async (req, res)=>{
 
 router.get("/EditOutput/:id", requireProjectAuth, async (req, res) => {
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const protocols = await getAllProtocolsWithoutGovID();
     const types = await getAllOutputTypes();
     const outputs = await getAllOutputs(req.session.projectID);
@@ -370,8 +365,8 @@ router.get("/EditOutput/:id", requireProjectAuth, async (req, res) => {
     res.render("EditOutput", {
         title: "Edit Output Page",
         host: hostData,
-        projects: projects,
         protocols: protocols,
+        projectTitle:req.session.projectTitle,
         output: outputToEdit,
         arabicTitles: arabicTitles,
         englishTitles: englishTitles,

@@ -5,7 +5,7 @@ async function getAllOutputsByUserID(pr_id)
 {
     try {
         const outputs = await db.query(`SELECT Outputs.* FROM Outputs
-        WHERE Outputs.pr_ID = ${pr_id}`);
+        WHERE Outputs.pr_ID = ${pr_id} order by Outputs.out_ID`);
         return outputs;
     } catch (error) {
         console.log(error);
@@ -14,10 +14,10 @@ async function getAllOutputsByUserID(pr_id)
 }
 
 
-async function addOutput(data) {
+async function addOutput(data, pr_ID) {
     try {
         const {
-            out_title, out_title_en, pr_ID, protocol_id, 
+            out_title, out_title_en, protocol_id, 
             start_date, end_date, out_target, out_baseline, out_type_id
         } = data;
 
@@ -54,10 +54,10 @@ async function addOutput(data) {
     }
 }
 
-async function updateOutput(data) {
+async function updateOutput(data, pr_ID) {
     try {
         const {
-            out_ID, out_title, out_title_en, pr_ID, protocol_id, 
+            out_ID, out_title, out_title_en, protocol_id, 
             start_date, end_date, out_target, out_baseline, out_type_id
         } = data;
 

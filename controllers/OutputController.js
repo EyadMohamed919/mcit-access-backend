@@ -7,7 +7,7 @@ const getAllOutputs = async (projectID)=>{
 
 const addNewOutput = async (req, res) => {
     try {
-        await addOutput(req.body);
+        await addOutput(req.body, req.session.projectID);
         res.redirect("/Outputs");
     } catch (error) {
         console.error("Failed to add Output:", error.message);
@@ -29,7 +29,7 @@ const deleteOutputByID = async (req, res) =>{
 const editOutputRecord = async (req, res) => {
     try {
 
-        await updateOutput(req.body);
+        await updateOutput(req.body, req.session.projectID);
         
         res.redirect("/Outputs");
     } catch (error) {

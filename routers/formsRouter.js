@@ -382,8 +382,6 @@ router.get("/EditOutput/:id", requireProjectAuth, async (req, res) => {
 
 router.get("/AddProduct", requireProjectAuth, async (req, res) => {
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const outputs = await getAllOutputs(req.session.projectID); 
     const products = await getProductsByProjectID(req.session.projectID);
     let arabicTitles = new Map();
@@ -411,9 +409,9 @@ router.get("/AddProduct", requireProjectAuth, async (req, res) => {
     res.render("AddProduct", {
         title: "Add Product Page",
         host: hostData,
-        projects: projects,
         outputs: outputs,
         englishTitles:englishTitles,
+        projectTitle:req.session.projectTitle,
         arabicTitles:arabicTitles,
         isAdmin:req.session.admin
     });
@@ -421,8 +419,6 @@ router.get("/AddProduct", requireProjectAuth, async (req, res) => {
 
 router.get("/EditProduct/:id", requireProjectAuth, async (req, res) => {
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
     const outputs = await getAllOutputs(req.session.projectID); 
     const products = await getProductsByProjectID(req.session.projectID);
     const prodID = req.params.id;
@@ -460,10 +456,10 @@ router.get("/EditProduct/:id", requireProjectAuth, async (req, res) => {
     res.render("EditProduct", {
         title: "Edit Product Page",
         host: hostData,
-        projects: projects,
         outputs: outputs,
         product: product,
         englishTitles: englishTitles,
+        projectTitle:req.session.projectTitle,
         arabicTitles: arabicTitles,
         isAdmin: req.session.admin
     });

@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 async function getAllProductsByProjectID(pr_ID) {
     try {
-        const sql = `SELECT * FROM Products WHERE pr_id = ${Number(pr_ID)}`;
+        const sql = `SELECT * FROM Products WHERE pr_id = ${Number(pr_ID)} order by Products.prod_id`;
         const products = await db.query(sql);
         return products;
     } catch (error) {
@@ -11,9 +11,9 @@ async function getAllProductsByProjectID(pr_ID) {
     }
 }
 
-async function addProduct(data) {
+async function addProduct(data, pr_id) {
     try {
-        const { prod_title, prod_title_en, prod_desc, pr_id, out_id } = data;
+        const { prod_title, prod_title_en, prod_desc, out_id } = data;
 
         const escapeSql = (str) => (str && str.trim() !== '' ? `'${str.replace(/'/g, "''")}'` : 'NULL');
 
@@ -41,10 +41,10 @@ async function addProduct(data) {
     }
 }
 
-async function updateProduct(data) {
+async function updateProduct(data, pr_id) {
     try {
 
-        const { prod_id, prod_title, prod_title_en, prod_desc, pr_id, out_id } = data;
+        const { prod_id, prod_title, prod_title_en, prod_desc, out_id } = data;
 
         if (!prod_id) {
             throw new Error("Missing prod_id required for update operation.");

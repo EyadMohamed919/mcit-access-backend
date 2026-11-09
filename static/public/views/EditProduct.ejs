@@ -33,7 +33,7 @@
     
     <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
         <header class="top-bar">
-            <h1 class="page-title">تعديل المنتج</h1>
+            <h1 class="page-title">تعديل المنتج <label for=""><%= projectTitle %></label></h1>
             <a href="/Products" class="back-link">← (Products) العودة للمنتجات</a>
         </header>
 
@@ -79,21 +79,6 @@
                                 <% }); %>
                             </select>
                         <% } %>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pr_id">المشروع المرتبط (Project ID) <span class="required">*</span></label>
-                        <select id="pr_id" name="pr_id" required>
-                            <% projects.forEach(function(project) { 
-                                const projectID = project["Projects.pr_ID"] || project.pr_ID || project.pr_id;
-                            %>
-                                <% if (Number(product.pr_id) === Number(projectID)) { %>
-                                    <option value="<%= projectID %>" selected><%= project.Pr_title || project.pr_title %></option>
-                                <% } else { %>
-                                    <option value="<%= projectID %>"><%= project.Pr_title || project.pr_title %></option>
-                                <% } %>
-                            <% }); %>
-                        </select>
                     </div>
 
                     <div class="form-group">

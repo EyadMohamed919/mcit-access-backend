@@ -33,7 +33,7 @@
     
     <main class="main-content" style="margin: 0 auto; max-width: 900px; padding: 20px;">
         <header class="top-bar">
-            <h1 class="page-title">إضافة منتج جديد (Product)</h1>
+            <h1 class="page-title">إضافة منتج جديد (Product) <label for=""><%= projectTitle %></label></h1>
             <a href="/Products" class="back-link">← (Products) العودة للمنتجات</a>
         </header>
 
@@ -70,16 +70,6 @@
                         <% } %>
                     </div>
 
-                    <div class="form-group">
-                        <label for="pr_id">المشروع (Project) <span class="required">*</span></label>
-                        <select id="pr_id" name="pr_id" required>
-                            <% if (projects && projects.length > 0) { %>
-                                <% projects.forEach(function(project) { %>
-                                    <option value='<%= project["Projects.pr_ID"] || project.pr_ID %>'><%= project.Pr_title %></option>
-                                <% }); %>
-                            <% } %>
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <label for="out_id">المخرج (Output)</label>

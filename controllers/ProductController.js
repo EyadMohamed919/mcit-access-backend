@@ -7,7 +7,7 @@ const getProductsByProjectID = async (projectID) => {
 
 const addNewProduct = async (req, res) => {
     try {
-        await addProduct(req.body);
+        await addProduct(req.body, req.session.projectID);
         res.redirect("/Products");
     } catch (error) {
         console.error("Failed to add product record:", error.message);
@@ -29,7 +29,7 @@ const deleteProductByID = async (req, res) => {
 const editProductRecord = async (req, res) => {
     try {
 
-        await updateProduct(req.body);
+        await updateProduct(req.body, req.session.projectID);
         
         res.redirect("/Products");
     } catch (error) {

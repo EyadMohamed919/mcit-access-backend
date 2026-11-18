@@ -72,54 +72,7 @@ router.get("/Settings", requireAuth, async (req, res) => {
 });
 
 
-router.get("/Dashboard", requireAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const session = req.session;
-    const projects = await getAllProjects(req.session.user_id, session, res);
-    
-    let totalEvents = 0;
-    let totalTrainees = 0;
 
-    try {
-        const projects = (await getAllProjects(req.session.user_id, session, res)) || [];
-
-        const [eventsCountResult, traineesCountResult] = await Promise.all([
-            db.query("SELECT COUNT(*) AS total FROM Events"),
-            db.query("SELECT SUM(IIF(ben_female IS NULL, 0, ben_female) + IIF(ben_male IS NULL, 0, ben_male)) AS total FROM Trainees")
-        ]);
-
-        const totalEvents = (eventsCountResult && eventsCountResult[0] && eventsCountResult[0].total) || 0;
-        const totalTrainees = (traineesCountResult && traineesCountResult[0] && traineesCountResult[0].total) || 0;
-
-        projects.forEach(project => {
-            if (project.pr_ID == 6) project.Pr_title = "كنانة (مشاركات)";
-            if (project.pr_ID == 7) project.Pr_title = "كنانة (منشورات)";
-        });
-
-        res.render("Dashboard", {
-            title: "Dashboard Page",
-            username: req.session.username,
-            id: req.session.user_id,
-            host: hostData,
-            projects: projects,
-            stats: {
-                totalEvents: Number(totalEvents) || 0,
-                totalTrainees: Number(totalTrainees) || 0
-            }
-        });
-
-    } catch (err) {
-        console.error("Dashboard route error:", err);
-        res.render("Dashboard", {
-            title: "Dashboard Page",
-            username: req.session.username,
-            id: req.session.user_id,
-            host: hostData,
-            projects: [],
-            stats: { totalEvents: 0, totalTrainees: 0 }
-        });
-    }
-});
 
 
 

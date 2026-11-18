@@ -30,7 +30,7 @@ router.post("/changeProject", requireAuth, (req, res) => {
                 console.error("Error saving session:", err);
                 return res.status(500).send("خطأ أثناء تحديث الجلسة");
             }
-            res.redirect("/Dashboard");
+            res.redirect("/Events");
         });
     } else {
         res.redirect("/Settings");

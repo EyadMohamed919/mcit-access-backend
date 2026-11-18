@@ -63,7 +63,7 @@
                 <select id="filter-gov" class="table-filter" data-col-index="11">
                     <option value="" selected>ابحث برقم المحافظة...</option>
                     <% governorates.forEach(function(gov) { %>
-                    <option value='<%= gov.gov_id %>' ><%= gov.gov_name %></option>
+                    <option value='<%= gov.gov_id %>' ><%= gov.gov_id %> - <%= gov.gov_name %></option>
                     <% }); %>
                 </select>
             </div>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الفعاليات - وزارة الاتصالات وتكنولوجيا المعلومات</title>
     <link rel="stylesheet" href="../styles/DashboardStyles.css">
+    <link rel="stylesheet" href="../styles/AddProjectStyles.css">
 </head>
 <body>
     <div id="global-loader" class="loader-overlay hidden">
@@ -28,6 +29,8 @@
         </div>
     </aside>
 
+    
+
     <main class="main-content">
         <header class="top-bar">
             <h1 class="page-title">إدارة الفعاليات لمشروع: <label for=""><%= projectTitle %></label></h1>
@@ -48,6 +51,30 @@
             <div class="stat-card">
                 <span class="stat-label">المحافظات المغطاة</span>
                 <span class="stat-value"><%= stats ? stats.totalGovs : 0 %></span>
+            </div>
+        </section>
+
+        <section class="filter-section" style="margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-event-name">اسم الفعالية</label>
+                <input type="text" id="filter-event-name" class="table-filter" data-col-index="1" placeholder="ابحث باسم الفعالية...">
+            </div>
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="filter-gov">المحافظة (Governorate)</label>
+                <!-- <input type="text" id="filter-gov" class="table-filter" data-col-index="11" placeholder="ابحث برقم المحافظة..."> -->
+                <select id="filter-gov" class="table-filter" data-col-index="11">
+                    <option value="" selected>ابحث برقم المحافظة...</option>
+                    <% governorates.forEach(function(gov) { %>
+                    <option value='<%= gov.gov_id %>' ><%= gov.gov_id %> - <%= gov.gov_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 160px;">
+                <label for="filter-ageid">الفئة العمرية</label>
+                <input type="text" id="filter-ageid" class="table-filter" data-col-index="10" placeholder="ابحث بالفئة العمرية...">
+            </div>
+            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary" id="clear-filters" style="height: 40px;">مسح الفلاتر</button>
             </div>
         </section>
 
@@ -110,5 +137,6 @@
         </section>
     </main>
 
+    <script src="../scripts/filter.js"></script>
 </body>
 </html>

@@ -79,12 +79,12 @@ router.get("/Settings", requireAuth, async (req, res) => {
 router.get("/Events", requireProjectAuth,async (req, res)=>{
     let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
     const events = await getAllEvents(req.session.projectID);
-
+    const governorates = await getAllGovernorates(); 
     let totalAttendees = 0;
-    let governorates = 0;
+    let governorate = 0;
     if (events && events.length > 0) {
         totalAttendees = events.reduce((sum, ev) => sum + (Number(ev.ben_no) || 0), 0);
-        governorates = events.reduce((acc, event)=>{
+        governorate = events.reduce((acc, event)=>{
             if(!acc[event.gov_id])
             {
                 acc[event.gov_id] = event.gov_id;
@@ -98,7 +98,7 @@ router.get("/Events", requireProjectAuth,async (req, res)=>{
         console.log("Events is empty");
     }
 
-    const totalGovs = Object.keys(governorates).length;
+    const totalGovs = Object.keys(governorate).length;
 
     
     
@@ -109,66 +109,10 @@ router.get("/Events", requireProjectAuth,async (req, res)=>{
         host: hostData,
         projectTitle: req.session.projectTitle,
         events:events,
+        governorates:governorates,
         stats:{
             totalAttendees:totalAttendees,
             totalGovs: totalGovs
-        }
-    });
-});
-
-router.get("/TrainingPrograms", requireProjectAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const programs = await getAllTrainingPrograms(req.session.projectID);
-    
-    let totalHours = 0;
-    let uniqueProjects = new Set();
-
-    if (programs && programs.length > 0) 
-    {
-        totalHours = programs.reduce((sum, prog) => sum + (Number(prog.tp_hours) || 0), 0);
-
-        uniqueProjects = new Set(
-            programs
-                .map(prog => prog.pr_id)
-                .filter(id => id !== null && id !== undefined)
-        );
-    } 
-    else 
-    {
-        console.log("Training programs list is empty");
-    }
-    
-
-
-    res.render("TrainingProgram", {
-        title: "Training Program Page",
-        username: req.session.username,
-        id: req.session.user_id,
-        host: hostData,
-        projectTitle: req.session.projectTitle,
-        programs:programs,
-        stats:{
-            totalHours: totalHours,
-            totalProjects: uniqueProjects.size
-        }
-    });
-});
-
-
-router.get("/Outputs", requireProjectAuth, async (req, res)=>{
-    let hostData = "http://" + getPrimaryLocalIpAddress() + ":8080";
-    const outputs = await getAllOutputs(req.session.projectID)    
-    let totalOutputs = outputs.length;
-
-    res.render("Outputs", {
-        title: "Outputs Page",
-        username: req.session.username,
-        id: req.session.user_id,
-        host: hostData,
-        projectTitle: req.session.projectTitle,
-        outputs:outputs,
-        stats:{
-            totalOutputs: totalOutputs,
         }
     });
 });
